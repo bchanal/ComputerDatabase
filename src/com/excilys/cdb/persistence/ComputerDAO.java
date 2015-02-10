@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.cdb.model.*;
 
@@ -13,8 +14,8 @@ public class ComputerDAO {
 	public ComputerDAO() {
 	}
 
-	public static ArrayList<Computer> getAllComputer() {
-		ArrayList<Computer> listComputer = new ArrayList<Computer>();
+	public static List<Computer> getAllComputer() {
+		List<Computer> listComputer = new ArrayList<Computer>();
 
 		try {
 			Statement state = ConnectDAO.getInstance().createStatement();
@@ -100,7 +101,7 @@ public class ComputerDAO {
 		Statement state = ConnectDAO.getInstance().createStatement();
 		String query = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES ('"
 				+ nom + "',";
-
+		// a changer en preparedRequest
 		if (dateTime != null) {
 			query += "'" + dateTime + "' ,";
 		} else {
@@ -124,6 +125,10 @@ public class ComputerDAO {
 			Statement state = ConnectDAO.getInstance().createStatement();
 
 			@SuppressWarnings("unused")
+			
+			// a changer en preparedRequest
+
+			
 			int result = state.executeUpdate("DELETE FROM computer WHERE id="
 					+ id);
 			//state.close();
@@ -135,7 +140,6 @@ public class ComputerDAO {
 
 	}
 
-	//public static synchronized void updateComputer(int id, String nom, LocalDateTime dateTime, LocalDateTime dateTimeFin, int comp) {
 		public static synchronized void updateComputer(Computer ordi) {
 		try {
 
@@ -144,6 +148,9 @@ public class ComputerDAO {
 			@SuppressWarnings("unused")
 			String query = "UPDATE computer SET name = '" + ordi.getName() + "',";
 
+			// a changer en preparedRequest
+
+			
 			if (ordi.getDateIntro() != null) {
 				query += "introduced = '" + ordi.getDateIntro() + "' ,";
 			} else {

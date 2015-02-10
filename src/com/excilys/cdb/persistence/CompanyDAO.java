@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.cdb.model.*;
 
@@ -12,8 +13,8 @@ public class CompanyDAO {
 	public CompanyDAO() {
 	}
 
-	public static ArrayList<Company> getAllCompany() throws SQLException {
-		ArrayList<Company> listCompany = new ArrayList<Company>();
+	public static List<Company> getAllCompany() throws SQLException {
+		List<Company> listCompany = new ArrayList<Company>();
 
 		try {
 

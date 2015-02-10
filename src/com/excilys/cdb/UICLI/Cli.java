@@ -54,7 +54,7 @@ public class Cli {
 
 		case "1":
 			System.out.println("Liste des ordinateurs : ");
-			ArrayList<Computer> resu = ComputerDAO.getAllComputer();
+			List<Computer> resu = ComputerDAO.getAllComputer();
 			
 			Page display = new Page(resu, 20);
 			display.afficher();
@@ -67,7 +67,7 @@ public class Cli {
 
 		case "2":
 			System.out.println("Liste des entreprises : ");
-			ArrayList<Company> res = CompanyDAO.getAllCompany();
+			List<Company> res = CompanyDAO.getAllCompany();
 			for (Company entr : res) {
 				System.out.println(entr.toString());
 
