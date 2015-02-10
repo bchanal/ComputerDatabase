@@ -26,29 +26,31 @@ public class Page {
 		int i;
 		int numPage = 1;
 		boolean fini = false;
-		Scanner scan = new Scanner(System.in);
+		Scanner scanner = new Scanner(System.in);
 
 		while (!fini) {
 			for (i = (numPage - 1) * nbParPage; i <= this.nbParPage * numPage
 					- 1; i++) {
-
+				// gérer le cas avec this.list.size()
+				// System.out.println(this.list.size()); (575)
 				if (this.list.get(i) != null) {
 					System.out.println(i + " " + this.list.get(i).toString());
 				} else
 					fini = true;
 			}
 			System.out
-					.println("\n suivant --> (p pour previous, n pour next, q our quitter)\n ");
-			String ok = scan.nextLine();
+					.println("\n enter (p : previous, n : next, q : quit)\n ");
+			String ok = scanner.nextLine();
 			if (ok.equals("p")) {
 				numPage--;
 			} else if (ok.equals("q")) {
-				break;
+				//break;
+				fini = true;
+				
 			} else {
 				numPage++;
 			}
 		}
-
+		scanner.close();
 	}
-
 }

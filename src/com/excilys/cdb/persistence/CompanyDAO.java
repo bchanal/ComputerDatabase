@@ -1,5 +1,7 @@
 package com.excilys.cdb.persistence;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,42 +10,40 @@ import java.util.List;
 
 import com.excilys.cdb.model.*;
 
-public class CompanyDAO {
+public enum CompanyDAO {
 
-	public CompanyDAO() {
+	instance;
+
+	private CompanyDAO() {
 	}
 
-	public static List<Company> getAllCompany() throws SQLException {
+	public static List<Company> getAll() throws SQLException {
 		List<Company> listCompany = new ArrayList<Company>();
+		Connection connect = null;
+		Statement state = null;
+		ResultSet result = null;
 
-		try {
-
-			Statement state = ConnectDAO.getInstance().createStatement();
-			ResultSet result = state.executeQuery("SELECT * FROM company");
-
-			while (result.next()) {
-				Company comp = new Company(result.getInt("id"),
-						result.getString("name"));
-				listCompany.add(comp);
-			}
-			// result.close();
-			// state.close();
-			// conn.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		connect = ConnectDAO.instance.getConnection();
+			state = connect.createStatement();
+			result = state.executeQuery("SELECT * FROM company");
+			listCompany = CompanyMapper.instance.toList(result);
+			ConnectDAO.close(connect);
 
 		return listCompany;
+		
 	}
 
-	public static Company getACompany(int id) throws SQLException {
+	public Company getById(int id) throws SQLException {
 		Company comp = null;
+		Connection connect= null;
 		try {
 
-			Statement state = ConnectDAO.getInstance().createStatement();
-			ResultSet result = state
-					.executeQuery("SELECT * FROM company WHERE id=" + id);
+			String query = "SELECT * FROM company WHERE id= ?";
+			connect = ConnectDAO.instance.getConnection();
+			PreparedStatement prep1 = connect.prepareStatement(query);
+
+			prep1.setInt(1, id);
+			ResultSet result = prep1.executeQuery();
 
 			result.next();
 			comp = new Company(result.getInt("id"), result.getString("name"));
@@ -54,6 +54,8 @@ public class CompanyDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			ConnectDAO.close(connect);
 		}
 
 		return comp;

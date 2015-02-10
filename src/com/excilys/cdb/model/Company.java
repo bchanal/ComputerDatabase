@@ -2,9 +2,13 @@ package com.excilys.cdb.model;
 
 public class Company {
 
-	private final int id;
+	private int id;
 	private String name;
 
+	public Company(){
+		
+	}
+	
 	public Company(int id, String nom) {
 		this.id = id;
 		this.name = nom;
@@ -27,7 +31,7 @@ public class Company {
 	}
 
 	public String toString() {
-		return ("id : " + id + " nom : " + name);
+		return ("id : " + id + " name : " + name);
 	}
 
 }

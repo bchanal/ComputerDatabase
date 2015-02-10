@@ -1,21 +1,22 @@
 package com.excilys.cdb.model;
 
 import java.time.LocalDateTime;
-import java.sql.SQLException;
-import com.excilys.cdb.persistence.CompanyDAO;
 
 public class Computer {
 
-	private final int identifiant;
+	private int id;
 	private String name;
 	private LocalDateTime dateIntro;
 	private LocalDateTime dateDiscontinued;
-	private int manufacturer;
+	private Company manufacturer;
 
+	public Computer(){
+		
+	}
 	public Computer(int id, String name, LocalDateTime time,
-			LocalDateTime time2, int company) {
+			LocalDateTime time2, Company company) {
 
-		this.identifiant = id;
+		this.id = id;
 		this.name = name;
 		this.dateIntro = time;
 		this.dateDiscontinued = time2;
@@ -23,25 +24,16 @@ public class Computer {
 
 	}
 
-	public String toString() {
-		CompanyDAO cdao = new CompanyDAO();
-		Company nomEntr = null;
-		try {
-			if (this.manufacturer != 0) {
-				nomEntr = CompanyDAO.getACompany(this.manufacturer);
-			}
-		} catch (SQLException e) {
-			// e.printStackTrace();
-		}
-		String result = "ordinateur : " + name;
-		if (nomEntr != null) {
-			result = result + " de la marque " + nomEntr.toString();
+	public String toString() {		
+		String result = "computer : " + name;
+		if (this.manufacturer != null) {
+			result = result + " from company " + this.manufacturer.toString();
 		}
 		if (this.dateIntro != null) {
-			result = result + " introduit le " + this.dateIntro.toString();
+			result = result + " introduced on " + this.dateIntro.toString();
 		}
 		if (this.dateDiscontinued != null) {
-			result = result + " arreté le " + this.dateDiscontinued.toString();
+			result = result + " discontinued on " + this.dateDiscontinued.toString();
 		}
 
 		return (result);
@@ -64,11 +56,11 @@ public class Computer {
 		this.dateIntro = dateIntro;
 	}
 
-	public int getManufacturer() {
+	public Company getManufacturer() {
 		return manufacturer;
 	}
 
-	public void setManufacturer(int manufacturer) {
+	public void setManufacturer(Company manufacturer) {
 		this.manufacturer = manufacturer;
 	}
 
@@ -80,8 +72,8 @@ public class Computer {
 		this.dateDiscontinued = dateDiscontinued;
 	}
 
-	public int getIdentifiant() {
-		return identifiant;
+	public int getId() {
+		return this.id;
 	}
 
 }
