@@ -33,9 +33,9 @@ public class ConnectDAO {
 
 	public static synchronized Connection getInstance() {
 
-	    if(connect == null){
-	        new ConnectDAO();
-	      }	
+		if (connect == null) {
+			new ConnectDAO();
+		}
 		return connect;
 	}
 }

@@ -31,21 +31,20 @@ public class Page {
 		while (!fini) {
 			for (i = (numPage - 1) * nbParPage; i <= this.nbParPage * numPage
 					- 1; i++) {
-				
+
 				if (this.list.get(i) != null) {
 					System.out.println(i + " " + this.list.get(i).toString());
 				} else
 					fini = true;
 			}
-			System.out.println("\n suivant --> (p pour previous, n pour next, q our quitter)\n ");
+			System.out
+					.println("\n suivant --> (p pour previous, n pour next, q our quitter)\n ");
 			String ok = scan.nextLine();
 			if (ok.equals("p")) {
 				numPage--;
-			} 
-			else if (ok.equals("q")){
+			} else if (ok.equals("q")) {
 				break;
-			}
-			else {
+			} else {
 				numPage++;
 			}
 		}

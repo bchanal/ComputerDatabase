@@ -43,8 +43,8 @@ public class ComputerDAO {
 				listComputer.add(comp);
 			}
 
-			//result.close();
-			//state.close();
+			// result.close();
+			// state.close();
 			// conn.close();
 
 		} catch (SQLException e) {
@@ -82,8 +82,8 @@ public class ComputerDAO {
 			comp = new Computer(result.getInt("id"), result.getString("name"),
 					t1, t2, c);
 
-			//result.close();
-			//state.close();
+			// result.close();
+			// state.close();
 			// conn.close();
 
 		} catch (SQLException e) {
@@ -125,13 +125,10 @@ public class ComputerDAO {
 			Statement state = ConnectDAO.getInstance().createStatement();
 
 			@SuppressWarnings("unused")
-			
 			// a changer en preparedRequest
-
-			
 			int result = state.executeUpdate("DELETE FROM computer WHERE id="
 					+ id);
-			//state.close();
+			// state.close();
 			// conn.close();
 
 		} catch (SQLException e) {
@@ -140,17 +137,17 @@ public class ComputerDAO {
 
 	}
 
-		public static synchronized void updateComputer(Computer ordi) {
+	public static synchronized void updateComputer(Computer ordi) {
 		try {
 
 			Statement state = ConnectDAO.getInstance().createStatement();
 
 			@SuppressWarnings("unused")
-			String query = "UPDATE computer SET name = '" + ordi.getName() + "',";
+			String query = "UPDATE computer SET name = '" + ordi.getName()
+					+ "',";
 
 			// a changer en preparedRequest
 
-			
 			if (ordi.getDateIntro() != null) {
 				query += "introduced = '" + ordi.getDateIntro() + "' ,";
 			} else {
@@ -158,16 +155,17 @@ public class ComputerDAO {
 			}
 
 			if (ordi.getDateDiscontinued() != null) {
-				query += "discontinued = '" + ordi.getDateDiscontinued() + "' ,";
+				query += "discontinued = '" + ordi.getDateDiscontinued()
+						+ "' ,";
 			} else {
 				query += "discontinued = null ,";
 			}
-			query += "company_id = "+ordi.getManufacturer() ;
-			query+=" WHERE id = "+ordi.getIdentifiant();
+			query += "company_id = " + ordi.getManufacturer();
+			query += " WHERE id = " + ordi.getIdentifiant();
 			System.out.println(query);
 			int resultat = state.executeUpdate(query);
 
-			//state.close();
+			// state.close();
 			// conn.close();
 
 		} catch (SQLException e) {

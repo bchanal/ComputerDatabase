@@ -55,14 +55,14 @@ public class Cli {
 		case "1":
 			System.out.println("Liste des ordinateurs : ");
 			List<Computer> resu = ComputerDAO.getAllComputer();
-			
+
 			Page display = new Page(resu, 20);
 			display.afficher();
-			
-			
-			/**for (Computer comp : resu) {
-				System.out.println(comp.toString());
-			}*/
+
+			/**
+			 * for (Computer comp : resu) { System.out.println(comp.toString());
+			 * }
+			 */
 			break;
 
 		case "2":
@@ -136,7 +136,6 @@ public class Cli {
 			System.out.println(comput.toString());
 			System.out.println("------------------");
 
-			
 			System.out.println("Modifier le nom ? oui/non ");
 			String nomUp;
 			String rep = scan.nextLine();
@@ -147,11 +146,9 @@ public class Cli {
 				nomUp = comput.getName();
 			}
 
-			
 			DateTimeFormatter formatterUp = DateTimeFormatter
 					.ofPattern("yyyy-MM-dd HH:mm");
 
-			
 			System.out
 					.println("Modifier la date de mise en service ? oui /non  ");
 			rep = scan.nextLine();
@@ -169,13 +166,13 @@ public class Cli {
 				dateTimeUp = comput.getDateIntro();
 			}
 
-			
 			System.out.println("Modifier la date de retrait ? oui/non ");
 			rep = scan.nextLine();
 			LocalDateTime dateTimeFinUp = null;
 
 			if (rep.equals("oui")) {
-				System.out.println("Date de fin de production, au format AAAA-MM-JJ HH:MM : ");
+				System.out
+						.println("Date de fin de production, au format AAAA-MM-JJ HH:MM : ");
 				String dateFinUp = scan.nextLine();
 
 				if (!dateFinUp.equals("null")) {
@@ -185,12 +182,12 @@ public class Cli {
 				dateTimeFinUp = comput.getDateDiscontinued();
 			}
 
-			
 			System.out.println("Modifier l'entreprise ? oui/non ");
 			rep = scan.nextLine();
 			int compUp;
 			if (rep.equals("oui")) {
-				System.out.println("Id de l'entreprise, compris dans la liste de départ");
+				System.out
+						.println("Id de l'entreprise, compris dans la liste de départ");
 				compUp = scan.nextInt();
 			} else {
 				compUp = comput.getManufacturer();
@@ -199,7 +196,7 @@ public class Cli {
 			Computer nouveau = new Computer(idUp, nomUp, dateTimeUp,
 					dateTimeFinUp, compUp);
 			ComputerDAO.updateComputer(nouveau);
-			
+
 			break;
 
 		case "6":

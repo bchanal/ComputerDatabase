@@ -26,9 +26,9 @@ public class CompanyDAO {
 						result.getString("name"));
 				listCompany.add(comp);
 			}
-			//result.close();
-			//state.close();
-			//conn.close();
+			// result.close();
+			// state.close();
+			// conn.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -44,13 +44,13 @@ public class CompanyDAO {
 			Statement state = ConnectDAO.getInstance().createStatement();
 			ResultSet result = state
 					.executeQuery("SELECT * FROM company WHERE id=" + id);
-			
+
 			result.next();
 			comp = new Company(result.getInt("id"), result.getString("name"));
 
-			//result.close();
-			//state.close();
-			//conn.close();
+			// result.close();
+			// state.close();
+			// conn.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
