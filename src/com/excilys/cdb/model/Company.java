@@ -1,5 +1,9 @@
 package com.excilys.cdb.model;
-
+/**
+ * 
+ * @author berangere
+ *
+ */
 public class Company {
 
 	private int id;
@@ -29,7 +33,10 @@ public class Company {
 	public static void main(String[] args) {
 
 	}
-
+/**
+ * toString returns a String containing a company's informations
+ * @return the String of compayn's informations
+ */
 	public String toString() {
 		return ("id : " + id + " name : " + name);
 	}

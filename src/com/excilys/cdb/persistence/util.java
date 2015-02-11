@@ -3,7 +3,11 @@ package com.excilys.cdb.persistence;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+/**
+ * 
+ * @author berangere
+ *
+ */
 public class util {
 
 	public static LocalDate getLocalDate(Timestamp ts) {

@@ -8,11 +8,19 @@ import java.util.List;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-
+/**
+ * ComputerMapper is a mapper for the display of computers
+ * @author berangere
+ *
+ */
 public enum ComputerMapper implements RowMapper<Computer> {
 	
 	instance;
-
+/**
+ * toList returns a ResulSet a list of computers contained in a ResultSet
+ * @param result the ResultSet to display
+ * @return listComputer the list of computers from the resulSet.
+ */
 	public List<Computer> toList(ResultSet result) {
 		List<Computer> listComputer = new ArrayList<Computer>();
 		
@@ -52,7 +60,11 @@ public enum ComputerMapper implements RowMapper<Computer> {
 	return listComputer;
 
 	}
-
+/**
+ * toObject return a computer contained in a ResulSet
+ * @param result the resultset
+ * @return comp the Computer in a the ResultSet
+ */
 	public Computer toObject(ResultSet result) {
 
 		Computer comp = null;

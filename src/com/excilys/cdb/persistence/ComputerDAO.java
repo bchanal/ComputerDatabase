@@ -9,14 +9,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.excilys.cdb.model.*;
-
+/**
+ * 
+ * @author berangere
+ *ComputerDAO contains all the requests concerning the computers
+ */
 public enum ComputerDAO {
 
 	instance;
 
 	private ComputerDAO() {
 	}
-
+/**
+ * get All computers and return them in a list
+ * @return list the list of computers
+ */
 	public static List<Computer> getAll() {
 		ResultSet result = null;
 		Connection connect = null;
@@ -34,27 +41,13 @@ public enum ComputerDAO {
 			ConnectDAO.close(connect);
 		}
 
-		/**
-		 * while (result.next()) {
-		 * 
-		 * LocalDateTime t1 = null; if (result.getTimestamp("introduced") !=
-		 * null) { t1 = result.getTimestamp("introduced").toLocalDateTime(); }
-		 * 
-		 * LocalDateTime t2 = null; if (result.getTimestamp("discontinued") !=
-		 * null) { t1 = result.getTimestamp("discontinued").toLocalDateTime(); }
-		 * 
-		 * int c = 0; Company co = null; if (result.getInt("company_id") != 0) {
-		 * c = result.getInt("company_id"); CompanyDAO cdao =
-		 * CompanyDAO.instance; co = cdao.getById(c); } Computer comp = new
-		 * Computer(result.getInt("id"), result.getString("name"), t1, t2, co);
-		 * 
-		 * listComputer.add(comp); }
-		 * 
-		 * // result.close(); // state.close(); // conn.close();
-		 */
 		return list;
 	}
-
+/**
+ * get a computer by id
+ * @param id
+ * @return comp the Computer requested
+ */
 	public static Computer getById(int id) {
 		Computer comp = null;
 		ResultSet result = null;
@@ -68,26 +61,6 @@ public enum ComputerDAO {
 					.executeQuery("SELECT * FROM computer WHERE id=" + id);
 			comp = ComputerMapper.instance.toObject(result);
 
-			/**
-			 * result.next();
-			 * 
-			 * LocalDateTime t1 = null; if (result.getTimestamp("introduced") !=
-			 * null) { t1 = result.getTimestamp("introduced").toLocalDateTime();
-			 * }
-			 * 
-			 * LocalDateTime t2 = null; if (result.getTimestamp("discontinued")
-			 * != null) { t1 =
-			 * result.getTimestamp("discontinued").toLocalDateTime(); }
-			 * 
-			 * int c = 0; Company co = null; if (result.getInt("company_id") !=
-			 * 0) { c = result.getInt("company_id"); CompanyDAO cdao =
-			 * CompanyDAO.instance; co = cdao.getById(c); }
-			 * 
-			 * comp = new Computer(result.getInt("id"),
-			 * result.getString("name"), t1, t2, co);
-			 * 
-			 * // result.close(); // state.close(); // conn.close();
-			 */
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,22 +71,18 @@ public enum ComputerDAO {
 		return comp;
 
 	}
-
+/**
+ * create a computer in the db 
+ * @param name the name of the computer
+ * @param dateTime the date it was introduced (if exists, null otherwise)
+ * @param dateTimeFin the date it was discontinued (if exists, null otherwise)
+ * @param comp the id of the computer's company (if exists, 0 otherwise)
+ */
 	public static void create(String name, LocalDateTime dateTime,
 			LocalDateTime dateTimeFin, int comp) {
 		Computer ordi = null;
 
-		/**
-		 * String query =
-		 * "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES ('"
-		 * + nom + "',"; // a changer en preparedRequest if (dateTime != null) {
-		 * query += "'" + dateTime + "' ,"; } else { query += "null ,"; }
-		 * 
-		 * if (dateTimeFin != null) { query += "'" + dateTimeFin + "' ,"; } else
-		 * { query += "null ,"; } query += comp + ");";
-		 */
-
-		String query = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES ?, ?, ?, ?";
+		String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 		Connection connect = null;
 		try {
 			connect = ConnectDAO.instance.getConnection();
@@ -124,21 +93,22 @@ public enum ComputerDAO {
 			if (dateTime != null) {
 				prep1.setTimestamp(2, util.getTimestamp(dateTime));
 			} else {
-				prep1.setTimestamp(2, null);
+				prep1.setNull(2, java.sql.Types.TIMESTAMP);
 			}
 
 			if (dateTimeFin != null) {
 				prep1.setTimestamp(3, util.getTimestamp(dateTimeFin));
 			} else {
-				prep1.setTimestamp(3, null);
+				prep1.setNull(3, java.sql.Types.TIMESTAMP);
 			}
 
 			if (comp != 0) {
 				prep1.setInt(4, comp);
 			} else {
-				prep1.setInt(4, 0);
+				prep1.setNull(4, java.sql.Types.BIGINT);
 			}
-			prep1.executeUpdate();
+			int ok = prep1.executeUpdate();
+			System.out.println(ok);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -148,7 +118,10 @@ public enum ComputerDAO {
 
 		// int result = state.executeUpdate(query);
 	}
-
+/**
+ * delete a computer in the DB
+ * @param id the id of the computer to delete
+ */
 	public synchronized static void delete(int id) {
 		Connection connect = null;
 		try {
@@ -167,7 +140,10 @@ public enum ComputerDAO {
 		}
 
 	}
-
+/**
+ * update a computer in the DB
+ * @param computer the computer to update
+ */
 	public static synchronized void update(Computer computer) {
 		Connection connect = null;
 		try {
@@ -182,20 +158,20 @@ public enum ComputerDAO {
 				prep1.setTimestamp(2,
 						util.getTimestamp(computer.getDateIntro()));
 			} else {
-				prep1.setTimestamp(2, null);
+				prep1.setNull(2, java.sql.Types.TIMESTAMP);
 			}
 
 			if (computer.getDateDiscontinued() != null) {
 				prep1.setTimestamp(3,
 						util.getTimestamp(computer.getDateDiscontinued()));
 			} else {
-				prep1.setTimestamp(3, null);
+				prep1.setNull(3, java.sql.Types.TIMESTAMP);
 			}
 
 			if (computer.getManufacturer().getId() != 0) {
 				prep1.setInt(4, computer.getManufacturer().getId());
 			} else {
-				prep1.setInt(4, 0);
+				prep1.setNull(4, java.sql.Types.BIGINT);
 			}
 
 			prep1.setInt(5, computer.getId());

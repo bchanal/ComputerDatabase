@@ -10,23 +10,35 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.*;
 
+/**
+ * Cli is a user interface
+ * 
+ * @author berangere
+ *
+ */
 public class Cli {
+	private static boolean end;
 
 	public Cli() {
 	}
 
 	public static void main(String[] args) throws SQLException {
+		String str;
 
+		end = false;
 		Scanner sc = new Scanner(System.in);
-		while (true) {
-			afficherMenu();
-			String str = sc.nextLine();
-			traiterChoix(str);
+		while (!end) {
+			displayMenu();
+			str = sc.nextLine();
+			process(str);
 		}
-		// sc.close();
+		sc.close();
 	}
 
-	private static void afficherMenu() {
+	/**
+	 * display the menu
+	 */
+	private static void displayMenu() {
 
 		System.out.println("\n \n Please enter (1 to 7)");
 		System.out.println("\n----------------");
@@ -41,7 +53,14 @@ public class Cli {
 
 	}
 
-	private static void traiterChoix(String str) throws SQLException {
+	/**
+	 * process :
+	 * 
+	 * @param str
+	 *            the menu entry choosen by the user
+	 * @throws SQLException
+	 */
+	private static void process(String str) throws SQLException {
 		Scanner scan = new Scanner(System.in);
 		switch (str) {
 
@@ -50,12 +69,8 @@ public class Cli {
 			List<Computer> resu = ComputerDAO.getAll();
 
 			Page display = new Page(resu, 20);
-			display.afficher();
+			display.display();
 
-			/**
-			 * for (Computer comp : resu) { System.out.println(comp.toString());
-			 * }
-			 */
 			break;
 
 		case "2":
@@ -87,109 +102,14 @@ public class Cli {
 		case "4":
 			System.out
 					.println("Create a computer (enter null for undefined) : ");
-			System.out.println("Name : "); // unicité
-			String nom = scan.nextLine();
-			System.out.println("Introduced on : ( format AAAA-MM-JJ HH:MM) ");
-
-			String date = scan.nextLine();
-			System.out.println("Discontinued on : ( format AAAA-MM-JJ HH:MM) ");
-			String dateFin = scan.nextLine();
-			System.out.println("Id of the company");
-			String compStr = scan.nextLine();
-			int comp = Integer.parseInt(compStr);
-
-			DateTimeFormatter formatter = DateTimeFormatter
-					.ofPattern("yyyy-MM-dd HH:mm");
-			LocalDateTime dateTime = null;
-			LocalDateTime dateTimeFin = null;
-
-			if (!date.equals("null")) {
-				dateTime = LocalDateTime.parse(date, formatter);
-			}
-
-			if (!dateFin.equals("null")) {
-				dateTimeFin = LocalDateTime.parse(dateFin, formatter);
-			}
-
-			ComputerDAO.create(nom, dateTime, dateTimeFin, comp);
+			caseCreate();
 
 			// cas ou saisie incorrecte
 			break;
 
 		case "5":
 			System.out.println("Update a computer ");
-			System.out.println("Id : ");
-			String idUpStr = scan.nextLine();
-			int idUp = Integer.parseInt(idUpStr);
-
-			Computer comput = ComputerDAO.getById(idUp);
-			System.out.println(comput.toString());
-			System.out.println("------------------");
-
-			System.out.println("Update name ? y/n ");
-			String nomUp;
-			String rep = scan.nextLine();
-			if (rep.equals("y")) {
-				System.out.println("New Name : ");
-				nomUp = scan.nextLine();
-			} else {
-				nomUp = comput.getName();
-			}
-
-			DateTimeFormatter formatterUp = DateTimeFormatter
-					.ofPattern("yyyy-MM-dd HH:mm");
-
-			System.out.println("Update introduction date ? y/n  ");
-			rep = scan.nextLine();
-			LocalDateTime dateTimeUp = null;
-
-			if (rep.equals("y")) {
-				System.out
-						.println("Introduced on : ( format AAAA-MM-JJ HH:MM) ");
-				String dateUp = scan.nextLine();
-
-				if (!dateUp.equals("null")) {
-					dateTimeUp = LocalDateTime.parse(dateUp, formatterUp);
-				}
-			} else {
-				dateTimeUp = comput.getDateIntro();
-			}
-
-			System.out.println("Update discontinued date ? y/n ");
-			rep = scan.nextLine();
-			LocalDateTime dateTimeFinUp = null;
-
-			if (rep.equals("y")) {
-				System.out
-						.println("Discontinued on : (format AAAA-MM-JJ HH:MM) ");
-				String dateFinUp = scan.nextLine();
-
-				if (!dateFinUp.equals("null")) {
-					dateTimeFinUp = LocalDateTime.parse(dateFinUp, formatterUp);
-				}
-			} else {
-				dateTimeFinUp = comput.getDateDiscontinued();
-			}
-
-			System.out.println("Update computer's company ? y/n ");
-			rep = scan.nextLine();
-			Company compUp;
-			int compUpId;
-			if (rep.equals("y")) {
-				System.out.println("Id  : ");
-				String compUpIdStr = scan.nextLine();
-				compUpId = Integer.parseInt(compUpIdStr);
-				
-				CompanyDAO cdao = CompanyDAO.instance;
-				compUp = cdao.getById(compUpId);
-
-			} else {
-				compUp = comput.getManufacturer();
-			}
-
-			Computer nouveau = new Computer(idUp, nomUp, dateTimeUp,
-					dateTimeFinUp, compUp);
-			ComputerDAO.update(nouveau);
+			caseUpdate();
 
 			break;
 
@@ -209,6 +129,7 @@ public class Cli {
 
 		case "7":
 			System.out.println("Bye !");
+			end = true;
 			System.exit(0);
 			break;
 
@@ -216,7 +137,125 @@ public class Cli {
 			System.out.println("Invalid choice");
 			break;
 		}
-		//scan.close();
+		// scan.close();
 
 	}
+
+	private static void caseCreate() {
+		Scanner scan = new Scanner(System.in);
+
+		System.out.println("Name : "); // unicité
+		String nom = scan.nextLine();
+		System.out.println("Introduced on : ( format AAAA-MM-JJ HH:MM) ");
+
+		String date = scan.nextLine();
+		System.out.println("Discontinued on : ( format AAAA-MM-JJ HH:MM) ");
+		String dateFin = scan.nextLine();
+		System.out.println("Id of the company");
+		String compStr = scan.nextLine();
+		//compr.checkId();
+		int comp = Integer.parseInt(compStr);
+
+		DateTimeFormatter formatter = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime dateTime = null;
+		LocalDateTime dateTimeFin = null;
+
+		if (!date.equals("null")) {
+			// date.checkDate();
+			dateTime = LocalDateTime.parse(date, formatter);
+		}
+
+		if (!dateFin.equals("null")) {
+			// dateFin.checkDate();
+			dateTimeFin = LocalDateTime.parse(dateFin, formatter);
+		}
+
+		ComputerDAO.create(nom, dateTime, dateTimeFin, comp);
+		scan.close();
+	}
+
+	private static void caseUpdate() throws SQLException {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Id : ");
+		String idUpStr = scan.nextLine();
+		int idUp = Integer.parseInt(idUpStr);
+
+		Computer comput = ComputerDAO.getById(idUp);
+		System.out.println(comput.toString());
+		System.out.println("------------------");
+		// Nom
+
+		System.out.println("Update name ? y/n ");
+		String nomUp;
+		String rep = scan.nextLine();
+		if (rep.equals("y")) {
+			System.out.println("New Name : ");
+			nomUp = scan.nextLine();
+		} else {
+			nomUp = comput.getName();
+		}
+		// DatetimeFormatter, valid for both dates
+		
+		DateTimeFormatter formatterUp = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd HH:mm");
+		
+		// intro date
+		
+		System.out.println("Update introduction date ? y/n  ");
+		rep = scan.nextLine();
+		LocalDateTime dateTimeUp = null;
+
+		if (rep.equals("y")) {
+			System.out.println("Introduced on : ( format AAAA-MM-JJ HH:MM) ");
+			String dateUp = scan.nextLine();
+
+			if (!dateUp.equals("null")) {
+				// dateUp.checkDate();
+				dateTimeUp = LocalDateTime.parse(dateUp, formatterUp);
+			}
+		} else {
+			dateTimeUp = comput.getDateIntro();
+		}
+		// date discontinued
+		
+		System.out.println("Update discontinued date ? y/n ");
+		rep = scan.nextLine();
+		LocalDateTime dateTimeFinUp = null;
+
+		if (rep.equals("y")) {
+			System.out.println("Discontinued on : (format AAAA-MM-JJ HH:MM) ");
+			String dateFinUp = scan.nextLine();
+
+			if (!dateFinUp.equals("null")) {
+				//dateFinUp.checkDate();
+				dateTimeFinUp = LocalDateTime.parse(dateFinUp, formatterUp);
+			}
+		} else {
+			dateTimeFinUp = comput.getDateDiscontinued();
+		}
+
+		System.out.println("Update computer's company ? y/n ");
+		rep = scan.nextLine();
+		Company compUp;
+		int compUpId;
+		if (rep.equals("y")) {
+			System.out.println("Id  : ");
+			String compUpIdStr = scan.nextLine();
+			//compUpIdStr.checkId();
+			compUpId = Integer.parseInt(compUpIdStr);
+
+			CompanyDAO cdao = CompanyDAO.instance;
+			compUp = cdao.getById(compUpId);
+
+		} else {
+			compUp = comput.getManufacturer();
+		}
+
+		Computer nouveau = new Computer(idUp, nomUp, dateTimeUp, dateTimeFinUp,
+				compUp);
+		ComputerDAO.update(nouveau);
+		scan.close();
+	}
+
 }

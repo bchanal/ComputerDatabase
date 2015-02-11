@@ -1,7 +1,11 @@
 package com.excilys.cdb.model;
 
 import java.time.LocalDateTime;
-
+/**
+ * 
+ * @author berangere
+ * Computer represents a computer
+ */
 public class Computer {
 
 	private int id;
@@ -13,6 +17,14 @@ public class Computer {
 	public Computer(){
 		
 	}
+	/**
+	 * constructor of Computer with arguments
+	 * @param id the id from the computer
+	 * @param name the name of the computer
+	 * @param time the date it was introduced
+	 * @param time2 the date it was discontinued
+	 * @param company the manufacturer of the computer
+	 */
 	public Computer(int id, String name, LocalDateTime time,
 			LocalDateTime time2, Company company) {
 
@@ -23,7 +35,10 @@ public class Computer {
 		this.manufacturer = company;
 
 	}
-
+/**
+ * toString returns a String with the computer attributes
+ * @return result the String containing the informations about a computer
+ */
 	public String toString() {		
 		String result = "computer : " + name;
 		if (this.manufacturer != null) {

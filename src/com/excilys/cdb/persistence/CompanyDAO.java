@@ -10,6 +10,12 @@ import java.util.List;
 
 import com.excilys.cdb.model.*;
 
+/**
+ * CompanyDAO contains all the requests concerning companies
+ * 
+ * @author berangere
+ *
+ */
 public enum CompanyDAO {
 
 	instance;
@@ -17,6 +23,12 @@ public enum CompanyDAO {
 	private CompanyDAO() {
 	}
 
+	/**
+	 * create a DAO, get the list of companies and return it in a ArrayList
+	 * 
+	 * @return listCompany : all the companies in a list
+	 * @throws SQLException
+	 */
 	public static List<Company> getAll() throws SQLException {
 		List<Company> listCompany = new ArrayList<Company>();
 		Connection connect = null;
@@ -24,18 +36,29 @@ public enum CompanyDAO {
 		ResultSet result = null;
 
 		connect = ConnectDAO.instance.getConnection();
-			state = connect.createStatement();
-			result = state.executeQuery("SELECT * FROM company");
-			listCompany = CompanyMapper.instance.toList(result);
-			ConnectDAO.close(connect);
+		state = connect.createStatement();
+		result = state.executeQuery("SELECT * FROM company");
+		listCompany = CompanyMapper.instance.toList(result);
+		result.close();
+		state.close();
+		ConnectDAO.close(connect);
 
 		return listCompany;
-		
+
 	}
 
+	/**
+	 * get a company by id.
+	 * 
+	 * @param id
+	 *            : the id from the company requested
+	 * @return comp the Computer requested
+	 * @throws SQLException
+	 */
 	public Company getById(int id) throws SQLException {
 		Company comp = null;
-		Connection connect= null;
+		Connection connect = null;
+		ResultSet result = null;
 		try {
 
 			String query = "SELECT * FROM company WHERE id= ?";
@@ -43,18 +66,15 @@ public enum CompanyDAO {
 			PreparedStatement prep1 = connect.prepareStatement(query);
 
 			prep1.setInt(1, id);
-			ResultSet result = prep1.executeQuery();
+			result = prep1.executeQuery();
 
 			result.next();
 			comp = new Company(result.getInt("id"), result.getString("name"));
 
-			// result.close();
-			// state.close();
-			// conn.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+			result.close();
 			ConnectDAO.close(connect);
 		}
 
