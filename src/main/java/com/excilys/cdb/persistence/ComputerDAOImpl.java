@@ -9,21 +9,24 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.excilys.cdb.model.*;
+
 /**
  * 
- * @author berangere
- *ComputerDAO contains all the requests concerning the computers
+ * @author berangere ComputerDAO contains all the requests concerning the
+ *         computers
  */
-public enum ComputerDAO {
+public enum ComputerDAOImpl {
 
 	instance;
 
-	private ComputerDAO() {
+	private ComputerDAOImpl() {
 	}
-/**
- * get All computers and return them in a list
- * @return list the list of computers
- */
+
+	/**
+	 * get All computers and return them in a list
+	 * 
+	 * @return list the list of computers
+	 */
 	public static List<Computer> getAll() {
 		ResultSet result = null;
 		Connection connect = null;
@@ -43,11 +46,13 @@ public enum ComputerDAO {
 
 		return list;
 	}
-/**
- * get a computer by id
- * @param id
- * @return comp the Computer requested
- */
+
+	/**
+	 * get a computer by id
+	 * 
+	 * @param id
+	 * @return comp the Computer requested
+	 */
 	public static Computer getById(int id) {
 		Computer comp = null;
 		ResultSet result = null;
@@ -61,7 +66,6 @@ public enum ComputerDAO {
 					.executeQuery("SELECT * FROM computer WHERE id=" + id);
 			comp = ComputerMapper.instance.toObject(result);
 
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -71,17 +75,21 @@ public enum ComputerDAO {
 		return comp;
 
 	}
-/**
- * create a computer in the db 
- * @param name the name of the computer
- * @param dateTime the date it was introduced (if exists, null otherwise)
- * @param dateTimeFin the date it was discontinued (if exists, null otherwise)
- * @param comp the id of the computer's company (if exists, 0 otherwise)
- */
+
+	/**
+	 * create a computer in the db
+	 * 
+	 * @param name
+	 *            the name of the computer
+	 * @param dateTime
+	 *            the date it was introduced (if exists, null otherwise)
+	 * @param dateTimeFin
+	 *            the date it was discontinued (if exists, null otherwise)
+	 * @param comp
+	 *            the id of the computer's company (if exists, 0 otherwise)
+	 */
 	public static void create(String name, LocalDateTime dateTime,
 			LocalDateTime dateTimeFin, int comp) {
-		Computer ordi = null;
-
 		String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 		Connection connect = null;
 		try {
@@ -109,19 +117,21 @@ public enum ComputerDAO {
 			}
 			int ok = prep1.executeUpdate();
 			System.out.println(ok);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally{
+		} finally {
 			ConnectDAO.close(connect);
 		}
 
-		// int result = state.executeUpdate(query);
 	}
-/**
- * delete a computer in the DB
- * @param id the id of the computer to delete
- */
+
+	/**
+	 * delete a computer in the DB
+	 * 
+	 * @param id
+	 *            the id of the computer to delete
+	 */
 	public synchronized static void delete(int id) {
 		Connection connect = null;
 		try {
@@ -140,10 +150,13 @@ public enum ComputerDAO {
 		}
 
 	}
-/**
- * update a computer in the DB
- * @param computer the computer to update
- */
+
+	/**
+	 * update a computer in the DB
+	 * 
+	 * @param computer
+	 *            the computer to update
+	 */
 	public static synchronized void update(Computer computer) {
 		Connection connect = null;
 		try {

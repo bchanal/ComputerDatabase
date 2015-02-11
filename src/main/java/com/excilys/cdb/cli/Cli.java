@@ -66,7 +66,7 @@ public class Cli {
 
 		case "1":
 			System.out.println("List computers : ");
-			List<Computer> resu = ComputerDAO.getAll();
+			List<Computer> resu = ComputerDAOImpl.instance.getAll();
 
 			Page display = new Page(resu, 20);
 			display.display();
@@ -75,7 +75,7 @@ public class Cli {
 
 		case "2":
 			System.out.println("List companies : ");
-			List<Company> res = CompanyDAO.getAll();
+			List<Company> res = CompanyDAOImpl.instance.getAll();
 			for (Company entr : res) {
 				System.out.println(entr.toString());
 
@@ -86,8 +86,8 @@ public class Cli {
 		case "3":
 			System.out.println("Id to display : ");
 			String idStr = scan.nextLine();
-			int id = Integer.parseInt(idStr);
-			Computer computer = ComputerDAO.getById(id);
+			int id = util.checkId(idStr);
+			Computer computer = ComputerDAOImpl.instance.getById(id);
 			if (computer != null) {
 				System.out.println(computer.toString());
 			} else {
@@ -119,10 +119,10 @@ public class Cli {
 			String ideStr = scan.nextLine();
 			int ide = Integer.parseInt(ideStr);
 
-			Computer compute = ComputerDAO.getById(ide);
+			Computer compute = ComputerDAOImpl.instance.getById(ide);
 			System.out.println(compute.toString());
 
-			ComputerDAO.delete(ide);
+			ComputerDAOImpl.delete(ide);
 			System.out.println("Done !");
 
 			break;
@@ -153,8 +153,8 @@ public class Cli {
 		String dateFin = scan.nextLine();
 		System.out.println("Id of the company");
 		String compStr = scan.nextLine();
-		//compr.checkId();
-		int comp = Integer.parseInt(compStr);
+		// int comp = Integer.parseInt(compStr);
+		int comp = util.checkId(compStr);
 
 		DateTimeFormatter formatter = DateTimeFormatter
 				.ofPattern("yyyy-MM-dd HH:mm");
@@ -163,15 +163,17 @@ public class Cli {
 
 		if (!date.equals("null")) {
 			// date.checkDate();
-			dateTime = LocalDateTime.parse(date, formatter);
+			dateTime = util.checkDate(date);
+			// LocalDateTime.parse(date, formatter);
 		}
 
 		if (!dateFin.equals("null")) {
 			// dateFin.checkDate();
-			dateTimeFin = LocalDateTime.parse(dateFin, formatter);
+			// dateTimeFin = LocalDateTime.parse(dateFin, formatter);
+			dateTimeFin = util.checkDate(dateFin);
 		}
 
-		ComputerDAO.create(nom, dateTime, dateTimeFin, comp);
+		ComputerDAOImpl.instance.create(nom, dateTime, dateTimeFin, comp);
 		scan.close();
 	}
 
@@ -181,7 +183,7 @@ public class Cli {
 		String idUpStr = scan.nextLine();
 		int idUp = Integer.parseInt(idUpStr);
 
-		Computer comput = ComputerDAO.getById(idUp);
+		Computer comput = ComputerDAOImpl.instance.getById(idUp);
 		System.out.println(comput.toString());
 		System.out.println("------------------");
 		// Nom
@@ -196,12 +198,12 @@ public class Cli {
 			nomUp = comput.getName();
 		}
 		// DatetimeFormatter, valid for both dates
-		
-		DateTimeFormatter formatterUp = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd HH:mm");
-		
+
+		// DateTimeFormatter formatterUp =
+		// DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 		// intro date
-		
+
 		System.out.println("Update introduction date ? y/n  ");
 		rep = scan.nextLine();
 		LocalDateTime dateTimeUp = null;
@@ -211,14 +213,14 @@ public class Cli {
 			String dateUp = scan.nextLine();
 
 			if (!dateUp.equals("null")) {
-				// dateUp.checkDate();
-				dateTimeUp = LocalDateTime.parse(dateUp, formatterUp);
+				dateTimeUp = util.checkDate(dateUp);
+				// dateTimeUp = LocalDateTime.parse(dateUp, formatterUp);
 			}
 		} else {
 			dateTimeUp = comput.getDateIntro();
 		}
 		// date discontinued
-		
+
 		System.out.println("Update discontinued date ? y/n ");
 		rep = scan.nextLine();
 		LocalDateTime dateTimeFinUp = null;
@@ -228,8 +230,8 @@ public class Cli {
 			String dateFinUp = scan.nextLine();
 
 			if (!dateFinUp.equals("null")) {
-				//dateFinUp.checkDate();
-				dateTimeFinUp = LocalDateTime.parse(dateFinUp, formatterUp);
+				dateTimeFinUp = util.checkDate(dateFinUp);
+				// dateTimeFinUp = LocalDateTime.parse(dateFinUp, formatterUp);
 			}
 		} else {
 			dateTimeFinUp = comput.getDateDiscontinued();
@@ -242,10 +244,10 @@ public class Cli {
 		if (rep.equals("y")) {
 			System.out.println("Id  : ");
 			String compUpIdStr = scan.nextLine();
-			//compUpIdStr.checkId();
-			compUpId = Integer.parseInt(compUpIdStr);
+			compUpId = util.checkId(compUpIdStr);
+			// compUpId = Integer.parseInt(compUpIdStr);
 
-			CompanyDAO cdao = CompanyDAO.instance;
+			CompanyDAOImpl cdao = CompanyDAOImpl.instance;
 			compUp = cdao.getById(compUpId);
 
 		} else {
@@ -254,7 +256,7 @@ public class Cli {
 
 		Computer nouveau = new Computer(idUp, nomUp, dateTimeUp, dateTimeFinUp,
 				compUp);
-		ComputerDAO.update(nouveau);
+		ComputerDAOImpl.instance.update(nouveau);
 		scan.close();
 	}
 

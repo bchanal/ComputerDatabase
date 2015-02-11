@@ -3,8 +3,10 @@ package com.excilys.cdb.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 /**
  * Page can be used to make a pagination system for the results display
+ * 
  * @author berangere
  *
  */
@@ -25,9 +27,10 @@ public class Page {
 		this.nbParPage = nb;
 
 	}
-/**
- * display the results by page, with a certain number of results per page
- */
+
+	/**
+	 * display the results by page, with a certain number of results per page
+	 */
 	public void display() {
 		int i;
 		int numPage = 1;
@@ -50,8 +53,8 @@ public class Page {
 			if (ok.equals("p")) {
 				numPage--;
 			} else if (ok.equals("q")) {
-				//break;
-				fini = true;				
+				// break;
+				fini = true;
 			} else {
 				numPage++;
 			}

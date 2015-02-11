@@ -16,11 +16,11 @@ import com.excilys.cdb.model.*;
  * @author berangere
  *
  */
-public enum CompanyDAO {
+public enum CompanyDAOImpl implements CompanyDAO{
 
 	instance;
 
-	private CompanyDAO() {
+	private CompanyDAOImpl() {
 	}
 
 	/**
@@ -29,7 +29,7 @@ public enum CompanyDAO {
 	 * @return listCompany : all the companies in a list
 	 * @throws SQLException
 	 */
-	public static List<Company> getAll() throws SQLException {
+	public List<Company> getAll() throws SQLException {
 		List<Company> listCompany = new ArrayList<Company>();
 		Connection connect = null;
 		Statement state = null;

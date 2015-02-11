@@ -3,8 +3,10 @@ package com.excilys.cdb.persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 /**
- * ConnectDAO  : class to have a connection to the DB
+ * ConnectDAO : class to have a connection to the DB
+ * 
  * @author berangere
  *
  */
@@ -26,11 +28,13 @@ public enum ConnectDAO {
 			e.printStackTrace();
 		}
 	}
-/**
- * create a new connection to the DB when the function is requested
- * @return connect the connection to the DB.
- * @throws SQLException
- */
+
+	/**
+	 * create a new connection to the DB when the function is requested
+	 * 
+	 * @return connect the connection to the DB.
+	 * @throws SQLException
+	 */
 	public Connection getConnection() throws SQLException {
 		Connection connect = null;
 
@@ -39,15 +43,18 @@ public enum ConnectDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		}
 
 		return connect;
 	}
+
 	/**
 	 * close
-	 * @param connect the connection to close
+	 * 
+	 * @param connect
+	 *            the connection to close
 	 */
-	public static void close(Connection connect){
+	public static void close(Connection connect) {
 		try {
 			connect.close();
 		} catch (SQLException e) {
