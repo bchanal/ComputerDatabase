@@ -12,7 +12,7 @@ public enum PropertyValue {
 	public String getDbName() {
 		
 		Properties prop = new Properties();
-		String propFileName = "config/db.properties";
+		String propFileName = "db.properties";
 		InputStream inputStream = getClass().getClassLoader()
 				.getResourceAsStream(propFileName);
 
@@ -25,6 +25,7 @@ public enum PropertyValue {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 		String t = prop.getProperty("DB_NAME");
 		return t;
