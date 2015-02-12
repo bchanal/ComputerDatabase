@@ -33,6 +33,8 @@ public enum CompanyMapper implements RowMapper<Company> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		}
 		
 		return listCompany;

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.excilys.cdb.util.PropertyValue;
+
 /**
  * ConnectDAO : class to have a connection to the DB
  * 
@@ -15,7 +17,7 @@ public enum ConnectDAO {
 	instance;
 
 	// private static Connection connect;
-	private static final String URL = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";
+	private static final String URL = "jdbc:mysql://localhost:3306/"+PropertyValue.INSTANCE.getDbName()+"?zeroDateTimeBehavior=convertToNull"; //computer-database-db
 	private static final String USER = "admincdb";
 	private static final String PASSWD = "qwerty1234";
 
@@ -26,6 +28,8 @@ public enum ConnectDAO {
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		}
 	}
 
@@ -43,6 +47,8 @@ public enum ConnectDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		}
 
 		return connect;
@@ -59,6 +65,8 @@ public enum ConnectDAO {
 			connect.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		}
 	}
 }

@@ -16,7 +16,7 @@ import com.excilys.cdb.model.*;
  * @author berangere
  *
  */
-public enum CompanyDAOImpl implements CompanyDAO{
+public enum CompanyDAOImpl implements CompanyDAO {
 
 	instance;
 
@@ -29,19 +29,24 @@ public enum CompanyDAOImpl implements CompanyDAO{
 	 * @return listCompany : all the companies in a list
 	 * @throws SQLException
 	 */
-	public List<Company> getAll() throws SQLException {
+	public List<Company> getAll() {
 		List<Company> listCompany = new ArrayList<Company>();
 		Connection connect = null;
 		Statement state = null;
 		ResultSet result = null;
 
-		connect = ConnectDAO.instance.getConnection();
-		state = connect.createStatement();
-		result = state.executeQuery("SELECT * FROM company");
-		listCompany = CompanyMapper.instance.toList(result);
-		result.close();
-		state.close();
-		ConnectDAO.close(connect);
+		try {
+			connect = ConnectDAO.instance.getConnection();
+			state = connect.createStatement();
+			result = state.executeQuery("SELECT * FROM company");
+			listCompany = CompanyMapper.instance.toList(result);
+			result.close();
+			state.close();
+			ConnectDAO.close(connect);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
 
 		return listCompany;
 
@@ -68,11 +73,15 @@ public enum CompanyDAOImpl implements CompanyDAO{
 			prep1.setInt(1, id);
 			result = prep1.executeQuery();
 
-			result.next();
-			comp = new Company(result.getInt("id"), result.getString("name"));
+			if (result.next()) {
+				comp = new Company(result.getInt("id"),
+						result.getString("name")); // mettre dans mapper
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		} finally {
 			result.close();
 			ConnectDAO.close(connect);

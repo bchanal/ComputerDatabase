@@ -56,6 +56,8 @@ public enum ComputerMapper implements RowMapper<Computer> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		}
 
 		// result.close();
@@ -103,6 +105,8 @@ public enum ComputerMapper implements RowMapper<Computer> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		}
 
 		return comp;

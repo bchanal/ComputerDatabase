@@ -40,6 +40,8 @@ public enum ComputerDAOImpl {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		} finally {
 			ConnectDAO.close(connect);
 		}
@@ -48,12 +50,78 @@ public enum ComputerDAOImpl {
 	}
 
 	/**
+	 * get All computers and return them in a list
+	 * 
+	 * @return list the list of computers
+	 */
+	public List<Computer> getAPage(int index, int nb) {
+
+		String query = "SELECT * FROM computer ORDER BY id LIMIT ? , ?;";
+		// String query = "SELECT * FROM computer WHERE id > AND id < ?;"; 
+		Connection connect = null;
+		ResultSet result = null;
+		List<Computer> list = null;
+
+		try {
+			connect = ConnectDAO.instance.getConnection();
+			PreparedStatement prep1 = connect.prepareStatement(query);
+
+			prep1.setInt(1, index);
+			prep1.setInt(2, nb);
+			
+			result = prep1.executeQuery();
+			
+			list = ComputerMapper.instance.toList(result);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+
+		} finally {
+			ConnectDAO.close(connect);
+		}
+
+		return list;
+	}
+	
+	
+	public int getNbPages() {
+
+		String query = "SELECT COUNT(*) FROM computer ";
+		Connection connect = null;
+		ResultSet result = null;
+		int size = 0;
+
+		try {
+			connect = ConnectDAO.instance.getConnection();
+			PreparedStatement prep1 = connect.prepareStatement(query);
+			
+			result = prep1.executeQuery();
+			result.next();
+			
+			size = result.getInt(1);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+
+		} finally {
+			ConnectDAO.close(connect);
+		}
+
+		return size;
+	}
+	
+	
+	
+
+	/**
 	 * get a computer by id
 	 * 
 	 * @param id
 	 * @return comp the Computer requested
 	 */
-	public static Computer getById(int id) {
+	public Computer getById(int id) {
 		Computer comp = null;
 		ResultSet result = null;
 		Connection connect = null;
@@ -68,6 +136,8 @@ public enum ComputerDAOImpl {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		} finally {
 			ConnectDAO.close(connect);
 		}
@@ -88,7 +158,7 @@ public enum ComputerDAOImpl {
 	 * @param comp
 	 *            the id of the computer's company (if exists, 0 otherwise)
 	 */
-	public static void create(String name, LocalDateTime dateTime,
+	public void create(String name, LocalDateTime dateTime,
 			LocalDateTime dateTimeFin, int comp) {
 		String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 		Connection connect = null;
@@ -120,6 +190,8 @@ public enum ComputerDAOImpl {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		} finally {
 			ConnectDAO.close(connect);
 		}
@@ -147,6 +219,8 @@ public enum ComputerDAOImpl {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		}
 
 	}
@@ -157,7 +231,7 @@ public enum ComputerDAOImpl {
 	 * @param computer
 	 *            the computer to update
 	 */
-	public static synchronized void update(Computer computer) {
+	public synchronized void update(Computer computer) {
 		Connection connect = null;
 		try {
 
@@ -196,6 +270,8 @@ public enum ComputerDAOImpl {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
+
 		}
 
 	}
