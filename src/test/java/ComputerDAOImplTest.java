@@ -1,11 +1,6 @@
-import static org.junit.Assert.*;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -16,11 +11,8 @@ import org.junit.Test;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.persistence.CompanyMapper;
-import com.excilys.cdb.persistence.ComputerDAO;
+import com.excilys.cdb.persistence.CompanyDAOImpl;
 import com.excilys.cdb.persistence.ComputerDAOImpl;
-import com.excilys.cdb.persistence.ComputerMapper;
-import com.excilys.cdb.persistence.ConnectDAO;
 
 
 /**
@@ -52,7 +44,7 @@ public class ComputerDAOImplTest extends TestCase {
 		List<Computer> listComputer =ComputerDAOImpl.getAll();
 		assertNotNull(listComputer);
 		
-		Computer comp = ComputerDAOImpl.getById(1);
+		Computer comp = ComputerDAOImpl.instance.getById(1);
 		assertEquals(listComputer.get(1),comp);
 		
 		assertNull(listComputer.get(-1));
@@ -60,30 +52,30 @@ public class ComputerDAOImplTest extends TestCase {
 		//fail("Not yet implemented");
 	}
 	
-	@Test
-	public void testgetById() {
-		
-		Computer comp = ComputerDAOImpl.getById(12);
-		assertNotNull(comp);
-		
-		Computer comp2 = ComputerDAOImpl.getById(12);
-		assertEquals(comp,comp2);
-		
-		comp = ComputerDAOImpl.getById(7000);
-		assertNull(comp);
-		
-		comp = ComputerDAOImpl.getById(-1);
-		assertNull(comp);
-		
-	}
+//	@Test
+//	public void testgetById() {
+//		
+//		Computer comp = ComputerDAOImpl.instance.getById(12);
+//		assertNotNull(comp);
+//		
+//		Computer comp2 = ComputerDAOImpl.instance.getById(12);
+//		assertEquals(comp,comp2);
+//		
+//		comp = ComputerDAOImpl.instance.getById(7000);
+//		assertNull(comp);
+//		
+//		comp = ComputerDAOImpl.instance.getById(-1);
+//		assertNull(comp);
+//		
+//	}
 
 	@Test
 	public void testDelete(){
-		Computer comp = ComputerDAOImpl.getById(12);
+		Computer comp = ComputerDAOImpl.instance.getById(12);
 		assertNotNull(comp);
 		
 		ComputerDAOImpl.delete(12);
-		comp = ComputerDAOImpl.getById(12);
+		comp = ComputerDAOImpl.instance.getById(12);
 
 		assertNull(comp);
 		
@@ -96,31 +88,60 @@ public class ComputerDAOImplTest extends TestCase {
 		int sizeMax=listComputer.size();
 
 		
-		Computer comp = ComputerDAOImpl.getById(sizeMax+1); // replace 575 by size+1
+		Computer comp = ComputerDAOImpl.instance.getById(sizeMax+1); // replace 575 by size+1
 		assertNull(comp);
 		
-		ComputerDAOImpl.create("ordiTest", null,
+		ComputerDAOImpl.instance.create("ordiTest", null,
 				null, 35);
 		//check success
 		
-		comp = ComputerDAOImpl.getById(sizeMax+1);
+		comp = ComputerDAOImpl.instance.getById(sizeMax+1);
 		assertNotNull(comp);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 		LocalDateTime ldt =LocalDateTime.parse("2015-12-12 12:12", formatter);
-		ComputerDAOImpl.create("ordiTest", ldt, null, 25);
+		LocalDateTime ldt2 = LocalDateTime.parse("2016-12-12 12:12", formatter);
+		LocalDateTime ldt3 = LocalDateTime.parse("2016-99-99 99:99", formatter);
 
 		
+		ComputerDAOImpl.instance.create("ordiTest", ldt, null, 25);
+		//check success : size de la liste ?
+		ComputerDAOImpl.instance.create("ordiTest", ldt, ldt2, 25);
+		//check success
 		
+		ComputerDAOImpl.instance.create("ordiTestFail", null, ldt3,1);
+		//check fail
+		ComputerDAOImpl.instance.create("ordiTestFail", null, null, -1);
+		//check fail
+			
 	}
 	
-	
-/**
+	@Test
+	public void testUpdate() {
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime ldt =LocalDateTime.parse("2015-12-12 12:12", formatter);
+		
+		Company company=null;
+		try {
+			company = CompanyDAOImpl.instance.getById(7);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}		
+		Computer comp = ComputerDAOImpl.instance.getById(12);
+		Computer comp2 = new Computer(12, "computerTest", ldt,
+			null, company);
+		
+		//assertNotEquals(comp, comp2);
+		assertFalse(comp.equals(comp2));
+		ComputerDAOImpl.instance.update(comp2);
+		
+		comp = ComputerDAOImpl.instance.getById(12);
+		assertEquals(comp, comp2);
 
-	public void create(String name, LocalDateTime dateTime,
-			LocalDateTime dateTimeFin, int comp);
 
-	public void update(Computer computer);
- */
+	}
+
 }
