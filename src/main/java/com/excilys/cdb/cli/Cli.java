@@ -66,10 +66,9 @@ public class Cli {
 
 		case "1":
 			System.out.println("List computers : ");
-			List<Computer> resu = ComputerDAOImpl.instance.getAll();
-
-			Page display = new Page(resu, 20);
-			display.display();
+			int index = 0;
+			Page page = new Page(index, 20);
+			page.display();
 
 			break;
 
@@ -137,7 +136,7 @@ public class Cli {
 			System.out.println("Invalid choice");
 			break;
 		}
-		// scan.close();
+		scan.close();
 
 	}
 
@@ -186,7 +185,6 @@ public class Cli {
 		Computer comput = ComputerDAOImpl.instance.getById(idUp);
 		System.out.println(comput.toString());
 		System.out.println("------------------");
-		// Nom
 
 		System.out.println("Update name ? y/n ");
 		String nomUp;
@@ -197,12 +195,6 @@ public class Cli {
 		} else {
 			nomUp = comput.getName();
 		}
-		// DatetimeFormatter, valid for both dates
-
-		// DateTimeFormatter formatterUp =
-		// DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-		// intro date
 
 		System.out.println("Update introduction date ? y/n  ");
 		rep = scan.nextLine();

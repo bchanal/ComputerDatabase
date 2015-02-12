@@ -8,56 +8,6 @@ import java.time.LocalDateTime;
  */
 public class Computer {
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime
-				* result
-				+ ((dateDiscontinued == null) ? 0 : dateDiscontinued.hashCode());
-		result = prime * result
-				+ ((dateIntro == null) ? 0 : dateIntro.hashCode());
-		result = prime * result + id;
-		result = prime * result
-				+ ((manufacturer == null) ? 0 : manufacturer.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Computer other = (Computer) obj;
-		if (dateDiscontinued == null) {
-			if (other.dateDiscontinued != null)
-				return false;
-		} else if (!dateDiscontinued.equals(other.dateDiscontinued))
-			return false;
-		if (dateIntro == null) {
-			if (other.dateIntro != null)
-				return false;
-		} else if (!dateIntro.equals(other.dateIntro))
-			return false;
-		if (id != other.id)
-			return false;
-		if (manufacturer == null) {
-			if (other.manufacturer != null)
-				return false;
-		} else if (!manufacturer.equals(other.manufacturer))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
-
 	private int id;
 	private String name;
 	private LocalDateTime dateIntro;
@@ -149,6 +99,56 @@ public class Computer {
 
 	public int getId() {
 		return this.id;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((dateDiscontinued == null) ? 0 : dateDiscontinued.hashCode());
+		result = prime * result
+				+ ((dateIntro == null) ? 0 : dateIntro.hashCode());
+		result = prime * result + id;
+		result = prime * result
+				+ ((manufacturer == null) ? 0 : manufacturer.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Computer other = (Computer) obj;
+		if (dateDiscontinued == null) {
+			if (other.dateDiscontinued != null)
+				return false;
+		} else if (!dateDiscontinued.equals(other.dateDiscontinued))
+			return false;
+		if (dateIntro == null) {
+			if (other.dateIntro != null)
+				return false;
+		} else if (!dateIntro.equals(other.dateIntro))
+			return false;
+		if (id != other.id)
+			return false;
+		if (manufacturer == null) {
+			if (other.manufacturer != null)
+				return false;
+		} else if (!manufacturer.equals(other.manufacturer))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
 
 }
