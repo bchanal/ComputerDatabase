@@ -20,7 +20,7 @@ import com.excilys.cdb.persistence.ComputerDAOImpl;
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String ATT_MESSAGES = "listComputers";
-	public static final String VUE = "/WEB-INF/Dashboard.jsp";
+	public static final String VUE = "/static/views/Dashboard.jsp";
 
 	public Dashboard() {
 		super();
