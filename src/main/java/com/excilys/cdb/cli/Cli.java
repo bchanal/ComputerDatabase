@@ -49,7 +49,7 @@ public class Cli {
 		System.out.println(" 5 - Update a computer");
 		System.out.println(" 6 - Delete a computer");
 		System.out.println(" 7 - Quit");
-		System.out.println("\n----------------");
+		System.out.println("\n----------------\n");
 
 	}
 
@@ -119,7 +119,9 @@ public class Cli {
 			int ide = Integer.parseInt(ideStr);
 
 			Computer compute = ComputerDAOImpl.instance.getById(ide);
-			System.out.println(compute.toString());
+			if (compute != null) {
+				System.out.println(compute.toString());
+			}
 
 			ComputerDAOImpl.delete(ide);
 			System.out.println("Done !");

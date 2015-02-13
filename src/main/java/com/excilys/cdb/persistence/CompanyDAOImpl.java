@@ -46,6 +46,8 @@ public enum CompanyDAOImpl implements CompanyDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException();
+		} finally{
+			
 		}
 
 		return listCompany;
@@ -64,11 +66,12 @@ public enum CompanyDAOImpl implements CompanyDAO {
 		Company comp = null;
 		Connection connect = null;
 		ResultSet result = null;
+		PreparedStatement prep1 = null;
 		try {
 
 			String query = "SELECT * FROM company WHERE id= ?";
 			connect = ConnectDAO.instance.getConnection();
-			PreparedStatement prep1 = connect.prepareStatement(query);
+			prep1 = connect.prepareStatement(query);
 
 			prep1.setInt(1, id);
 			result = prep1.executeQuery();
@@ -84,6 +87,7 @@ public enum CompanyDAOImpl implements CompanyDAO {
 
 		} finally {
 			result.close();
+			prep1.close();
 			ConnectDAO.close(connect);
 		}
 

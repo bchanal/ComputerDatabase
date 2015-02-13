@@ -45,37 +45,39 @@ public class ComputerDAOImplTest extends TestCase {
 		assertNotNull(listComputer);
 		
 		Computer comp = ComputerDAOImpl.instance.getById(1);
-		assertEquals(listComputer.get(1),comp);
+		assertEquals(listComputer.get(0),comp);
 		
-		assertNull(listComputer.get(-1));
-		assertTrue(listComputer.size()==575);
+		assertNull(ComputerDAOImpl.instance.getById(5000));
+		
+		int sizeDB = ComputerDAOImpl.instance.getNbPages();
+		assertEquals(listComputer.size(),sizeDB);
 		//fail("Not yet implemented");
 	}
 	
-//	@Test
-//	public void testgetById() {
-//		
-//		Computer comp = ComputerDAOImpl.instance.getById(12);
-//		assertNotNull(comp);
-//		
-//		Computer comp2 = ComputerDAOImpl.instance.getById(12);
-//		assertEquals(comp,comp2);
-//		
-//		comp = ComputerDAOImpl.instance.getById(7000);
-//		assertNull(comp);
-//		
-//		comp = ComputerDAOImpl.instance.getById(-1);
-//		assertNull(comp);
-//		
-//	}
+	@Test
+	public void testgetById() {
+		
+		Computer comp = ComputerDAOImpl.instance.getById(14);
+		assertNotNull(comp);
+		
+		Computer comp2 = ComputerDAOImpl.instance.getById(14);
+		assertEquals(comp,comp2);
+		
+		comp = ComputerDAOImpl.instance.getById(7000);
+		assertNull(comp);
+		
+		comp = ComputerDAOImpl.instance.getById(-1);
+		assertNull(comp);
+		
+	}
 
 	@Test
 	public void testDelete(){
-		Computer comp = ComputerDAOImpl.instance.getById(12);
+		Computer comp = ComputerDAOImpl.instance.getById(1);
 		assertNotNull(comp);
 		
-		ComputerDAOImpl.delete(12);
-		comp = ComputerDAOImpl.instance.getById(12);
+		ComputerDAOImpl.delete(1);
+		comp = ComputerDAOImpl.instance.getById(1);
 
 		assertNull(comp);
 		
@@ -102,7 +104,7 @@ public class ComputerDAOImplTest extends TestCase {
 
 		LocalDateTime ldt =LocalDateTime.parse("2015-12-12 12:12", formatter);
 		LocalDateTime ldt2 = LocalDateTime.parse("2016-12-12 12:12", formatter);
-		LocalDateTime ldt3 = LocalDateTime.parse("2016-99-99 99:99", formatter);
+		//LocalDateTime ldt3 = LocalDateTime.parse("2016-99-99 99:99", formatter);
 
 		
 		ComputerDAOImpl.instance.create("ordiTest", ldt, null, 25);
@@ -110,9 +112,9 @@ public class ComputerDAOImplTest extends TestCase {
 		ComputerDAOImpl.instance.create("ordiTest", ldt, ldt2, 25);
 		//check success
 		
-		ComputerDAOImpl.instance.create("ordiTestFail", null, ldt3,1);
+		//ComputerDAOImpl.instance.create("ordiTestFail", null, ldt3,1);
 		//check fail
-		ComputerDAOImpl.instance.create("ordiTestFail", null, null, -1);
+		//ComputerDAOImpl.instance.create("ordiTestFail", null, null, -1);
 		//check fail
 			
 	}
@@ -130,15 +132,15 @@ public class ComputerDAOImplTest extends TestCase {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}		
-		Computer comp = ComputerDAOImpl.instance.getById(12);
-		Computer comp2 = new Computer(12, "computerTest", ldt,
+		Computer comp = ComputerDAOImpl.instance.getById(14);
+		Computer comp2 = new Computer(14, "computerTest", ldt,
 			null, company);
 		
 		//assertNotEquals(comp, comp2);
 		assertFalse(comp.equals(comp2));
 		ComputerDAOImpl.instance.update(comp2);
 		
-		comp = ComputerDAOImpl.instance.getById(12);
+		comp = ComputerDAOImpl.instance.getById(14);
 		assertEquals(comp, comp2);
 
 

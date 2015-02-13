@@ -44,10 +44,10 @@ public class CompanyDAOImplTest extends TestCase {
 			assertNotNull(listCompany);
 
 			Company comp = CompanyDAOImpl.instance.getById(1);
-			assertEquals(listCompany.get(1), comp);
+			assertEquals(listCompany.get(0), comp);
 
-			assertNull(listCompany.get(-1));
-			assertTrue(listCompany.size() == 43);
+			assertNull(CompanyDAOImpl.instance.getById(1000));
+			assertTrue(listCompany.size() == 42);
 		} catch (SQLException e) {
 			throw new RuntimeException();
 

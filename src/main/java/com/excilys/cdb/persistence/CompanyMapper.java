@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.cdb.model.Company;
+
 /**
  * CompanyMapper is used to display companies from ResultSets
+ * 
  * @author berangere
  *
  *
@@ -15,11 +17,14 @@ import com.excilys.cdb.model.Company;
 public enum CompanyMapper implements RowMapper<Company> {
 
 	instance;
-/**
- * toList returns a list of companies, contained in a ResulSet
- * @param result the ResultSet
- * @return listCompany the list of companies
- */
+	/**
+	 * toList returns a list of companies, contained in a ResulSet
+	 * 
+	 * @param result
+	 *            the ResultSet
+	 * @return listCompany the list of companies
+	 */
+	@Override
 	public List<Company> toList(ResultSet result) {
 		List<Company> listCompany = new ArrayList<Company>();
 
@@ -29,14 +34,13 @@ public enum CompanyMapper implements RowMapper<Company> {
 						result.getString("name"));
 				listCompany.add(comp);
 
-
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException();
 
 		}
-		
+
 		return listCompany;
 
 	}
