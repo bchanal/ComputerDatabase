@@ -98,7 +98,7 @@ public enum ComputerDAOImpl {
 		return list;
 	}
 
-	public int getNbPages() {
+	public int getNbComputers() {
 
 		String query = "SELECT COUNT(*) FROM computer ";
 		Connection connect = null;
@@ -167,6 +167,49 @@ public enum ComputerDAOImpl {
 		}
 
 		return comp;
+	}
+		
+		/**
+		 * get a computer by name
+		 * 
+		 * @param name
+		 * @return comp the Computer requested
+		 */
+		public List<Computer> getByName(String name) {
+			
+			String query = "SELECT * FROM computer WHERE name LIKE ?; ";
+			List<Computer> comp = null;
+			Connection connect = null;
+			ResultSet result = null;
+			PreparedStatement prep1 = null;
+			int size = 0;
+
+			try {
+				connect = ConnectDAO.instance.getConnection();
+				prep1 = connect.prepareStatement(query);
+				
+				prep1.setString(1, "%"+name+"%");
+			
+				result = prep1.executeQuery();
+				result.next();
+				comp = ComputerMapper.instance.toList(result);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException();
+
+			} finally {
+				try {
+					result.close();
+					prep1.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+				ConnectDAO.close(connect);
+			}
+
+			return comp;
 
 	}
 
@@ -182,8 +225,7 @@ public enum ComputerDAOImpl {
 	 * @param comp
 	 *            the id of the computer's company (if exists, 0 otherwise)
 	 */
-	public void create(String name, LocalDateTime dateTime,
-			LocalDateTime dateTimeFin, int comp) {
+	public void create(String name, LocalDateTime dateTime,	LocalDateTime dateTimeFin, int comp) {
 		String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 		Connection connect = null;
 		PreparedStatement prep1 = null;
@@ -258,7 +300,6 @@ public enum ComputerDAOImpl {
 			}
 			ConnectDAO.close(connect);
 		}
-
 	}
 
 	/**
@@ -307,7 +348,6 @@ public enum ComputerDAOImpl {
 			throw new RuntimeException();
 
 		} finally {
-
 			try {
 				prep1.close();
 			} catch (SQLException e) {

@@ -19,9 +19,9 @@ import com.excilys.cdb.persistence.ComputerDAOImpl;
 @WebServlet("/dashboard")
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String ATT_MESSAGES = "listComputers";
-	public static final String ATT_NBPAGES = "nbTotalComputer";
-	public static final String VUE = "/static/views/dashboard.jsp";
+	private static final String ATT_MESSAGES = "listComputers";
+	private static final String ATT_NBPAGES = "nbTotalComputer";
+	private static final String VUE = "/static/views/dashboard.jsp";
 
 	public Dashboard() {
 		super();
@@ -35,17 +35,23 @@ public class Dashboard extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		List<Computer> listComputers = null;
-
-		listComputers = getComputers(request);
-		int nbComputers = getNbPages(request);
-
-		/* Enregistrement de la liste des ordis dans l'objet requête */
-		request.setAttribute(ATT_MESSAGES, listComputers);
+		String nameSearched;
+		
+		int nbComputers = getNbComputers(request);
 		request.setAttribute(ATT_NBPAGES, nbComputers);
+		
+		if(request.getParameter("search") != null){
+			nameSearched = request.getParameter("search");
+			listComputers = ComputerDAOImpl.instance.getByName(nameSearched);
 
-		/* Transmission vers la page en charge de l'affichage des résultats */
-		this.getServletContext().getRequestDispatcher(VUE)
-				.forward(request, response);
+		}
+		else{
+			listComputers = getComputers(request);	
+		}
+	
+		request.setAttribute(ATT_MESSAGES, listComputers);
+
+		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 	}
 
 	/**
@@ -54,17 +60,26 @@ public class Dashboard extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
+		String ids = request.getParameter("selection");
+		String[] tabId = ids.split(",");
+		int id;
+		
+		for( String idStr : tabId){
+			id = Integer.parseInt(idStr);
+			ComputerDAOImpl.instance.delete(id);
+		}
+
 	}
 
 	protected List<Computer> getComputers(HttpServletRequest request) {
 
 		List<Computer> list = new ArrayList<Computer>();
 		list = ComputerDAOImpl.instance.getAPage(0, 100);
-
 		return list;
 	}
 	
-	protected int getNbPages(HttpServletRequest request){
+	protected int getNbComputers(HttpServletRequest request){
 		
 		return ComputerDAOImpl.instance.getNbComputers();
 	}

@@ -23,9 +23,11 @@ import com.excilys.cdb.persistence.ComputerDAOImpl;
 @WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String VUE = "/static/views/editComputer.jsp";
-	public static final String ATT_LISTCOMPANIES = "listCompanies";
-	public static final String ATT_IDEDIT = "idEdit";
+	private static final String VUE = "/static/views/editComputer.jsp";
+	private static final String ATT_LISTCOMPANIES = "listCompanies";
+	private static final String ATT_COMPUTER = "computer";
+
+	private static final String ATT_IDEDIT = "idEdit";
 	private int idEdit;
 
 	/**
@@ -46,10 +48,12 @@ public class EditComputer extends HttpServlet {
 
 		this.idEdit = Integer.parseInt(request.getParameter("id"));
 		request.setAttribute(ATT_IDEDIT, idEdit);
+		
+		Computer computer = ComputerDAOImpl.instance.getById(idEdit);
+		
+		request.setAttribute(ATT_COMPUTER, computer);			
 
-		/* Transmission vers la page en charge de l'affichage des résultats */
-		this.getServletContext().getRequestDispatcher(VUE)
-				.forward(request, response);
+		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 	}
 
 	/**
@@ -61,8 +65,6 @@ public class EditComputer extends HttpServlet {
 
 		List<Company> listCompanies = getCompanies(request);	
 		request.setAttribute(ATT_LISTCOMPANIES, listCompanies);
-		//int id = Integer.parseInt(request.getParameter("id"));
-		//request.setAttribute(ATT_IDEDIT, id);
 		
 		updateComputer(request, response);
 
@@ -82,18 +84,18 @@ public class EditComputer extends HttpServlet {
 		int companyId;
 		
 		String name = request.getParameter("computerName");
-		if (request.getParameter("introduced") != null || request.getParameter("introduced") != "null" || request.getParameter("introduced") != "" ) {
+		if (request.getParameter("introduced") != null || !request.getParameter("introduced").equals("null") || request.getParameter("introduced") != "" ) {
 			dateIntro = LocalDateTime.parse(request.getParameter("introduced"), formatter);
 		} else {
 			dateIntro = null;
 		}
-		if (request.getParameter("discontinued") != null || request.getParameter("discontinued") != "null" || request.getParameter("discontinued") != "" ) {
+		if (request.getParameter("discontinued") != null || !request.getParameter("discontinued").equals("null") || request.getParameter("discontinued") != "" ) {
 			dateDisc = LocalDateTime.parse(
 					request.getParameter("discontinued"), formatter);
 		} else {
 			dateDisc = null;
 		}
-		if (request.getParameter("companyId") != null || request.getParameter("companyId") != "null" || request.getParameter("companyId") != "" ) {
+		if (request.getParameter("companyId") != null || !request.getParameter("companyId").equals("null") || request.getParameter("companyId") != "" ) {
 			companyId = Integer.parseInt(request.getParameter("companyId"));
 		} else {
 			companyId = 0;

@@ -1,0 +1,36 @@
+-------------------------------------------------------------------------------
+Test set: ComputerDAOImplTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 2.073 sec <<< FAILURE!
+testgetAll(ComputerDAOImplTest)  Time elapsed: 1.16 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: expected:<computer : CM-2a from company id : 2 name : Thinking Machines> but was:<null>
+	at junit.framework.Assert.fail(Assert.java:47)
+	at junit.framework.Assert.failNotEquals(Assert.java:282)
+	at junit.framework.Assert.assertEquals(Assert.java:64)
+	at junit.framework.Assert.assertEquals(Assert.java:71)
+	at ComputerDAOImplTest.testgetAll(ComputerDAOImplTest.java:48)
+
+testUpdate(ComputerDAOImplTest)  Time elapsed: 0.061 sec  <<< FAILURE!
+junit.framework.AssertionFailedError
+	at junit.framework.Assert.fail(Assert.java:47)
+	at junit.framework.Assert.assertTrue(Assert.java:20)
+	at junit.framework.Assert.assertFalse(Assert.java:34)
+	at junit.framework.Assert.assertFalse(Assert.java:41)
+	at ComputerDAOImplTest.testUpdate(ComputerDAOImplTest.java:140)
+
+testDelete(ComputerDAOImplTest)  Time elapsed: 0.003 sec  <<< FAILURE!
+junit.framework.AssertionFailedError
+	at junit.framework.Assert.fail(Assert.java:47)
+	at junit.framework.Assert.assertTrue(Assert.java:20)
+	at junit.framework.Assert.assertNotNull(Assert.java:220)
+	at junit.framework.Assert.assertNotNull(Assert.java:213)
+	at ComputerDAOImplTest.testDelete(ComputerDAOImplTest.java:77)
+
+testCreate(ComputerDAOImplTest)  Time elapsed: 0.814 sec  <<< FAILURE!
+junit.framework.AssertionFailedError
+	at junit.framework.Assert.fail(Assert.java:47)
+	at junit.framework.Assert.assertTrue(Assert.java:20)
+	at junit.framework.Assert.assertNull(Assert.java:233)
+	at junit.framework.Assert.assertNull(Assert.java:226)
+	at ComputerDAOImplTest.testCreate(ComputerDAOImplTest.java:94)
+

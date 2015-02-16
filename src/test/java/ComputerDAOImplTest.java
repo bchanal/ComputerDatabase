@@ -49,7 +49,7 @@ public class ComputerDAOImplTest extends TestCase {
 		
 		assertNull(ComputerDAOImpl.instance.getById(5000));
 		
-		int sizeDB = ComputerDAOImpl.instance.getNbPages();
+		int sizeDB = ComputerDAOImpl.instance.getNbComputers();
 		assertEquals(listComputer.size(),sizeDB);
 		//fail("Not yet implemented");
 	}

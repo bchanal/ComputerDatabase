@@ -16,7 +16,7 @@ public class Page {
 	private List<Computer> list;
 	private int nbParPage;
 	private int nbTotalComputer;
-	private int nbTotalPages;
+	//private int nbTotalPages;
 	private int index;
 
 //	public Page() {
@@ -51,7 +51,7 @@ public class Page {
 
 		boolean fini = false;
 		Scanner scanner = new Scanner(System.in);
-		this.nbTotalComputer = ComputerDAOImpl.instance.getNbPages();
+		this.nbTotalComputer = ComputerDAOImpl.instance.getNbComputers();
 
 		while (!fini) {
 			this.list = ComputerDAOImpl.instance.getAPage(index, 20);

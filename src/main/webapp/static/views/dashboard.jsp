@@ -1,20 +1,5 @@
+<%@ include file="header.jsp" %>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>  
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<title>Computer Database</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
-<!-- Bootstrap -->
-
-
-<link href="<c:url value="/static/css/bootstrap.min.css"/>" rel="stylesheet" media="screen">
-<link href="<c:url value="/static/css/font-awesome.css"/>" rel="stylesheet"	media="screen">
-<link href="<c:url value="/static/css/main.css"/>" rel="stylesheet" media="screen">
-</head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
@@ -79,7 +64,7 @@
 				<c:forEach items="${ listComputers }" var="computer" varStatus="boucle">
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
-							class="cb" value="0"></td>
+							class="cb" value= ${ computer.id }></td>
 						<td><a href="editComputer?id=${ computer.id }" onclick="">${ computer.name }</a>
 						</td>
 						<td>${ computer.dateIntro }</td>
@@ -101,21 +86,22 @@
 			<li><a href="#" aria-label="Previous"> 
 			<span aria-hidden="true">&laquo;</span>
 			</a></li>
-			<li><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+			<li><a href="dashboard?page=1">1</a></li>
+			<li><a href="dashboard?page=2">2</a></li>
+			<li><a href="dashboard?page=3">3</a></li>
+			<li><a href="dashboard?page=4">4</a></li>
+			<li><a href="dashboard?page=5">5</a></li>
+			<li><a href="" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</ul>
 
 		<div class="btn-group btn-group-sm pull-right" role="group">
-			<button type="button" class="btn btn-default">10</button>
-			<button type="button" class="btn btn-default">50</button>
-			<button type="button" class="btn btn-default">100</button>
+			<a type="button" class="btn btn-default" href="dashboard?page=0&nbPerPage=10&search=${search}" >10</a>
+			<a type="button" class="btn btn-default" href="dashboard?page=0&nbPerPage=50&search=${search}" >50</a>
+			<a type="button" class="btn btn-default" href="dashboard?page=0&nbPerPage=100&search=${search}" >100</a>
 		</div>
 	</div>
+	
 	</footer>
 	<script src="<c:url value="/static/js/jquery.min.js"/>"></script>
 	<script src="<c:url value="/static/js/bootstrap.min.js"/>"></script>
