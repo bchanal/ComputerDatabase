@@ -1,6 +1,7 @@
 package com.excilys.cdb.servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -12,43 +13,67 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.CompanyDAOImpl;
 import com.excilys.cdb.persistence.ComputerDAOImpl;
 
-@WebServlet("/addComputer")
-public class AddComputer extends HttpServlet {
+/**
+ * Servlet implementation class editComputer
+ */
+@WebServlet("/editComputer")
+public class EditComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String VUE = "/static/views/addComputer.jsp";
+	public static final String VUE = "/static/views/editComputer.jsp";
 	public static final String ATT_LISTCOMPANIES = "listCompanies";
+	public static final String ATT_IDEDIT = "idEdit";
+	private int idEdit;
 
-
-	public AddComputer() {
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public EditComputer() {
 		super();
 	}
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
-		List<Company> listCompanies = getCompanies(request);	
+		List<Company> listCompanies = getCompanies(request);
 		request.setAttribute(ATT_LISTCOMPANIES, listCompanies);
 
-		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);	
+		this.idEdit = Integer.parseInt(request.getParameter("id"));
+		request.setAttribute(ATT_IDEDIT, idEdit);
 
+		/* Transmission vers la page en charge de l'affichage des résultats */
+		this.getServletContext().getRequestDispatcher(VUE)
+				.forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
-		
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
 		List<Company> listCompanies = getCompanies(request);	
 		request.setAttribute(ATT_LISTCOMPANIES, listCompanies);
+		//int id = Integer.parseInt(request.getParameter("id"));
+		//request.setAttribute(ATT_IDEDIT, id);
 		
-		createComputer(request, response);
+		updateComputer(request, response);
 
 		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);	
-
 	}
 
-	private void createComputer(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
+	private List<Company> getCompanies(HttpServletRequest request) {
+		return CompanyDAOImpl.instance.getAll();
+	}
+
+	private void updateComputer(HttpServletRequest request,	HttpServletResponse response) throws IOException, ServletException {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -74,13 +99,16 @@ public class AddComputer extends HttpServlet {
 			companyId = 0;
 		}
 
-		// Company company = CompanyDAOImpl.instance.getById(companyId);
+		Company company = null;
+		try {
+			company = CompanyDAOImpl.instance.getById(companyId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(idEdit);
+		Computer computer = new Computer(idEdit, name, dateIntro, dateDisc, company);
 
-		ComputerDAOImpl.instance.create(name, dateIntro, dateDisc, companyId);
+		ComputerDAOImpl.instance.update(computer);
 	}
 
-	private List<Company> getCompanies(HttpServletRequest request){
-		return CompanyDAOImpl.instance.getAll();
-
-	}
 }
