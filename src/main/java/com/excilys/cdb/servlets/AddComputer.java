@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.cdb.cli.util;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.CompanyDAOImpl;
 import com.excilys.cdb.persistence.ComputerDAOImpl;
@@ -57,18 +58,17 @@ public class AddComputer extends HttpServlet {
 		int companyId;
 		
 		String name = request.getParameter("computerName");
-		if (request.getParameter("introduced") != null || !request.getParameter("introduced").equals("null") || request.getParameter("introduced") != "" ) {
-			dateIntro = LocalDateTime.parse(request.getParameter("introduced"), formatter);
+		if (request.getParameter("introduced") != null && !request.getParameter("introduced").equals("null") && request.getParameter("introduced") != "" ) {
+			dateIntro = util.checkDate(request.getParameter("introduced"));
 		} else {
 			dateIntro = null;
 		}
-		if (request.getParameter("discontinued") != null || !request.getParameter("discontinued").equals("null") || request.getParameter("discontinued") != "" ) {
-			dateDisc = LocalDateTime.parse(
-					request.getParameter("discontinued"), formatter);
+		if (request.getParameter("discontinued") != null && !request.getParameter("discontinued").equals("null") && request.getParameter("discontinued") != "" ) {
+			dateDisc = util.checkDate(request.getParameter("discontinued"));
 		} else {
 			dateDisc = null;
 		}
-		if (request.getParameter("companyId") != null || !request.getParameter("companyId").equals("null") || request.getParameter("companyId") != "" ) {
+		if (request.getParameter("companyId") != null && !request.getParameter("companyId").equals("null") && request.getParameter("companyId") != "" ) {
 			companyId = Integer.parseInt(request.getParameter("companyId"));
 		} else {
 			companyId = 0;
