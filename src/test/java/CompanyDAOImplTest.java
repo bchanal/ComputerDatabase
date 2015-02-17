@@ -1,5 +1,3 @@
-import static org.junit.Assert.*;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -50,31 +48,29 @@ public class CompanyDAOImplTest extends TestCase {
 			assertTrue(listCompany.size() == 42);
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		}
+
+	}
+
+	@Test
+	public void testgetById() {
+
+		Company comp;
+		try {
+			comp = CompanyDAOImpl.instance.getById(12);
+			assertNotNull(comp);
+
+			Company comp2 = CompanyDAOImpl.instance.getById(12);
+			assertEquals(comp, comp2);
+
+			//comp = CompanyDAOImpl.instance.getById(100);
+			//assertNull(comp);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
 
 		}
 
-		// fail("Not yet implemented");
 	}
-
-//	@Test
-//	public void testgetById() {
-//
-//		Company comp;
-//		try {
-//			comp = CompanyDAOImpl.instance.getById(12);
-//			assertNotNull(comp);
-//
-//			Company comp2 = CompanyDAOImpl.instance.getById(12);
-//			assertEquals(comp, comp2);
-//
-//			//comp = CompanyDAOImpl.instance.getById(100);
-//			//assertNull(comp);
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			throw new RuntimeException();
-//
-//		}
-//
-//	}
 }

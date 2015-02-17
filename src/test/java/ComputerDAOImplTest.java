@@ -51,7 +51,6 @@ public class ComputerDAOImplTest extends TestCase {
 		
 		int sizeDB = ComputerDAOImpl.instance.getNbComputers();
 		assertEquals(listComputer.size(),sizeDB);
-		//fail("Not yet implemented");
 	}
 	
 	@Test
@@ -73,11 +72,11 @@ public class ComputerDAOImplTest extends TestCase {
 
 	@Test
 	public void testDelete(){
-		Computer comp = ComputerDAOImpl.instance.getById(1);
+		Computer comp = ComputerDAOImpl.instance.getById(2);
 		assertNotNull(comp);
 		
-		ComputerDAOImpl.delete(1);
-		comp = ComputerDAOImpl.instance.getById(1);
+		ComputerDAOImpl.delete(2);
+		comp = ComputerDAOImpl.instance.getById(2);
 
 		assertNull(comp);
 		
@@ -136,7 +135,6 @@ public class ComputerDAOImplTest extends TestCase {
 		Computer comp2 = new Computer(14, "computerTest", ldt,
 			null, company);
 		
-		//assertNotEquals(comp, comp2);
 		assertFalse(comp.equals(comp2));
 		ComputerDAOImpl.instance.update(comp2);
 		
