@@ -1,5 +1,6 @@
 package com.excilys.cdb.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,16 +20,23 @@ public class Page {
 	//private int nbTotalPages;
 	private int index;
 
-//	public Page() {
-//		this.list = new ArrayList<Computer>();
-//		this.nbParPage = 10;
-//		this.index = 0;
-//
-//	}
+	public Page() {
+		this.list = new ArrayList<Computer>();
+		this.nbParPage = 10;
+		this.index = 0;
+
+	}
 	
 	public Page(int index, int nb){
 		this.index = index;
 		this.nbParPage = nb;
+
+	}
+	
+	public Page(int index, int nb, List<Computer> list){
+		this.index = index;
+		this.nbParPage = nb;
+		this.list = list;
 
 	}
 

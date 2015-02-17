@@ -4,8 +4,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application -
-				ComputerDatabase </a>
+			<a class="navbar-brand" href="dashboard?page=${page}&search=${search}&nbPerPage=${nbPerPage}""> Application -	ComputerDatabase </a>
 		</div>
 	</header>
 
@@ -23,7 +22,7 @@
 								<label for="computerName">Computer name</label> <input required
 									type="text" class="form-control" id="computerName"
 									name="computerName" placeholder="Computer name"
-									value=${ computer.name }>
+									value="${ computer.name }">
 								<div>
 									<div class="form-group">
 										<label for="introduced">Introduced date</label> <input
@@ -44,7 +43,7 @@
 
 											<c:forEach items="${ listCompanies }" var="company"
 												varStatus="boucle">
-												<option value="${company.id }">${ company.name }</option>
+												<option value="${ company.id }">${ company.name }</option>
 											</c:forEach>
 										</select>
 									</div>

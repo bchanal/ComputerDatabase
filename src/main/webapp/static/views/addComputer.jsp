@@ -4,7 +4,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard?page=${page}&search=${search}&nbPerPage=${nbPerPage}"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -48,5 +48,16 @@
             </div>
         </div>
     </section>
+<!--     <script> -->
+// 		$(document).ready(function() {
+//     		$('#computerName').on('input', function() {
+// 			var input=$(this);
+// 			var is_name=input.val();
+// 			if(is_name){input.removeClass("invalid").addClass("valid");}
+// 			else{input.removeClass("valid").addClass("invalid");}
+// 		});
+<!--     </script> -->
+				
+				
 </body>
 </html>

@@ -2,7 +2,6 @@ package com.excilys.cdb.cli;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.excilys.cdb.model.Company;
@@ -157,8 +156,6 @@ public class Cli {
 		// int comp = Integer.parseInt(compStr);
 		int comp = util.checkId(compStr);
 
-		DateTimeFormatter formatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd HH:mm");
 		LocalDateTime dateTime = null;
 		LocalDateTime dateTimeFin = null;
 

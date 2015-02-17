@@ -182,7 +182,6 @@ public enum ComputerDAOImpl {
 			Connection connect = null;
 			ResultSet result = null;
 			PreparedStatement prep1 = null;
-			int size = 0;
 
 			try {
 				connect = ConnectDAO.instance.getConnection();

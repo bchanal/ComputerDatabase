@@ -3,7 +3,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+		<a class="navbar-brand" href="dashboard?page=${page}&search=${search}&nbPerPage=${nbPerPage}"> Application - Computer Database </a>
 	</div>
 	</header>
 
@@ -67,9 +67,9 @@
 							class="cb" value= ${ computer.id }></td>
 						<td><a href="editComputer?id=${ computer.id }" onclick="">${ computer.name }</a>
 						</td>
-						<td>${ computer.dateIntro }</td>
-						<td>${ computer.dateDiscontinued }</td>
-						<td>${ computer.manufacturer.name }</td>
+						<td>${ computer.introduced}</td>
+						<td>${ computer.discontinued }</td>
+						<td>${ computer.company.name }</td>
 
 					</tr>
 				</c:forEach>
@@ -83,22 +83,22 @@
 	<footer class="navbar-fixed-bottom">
 	<div class="container text-center">
 		<ul class="pagination">
-			<li><a href="#" aria-label="Previous"> 
+			<li><a href="dashboard?page=-&search=${search}" aria-label="Previous"> 
 			<span aria-hidden="true">&laquo;</span>
 			</a></li>
-			<li><a href="dashboard?page=1">1</a></li>
-			<li><a href="dashboard?page=2">2</a></li>
-			<li><a href="dashboard?page=3">3</a></li>
-			<li><a href="dashboard?page=4">4</a></li>
-			<li><a href="dashboard?page=5">5</a></li>
-			<li><a href="" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+			<li><a href="dashboard?page=1&search=${search}&nbPerPage=${nbPerPage}">1</a></li>
+			<li><a href="dashboard?page=2&search=${search}&nbPerPage=${nbPerPage}">2</a></li>
+			<li><a href="dashboard?page=3&search=${search}&nbPerPage=${nbPerPage}">3</a></li>
+			<li><a href="dashboard?page=4&search=${search}&nbPerPage=${nbPerPage}">4</a></li>
+			<li><a href="dashboard?page=5&search=${search}&nbPerPage=${nbPerPage}">5</a></li>
+			<li><a href="dashboard?page=+&search=${search}&nbPerPage=${nbPerPage}" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</ul>
 
 		<div class="btn-group btn-group-sm pull-right" role="group">
-			<a type="button" class="btn btn-default" href="dashboard?page=0&nbPerPage=10&search=${search}" >10</a>
-			<a type="button" class="btn btn-default" href="dashboard?page=0&nbPerPage=50&search=${search}" >50</a>
-			<a type="button" class="btn btn-default" href="dashboard?page=0&nbPerPage=100&search=${search}" >100</a>
+			<a type="button" class="btn btn-default" href="dashboard?page=1&nbPerPage=10&search=${search}" >10</a>
+			<a type="button" class="btn btn-default" href="dashboard?page=1&nbPerPage=50&search=${search}" >50</a>
+			<a type="button" class="btn btn-default" href="dashboard?page=1&nbPerPage=100&search=${search}" >100</a>
 		</div>
 	</div>
 	
@@ -106,6 +106,5 @@
 	<script src="<c:url value="/static/js/jquery.min.js"/>"></script>
 	<script src="<c:url value="/static/js/bootstrap.min.js"/>"></script>
 	<script src="<c:url value="/static/js/dashboard.js"/>"></script>
-
 </body>
 </html>

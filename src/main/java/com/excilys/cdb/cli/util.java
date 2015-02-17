@@ -24,8 +24,7 @@ public class util {
 	}
 
 	public static LocalDateTime checkDate(String str) {
-		DateTimeFormatter formatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd HH:mm");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		LocalDateTime ldt = null;
 
 		Pattern p = Pattern.compile(DATE_REGEX);

@@ -2,7 +2,6 @@ package com.excilys.cdb.servlets;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -50,8 +49,6 @@ public class AddComputer extends HttpServlet {
 
 	private void createComputer(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 		LocalDateTime dateIntro;
 		LocalDateTime dateDisc;

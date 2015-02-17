@@ -1,7 +1,6 @@
 package com.excilys.cdb.dto;
 
 import com.excilys.cdb.model.Company;
-import com.excilys.cdb.model.Computer;
 
 public class ComputerDto {
 	private int id;
@@ -9,15 +8,6 @@ public class ComputerDto {
 	private String introduced;
 	private String discontinued;
 	private Company company;
-
-	public ComputerDto(Computer computer) {
-        super();
-        this.id = computer.getId();
-        this.name = computer.getName();
-        this.introduced = computer.getDateIntro().toString();
-        this.discontinued = computer.getDateDiscontinued().toString();
-        this.company = computer.getManufacturer();
-	}
 	
 	public ComputerDto(int id, String name, String date1, String date2, Company company) {
         super();
