@@ -15,7 +15,7 @@
 					<div class="label label-default pull-right">id: ${ idEdit }</div>
 					<h1>Edit Computer</h1>
 
-					<form action="editComputer" method="POST">
+					<form action="edit-computer" method="POST">
 						<input type="hidden" value="0" />
 						<fieldset>
 							<div class="form-group">

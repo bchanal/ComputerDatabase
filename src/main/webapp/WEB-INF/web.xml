@@ -29,5 +29,11 @@
  	   <error-code>500</error-code>
   	  <location>/static/views/500.jsp</location>
 	</error-page>
+	
+<!-- <taglib> -->
+<!--     <taglib-uri>taglib-URI</taglib-uri> -->
+<!--     <taglib-location>/WEB-INF/lib/taglib.jar</taglib-location> -->
+<!-- </taglib> -->
+	
 
 </web-app>

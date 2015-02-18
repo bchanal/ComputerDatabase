@@ -2,6 +2,7 @@ package com.excilys.cdb.persistence;
 
 import java.sql.ResultSet;
 import java.util.List;
+
 /**
  * interface for the mappers
  * 

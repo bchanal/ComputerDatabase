@@ -64,7 +64,7 @@ public class CompanyDAOImplTest extends TestCase {
 
 			comp = CompanyDaoImpl.instance.getById(100);
 			assertNull(comp);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException();
@@ -72,10 +72,10 @@ public class CompanyDAOImplTest extends TestCase {
 		}
 
 	}
-	
+
 	@Test(expected = SQLException.class)
 	public void testgetByIdInvalid() throws SQLException {
 		assertNull(CompanyDaoImpl.instance.getById(-1));
-		
+
 	}
 }

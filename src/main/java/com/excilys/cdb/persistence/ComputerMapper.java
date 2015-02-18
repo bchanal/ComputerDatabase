@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
@@ -18,6 +21,10 @@ import com.excilys.cdb.model.Computer;
 public enum ComputerMapper implements RowMapper<Computer> {
 
 	instance;
+
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(ComputerMapper.class);
+
 	/**
 	 * toList returns a ResulSet a list of computers contained in a ResultSet
 	 * 
@@ -45,7 +52,7 @@ public enum ComputerMapper implements RowMapper<Computer> {
 				Company co = null;
 				if (result.getInt("company_id") != 0) {
 					c = result.getInt("company_id");
-					CompanyDAOImpl cdao = CompanyDAOImpl.instance;
+					CompanyDaoImpl cdao = CompanyDaoImpl.instance;
 					co = cdao.getById(c);
 				}
 
@@ -56,6 +63,7 @@ public enum ComputerMapper implements RowMapper<Computer> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 			throw new RuntimeException();
 
 		}
@@ -96,7 +104,7 @@ public enum ComputerMapper implements RowMapper<Computer> {
 				int c = 0;
 				if (result.getInt("company_id") != 0) {
 					c = result.getInt("company_id");
-					CompanyDAOImpl cdao = CompanyDAOImpl.instance;
+					CompanyDaoImpl cdao = CompanyDaoImpl.instance;
 					co = cdao.getById(c);
 
 					comp = new Computer(result.getInt("id"),
@@ -105,6 +113,7 @@ public enum ComputerMapper implements RowMapper<Computer> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 			throw new RuntimeException();
 
 		}

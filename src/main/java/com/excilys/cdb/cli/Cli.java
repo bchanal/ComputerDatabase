@@ -73,7 +73,7 @@ public class Cli {
 
 		case "2":
 			System.out.println("List companies : ");
-			List<Company> res = CompanyDAOImpl.instance.getAll();
+			List<Company> res = CompanyDaoImpl.instance.getAll();
 			for (Company entr : res) {
 				System.out.println(entr.toString());
 
@@ -85,7 +85,7 @@ public class Cli {
 			System.out.println("Id to display : ");
 			String idStr = scan.nextLine();
 			int id = util.checkId(idStr);
-			Computer computer = ComputerDAOImpl.instance.getById(id);
+			Computer computer = ComputerDaoImpl.instance.getById(id);
 			if (computer != null) {
 				System.out.println(computer.toString());
 			} else {
@@ -117,12 +117,12 @@ public class Cli {
 			String ideStr = scan.nextLine();
 			int ide = Integer.parseInt(ideStr);
 
-			Computer compute = ComputerDAOImpl.instance.getById(ide);
+			Computer compute = ComputerDaoImpl.instance.getById(ide);
 			if (compute != null) {
 				System.out.println(compute.toString());
 			}
 
-			ComputerDAOImpl.delete(ide);
+			ComputerDaoImpl.delete(ide);
 			System.out.println("Done !");
 
 			break;
@@ -171,7 +171,7 @@ public class Cli {
 			dateTimeFin = util.checkDate(dateFin);
 		}
 
-		ComputerDAOImpl.instance.create(nom, dateTime, dateTimeFin, comp);
+		ComputerDaoImpl.instance.create(nom, dateTime, dateTimeFin, comp);
 		scan.close();
 	}
 
@@ -181,7 +181,7 @@ public class Cli {
 		String idUpStr = scan.nextLine();
 		int idUp = Integer.parseInt(idUpStr);
 
-		Computer comput = ComputerDAOImpl.instance.getById(idUp);
+		Computer comput = ComputerDaoImpl.instance.getById(idUp);
 		System.out.println(comput.toString());
 		System.out.println("------------------");
 
@@ -238,7 +238,7 @@ public class Cli {
 			compUpId = util.checkId(compUpIdStr);
 			// compUpId = Integer.parseInt(compUpIdStr);
 
-			CompanyDAOImpl cdao = CompanyDAOImpl.instance;
+			CompanyDaoImpl cdao = CompanyDaoImpl.instance;
 			compUp = cdao.getById(compUpId);
 
 		} else {
@@ -247,7 +247,7 @@ public class Cli {
 
 		Computer nouveau = new Computer(idUp, nomUp, dateTimeUp, dateTimeFinUp,
 				compUp);
-		ComputerDAOImpl.instance.update(nouveau);
+		ComputerDaoImpl.instance.update(nouveau);
 		scan.close();
 	}
 

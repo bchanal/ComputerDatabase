@@ -5,6 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.model.Company;
 
 /**
@@ -17,6 +20,10 @@ import com.excilys.cdb.model.Company;
 public enum CompanyMapper implements RowMapper<Company> {
 
 	instance;
+
+	private final static Logger logger = LoggerFactory
+			.getLogger(CompanyMapper.class);
+
 	/**
 	 * toList returns a list of companies, contained in a ResulSet
 	 * 
@@ -37,6 +44,8 @@ public enum CompanyMapper implements RowMapper<Company> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
+
 			throw new RuntimeException();
 
 		}
