@@ -25,16 +25,19 @@
 									value="${ computer.name }">
 								<div>
 									<div class="form-group">
-										<label for="introduced">Introduced date</label> <input
-											type="datetime-local" class="form-control" id="introduced"
+										<label for="introduced">Introduced date</label> 
+										<input type="datetime-local" class="form-control" id="introduced"
 											name="introduced" placeholder="Introduced date"
 											value=${ computer.dateIntro }>
+											<span class="errorintroduced">Wrong format !</span>
+											
 									</div>
 									<div class="form-group">
 										<label for="discontinued">Discontinued date</label> <input
 											type="datetime-local" class="form-control" id="discontinued"
 											name="discontinued" placeholder="Discontinued date"
-											value=${ computer.dateDiscontinued }>
+											value=${ computer.dateDiscontinued }><span class="errordiscontinued">Wrong format !</span>
+											
 									</div>
 									<div class="form-group">
 										<label for="companyId">Company</label> <select
@@ -49,7 +52,7 @@
 									</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" value="Edit" class="btn btn-primary">
+							<input id="btnSubmit" type="submit" value="Edit" class="btn btn-primary">
 							or <a href="dashboard" class="btn btn-default">Cancel</a>
 						</div>
 					</form>
@@ -57,5 +60,7 @@
 			</div>
 		</div>
 	</section>
+	<script src="<c:url value="/static/js/jquery.min.js"/>"></script>		
+	<script src="<c:url value="/static/js/checkdate.js"/>"></script>	
 </body>
 </html>
