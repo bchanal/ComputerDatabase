@@ -11,8 +11,8 @@ import org.junit.Test;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.persistence.CompanyDAOImpl;
-import com.excilys.cdb.persistence.ComputerDAOImpl;
+import com.excilys.cdb.persistence.CompanyDaoImpl;
+import com.excilys.cdb.persistence.ComputerDaoImpl;
 
 
 /**
@@ -41,62 +41,76 @@ public class ComputerDAOImplTest extends TestCase {
 
 	@Test
 	public void testgetAll() {
-		List<Computer> listComputer =ComputerDAOImpl.getAll();
+		List<Computer> listComputer =ComputerDaoImpl.getAll();
 		assertNotNull(listComputer);
 		
-		Computer comp = ComputerDAOImpl.instance.getById(1);
+		Computer comp = ComputerDaoImpl.instance.getById(1);
 		assertEquals(listComputer.get(0),comp);
 		
-		assertNull(ComputerDAOImpl.instance.getById(5000));
+		assertNull(ComputerDaoImpl.instance.getById(5000));
 		
-		int sizeDB = ComputerDAOImpl.instance.getNbComputers();
+		int sizeDB = ComputerDaoImpl.instance.getNbComputers();
 		assertEquals(listComputer.size(),sizeDB);
 	}
 	
 	@Test
 	public void testgetById() {
 		
-		Computer comp = ComputerDAOImpl.instance.getById(14);
+		Computer comp = ComputerDaoImpl.instance.getById(14);
 		assertNotNull(comp);
 		
-		Computer comp2 = ComputerDAOImpl.instance.getById(14);
+		Computer comp2 = ComputerDaoImpl.instance.getById(14);
 		assertEquals(comp,comp2);
 		
-		comp = ComputerDAOImpl.instance.getById(7000);
+		comp = ComputerDaoImpl.instance.getById(7000);
 		assertNull(comp);
 		
-		comp = ComputerDAOImpl.instance.getById(-1);
+		comp = ComputerDaoImpl.instance.getById(-1);
 		assertNull(comp);
+		
+	}
+	
+	@Test(expected = SQLException.class)
+	public void testgetByIdInvalid() {
+		
+		Computer comp = ComputerDaoImpl.instance.getById(-1);
+		assertNotNull(comp);
 		
 	}
 
 	@Test
 	public void testDelete(){
-		Computer comp = ComputerDAOImpl.instance.getById(2);
+		Computer comp = ComputerDaoImpl.instance.getById(2);
 		assertNotNull(comp);
 		
-		ComputerDAOImpl.delete(2);
-		comp = ComputerDAOImpl.instance.getById(2);
+		ComputerDaoImpl.delete(2);
+		comp = ComputerDaoImpl.instance.getById(2);
 
 		assertNull(comp);
+		
+	}
+	
+	@Test(expected = SQLException.class)
+	public void testDeleteInvalid() {
+		
+		ComputerDaoImpl.instance.delete(-1);
 		
 	}
 	
 	@Test
 	public void testCreate(){
 		
-		List<Computer> listComputer =ComputerDAOImpl.getAll();
+		List<Computer> listComputer =ComputerDaoImpl.getAll();
 		int sizeMax=listComputer.size();
 
 		
-		Computer comp = ComputerDAOImpl.instance.getById(sizeMax+1); // replace 575 by size+1
+		Computer comp = ComputerDaoImpl.instance.getById(sizeMax+1); // replace 575 by size+1
 		assertNull(comp);
 		
-		ComputerDAOImpl.instance.create("ordiTest", null,
-				null, 35);
+		ComputerDaoImpl.instance.create("ordiTest", null, null, 35);
 		//check success
 		
-		comp = ComputerDAOImpl.instance.getById(sizeMax+1);
+		comp = ComputerDaoImpl.instance.getById(sizeMax+1);
 		assertNotNull(comp);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -106,9 +120,9 @@ public class ComputerDAOImplTest extends TestCase {
 		//LocalDateTime ldt3 = LocalDateTime.parse("2016-99-99 99:99", formatter);
 
 		
-		ComputerDAOImpl.instance.create("ordiTest", ldt, null, 25);
+		ComputerDaoImpl.instance.create("ordiTest", ldt, null, 25);
 		//check success : size de la liste ?
-		ComputerDAOImpl.instance.create("ordiTest", ldt, ldt2, 25);
+		ComputerDaoImpl.instance.create("ordiTest", ldt, ldt2, 25);
 		//check success
 		
 		//ComputerDAOImpl.instance.create("ordiTestFail", null, ldt3,1);
@@ -116,6 +130,13 @@ public class ComputerDAOImplTest extends TestCase {
 		//ComputerDAOImpl.instance.create("ordiTestFail", null, null, -1);
 		//check fail
 			
+	}
+	
+	@Test(expected = SQLException.class)
+	public void testCreateInvalid() {
+		
+		ComputerDaoImpl.instance.create("fail", null, null, -1);
+		
 	}
 	
 	@Test
@@ -126,22 +147,31 @@ public class ComputerDAOImplTest extends TestCase {
 		
 		Company company=null;
 		try {
-			company = CompanyDAOImpl.instance.getById(7);
+			company = CompanyDaoImpl.instance.getById(7);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}		
-		Computer comp = ComputerDAOImpl.instance.getById(14);
+		Computer comp = ComputerDaoImpl.instance.getById(14);
 		Computer comp2 = new Computer(14, "computerTest", ldt,
 			null, company);
 		
 		assertFalse(comp.equals(comp2));
-		ComputerDAOImpl.instance.update(comp2);
+		ComputerDaoImpl.instance.update(comp2);
 		
-		comp = ComputerDAOImpl.instance.getById(14);
+		comp = ComputerDaoImpl.instance.getById(14);
 		assertEquals(comp, comp2);
 
 
+	}
+	
+	@Test(expected = SQLException.class)
+	public void testUpdateInvalid() {
+		
+		Company company=null;
+		Computer comp2 = new Computer(-7, "computerTest", null,	null, company);
+		ComputerDaoImpl.instance.update(comp2);
+		
 	}
 
 }

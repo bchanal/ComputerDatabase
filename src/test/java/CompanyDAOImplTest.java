@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.excilys.cdb.model.Company;
-import com.excilys.cdb.persistence.CompanyDAOImpl;
+import com.excilys.cdb.persistence.CompanyDaoImpl;
 
 /**
  * Test for @linkComputerDAOImpl
@@ -38,18 +38,17 @@ public class CompanyDAOImplTest extends TestCase {
 	public void testgetAll() {
 		List<Company> listCompany;
 		try {
-			listCompany = CompanyDAOImpl.instance.getAll();
+			listCompany = CompanyDaoImpl.instance.getAll();
 			assertNotNull(listCompany);
 
-			Company comp = CompanyDAOImpl.instance.getById(1);
+			Company comp = CompanyDaoImpl.instance.getById(1);
 			assertEquals(listCompany.get(0), comp);
 
-			assertNull(CompanyDAOImpl.instance.getById(1000));
+			assertNull(CompanyDaoImpl.instance.getById(1000));
 			assertTrue(listCompany.size() == 42);
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		}
-
 	}
 
 	@Test
@@ -57,14 +56,14 @@ public class CompanyDAOImplTest extends TestCase {
 
 		Company comp;
 		try {
-			comp = CompanyDAOImpl.instance.getById(12);
+			comp = CompanyDaoImpl.instance.getById(12);
 			assertNotNull(comp);
 
-			Company comp2 = CompanyDAOImpl.instance.getById(12);
+			Company comp2 = CompanyDaoImpl.instance.getById(12);
 			assertEquals(comp, comp2);
 
-			//comp = CompanyDAOImpl.instance.getById(100);
-			//assertNull(comp);
+			comp = CompanyDaoImpl.instance.getById(100);
+			assertNull(comp);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,5 +71,11 @@ public class CompanyDAOImplTest extends TestCase {
 
 		}
 
+	}
+	
+	@Test(expected = SQLException.class)
+	public void testgetByIdInvalid() throws SQLException {
+		assertNull(CompanyDaoImpl.instance.getById(-1));
+		
 	}
 }
