@@ -4,7 +4,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard?page=${page}&search=${search}&nbPerPage=${nbPerPage}"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -17,15 +17,17 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input required type="text" class="form-control" id="computerName" name="computerName" placeholder="Computer name">
+                                <input required='required' type="text" class="form-control" id="computerName" name="computerName" placeholder="Computer name">
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
                                 <input type="datetime-local" class="form-control" id="introduced" name="introduced" placeholder="Introduced date">
+                                <span class="errorintroduced">Wrong format !</span>
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
                                 <input type="datetime-local" class="form-control" id="discontinued" name="discontinued" placeholder="Discontinued date">
+                                <span class="errordiscontinued">Wrong format, mwhahahaha !!</span>
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
@@ -39,7 +41,7 @@
                             </div>                  
                         </fieldset>
                         <div class="actions pull-right">
-                            <input type="submit" value="Add" class="btn btn-primary">
+                            <input type="submit" id="btnSubmit" value="Add" class="btn btn-primary">
                             or
                             <a href="dashboard" class="btn btn-default">Cancel</a>
                         </div>
@@ -48,16 +50,8 @@
             </div>
         </div>
     </section>
-<!--     <script> -->
-// 		$(document).ready(function() {
-//     		$('#computerName').on('input', function() {
-// 			var input=$(this);
-// 			var is_name=input.val();
-// 			if(is_name){input.removeClass("invalid").addClass("valid");}
-// 			else{input.removeClass("valid").addClass("invalid");}
-// 		});
-<!--     </script> -->
-				
+	<script src="<c:url value="/static/js/jquery.min.js"/>"></script>		
+	<script src="<c:url value="/static/js/checkdate.js"/>"></script>				
 				
 </body>
 </html>

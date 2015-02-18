@@ -4,7 +4,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard?page=${page}&search=${search}&nbPerPage=${nbPerPage}""> Application -	ComputerDatabase </a>
+			<a class="navbar-brand" href="dashboard"> Application -	ComputerDatabase </a>
 		</div>
 	</header>
 

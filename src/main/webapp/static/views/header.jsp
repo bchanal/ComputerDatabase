@@ -11,6 +11,4 @@
 <link href="<c:url value="/static/css/bootstrap.min.css"/>"	rel="stylesheet" media="screen">
 <link href="<c:url value="/static/css/font-awesome.css"/>"	rel="stylesheet" media="screen">
 <link href="<c:url value="/static/css/main.css"/>" rel="stylesheet"	media="screen">
-<script type='text/javascript' src='jquery.min.js'></script>
-	
 </head>
