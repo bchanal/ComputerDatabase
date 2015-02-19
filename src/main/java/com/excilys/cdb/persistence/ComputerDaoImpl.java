@@ -6,11 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.cdb.dto.ComputerDto;
+import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.*;
 
 /**
@@ -22,8 +25,7 @@ public enum ComputerDaoImpl {
 
 	instance;
 
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(ComputerDaoImpl.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(ComputerDaoImpl.class);
 
 	private ComputerDaoImpl() {
 	}
@@ -69,25 +71,39 @@ public enum ComputerDaoImpl {
 	 * 
 	 * @return list the list of computers
 	 */
-	public List<Computer> getAPage(int index, int nb) {
+	public Page getAPage(int index, int nb, String name) {
 
-		String query = "SELECT * FROM computer ORDER BY id LIMIT ? , ?;";
+		String query = "SELECT * FROM computer WHERE name LIKE ? ORDER BY id LIMIT ? , ?;";
 		// String query = "SELECT * FROM computer WHERE id > AND id < ?;";
 		Connection connect = null;
 		ResultSet result = null;
 		PreparedStatement prep1 = null;
 		List<Computer> list = null;
+		List<ComputerDto> listdto = new ArrayList<ComputerDto>();
+
+		Page page;
 
 		try {
 			connect = ConnectDao.instance.getConnection();
 			prep1 = connect.prepareStatement(query);
+			if(name!=""){
+			prep1.setString(1, "%" + name + "%");
+			}
+			else
+				prep1.setString(1,"");
 
-			prep1.setInt(1, index);
-			prep1.setInt(2, nb);
+			prep1.setInt(2, index);
+			prep1.setInt(3, nb);
 
 			result = prep1.executeQuery();
 
 			list = ComputerMapper.instance.toList(result);
+			for(Computer c : list){
+				listdto.add(DtoMapper.computerToDto(c));
+			}
+			
+			page= new Page(index, nb, listdto);
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -105,12 +121,12 @@ public enum ComputerDaoImpl {
 			ConnectDao.close(connect);
 		}
 
-		return list;
+		return page;
 	}
 
-	public int getNbComputers() {
+	public int getNbComputers(String name) {
 
-		String query = "SELECT COUNT(*) FROM computer ";
+		String query = "SELECT COUNT(*) FROM computer WHERE name LIKE ? ";
 		Connection connect = null;
 		ResultSet result = null;
 		PreparedStatement prep1 = null;
@@ -119,7 +135,8 @@ public enum ComputerDaoImpl {
 		try {
 			connect = ConnectDao.instance.getConnection();
 			prep1 = connect.prepareStatement(query);
-
+			
+			prep1.setString(1, "%" + name + "%");
 			result = prep1.executeQuery();
 			result.next();
 
@@ -168,7 +185,6 @@ public enum ComputerDaoImpl {
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());
 			throw new RuntimeException();
-
 		} finally {
 			try {
 				result.close();

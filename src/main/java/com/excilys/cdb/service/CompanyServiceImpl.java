@@ -6,11 +6,13 @@ import java.util.List;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.CompanyDaoImpl;
 
-public class CompanyServiceImpl implements CompanyService {
+public enum CompanyServiceImpl implements CompanyService {
+	
+	instance;
 
 	private CompanyDaoImpl cdao = CompanyDaoImpl.instance;
 
-	public CompanyServiceImpl() {
+	private CompanyServiceImpl() {
 	}
 
 	@Override

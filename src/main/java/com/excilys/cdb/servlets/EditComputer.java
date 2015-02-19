@@ -15,10 +15,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.cli.util;
+import com.excilys.cdb.dto.ComputerDto;
+import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.persistence.CompanyDaoImpl;
-import com.excilys.cdb.persistence.ComputerDaoImpl;
+import com.excilys.cdb.service.CompanyServiceImpl;
+import com.excilys.cdb.service.ComputerServiceImpl;
 
 /**
  * Servlet implementation class editComputer
@@ -47,20 +49,20 @@ public class EditComputer extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		List<Company> listCompanies = getCompanies(request);
 		request.setAttribute(ATT_LISTCOMPANIES, listCompanies);
 
 		this.idEdit = Integer.parseInt(request.getParameter("id"));
 		request.setAttribute(ATT_IDEDIT, idEdit);
 
-		Computer computer = ComputerDaoImpl.instance.getById(idEdit);
+		Computer computer = ComputerServiceImpl.instance.getById(idEdit);
+		ComputerDto cdto = DtoMapper.computerToDto(computer);
 
-		request.setAttribute(ATT_COMPUTER, computer);
+		request.setAttribute(ATT_COMPUTER, cdto);
 
-		this.getServletContext().getRequestDispatcher(VUE)
-				.forward(request, response);
+		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 	}
 
 	/**
@@ -80,7 +82,13 @@ public class EditComputer extends HttpServlet {
 	}
 
 	private List<Company> getCompanies(HttpServletRequest request) {
-		return CompanyDaoImpl.instance.getAll();
+		try {
+			return CompanyServiceImpl.instance.getAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.error(e.getMessage());
+			throw new RuntimeException();
+		}
 	}
 
 	private void updateComputer(HttpServletRequest request,
@@ -115,22 +123,18 @@ public class EditComputer extends HttpServlet {
 
 		Company company = null;
 		try {
-			company = CompanyDaoImpl.instance.getById(companyId);
+			company = CompanyServiceImpl.instance.getById(companyId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());
 			throw new RuntimeException();
 		}
+		
 		Computer computer = new Computer(idEdit, name, dateIntro, dateDisc,
 				company);
 
-		// try {
-		ComputerDaoImpl.instance.update(computer);
-		// } catch (SQLException e) {
-		// e.printStackTrace();
-		// LOGGER.error(e.getMessage());
-		// throw new RuntimeException();
-		// }
+		ComputerServiceImpl.instance.update(computer);
+
 	}
 
 }

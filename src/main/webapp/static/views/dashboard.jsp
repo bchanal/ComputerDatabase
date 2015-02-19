@@ -9,7 +9,7 @@
 
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle">${ nbTotalComputer} Computers found</h1>
+		<h1 id="homeTitle">${ page.nbTotalComputer} Computers found</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -21,15 +21,13 @@
 				</form>
 			</div>
 			<div class="pull-right">
-				<a class="btn btn-success" id="addComputer" href="add-computer">Add
-					Computer</a> 
-				<a class="btn btn-default" id="editComputer" href="#"
-					onclick="$.fn.toggleEditMode();">Edit</a>
+				<a class="btn btn-success" id="addComputer" href="add-computer">Add	Computer</a> 
+				<a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
 			</div>
 		</div>
 	</div>
 
-	<form id="deleteForm" action="#" method="POST">
+	<form id="deleteForm" action="delete-computer" method="POST">
 		<input type="hidden" name="selection" value="">
 	</form>
 
@@ -61,7 +59,7 @@
 			<!-- Browse attribute computers -->
 			<tbody id="results">
 
-				<c:forEach items="${ listComputers }" var="computer" varStatus="boucle">
+				<c:forEach items="${ page.list }" var="computer" varStatus="boucle">
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value= ${ computer.id }></td>
@@ -83,15 +81,15 @@
 	<footer class="navbar-fixed-bottom">
 	<div class="container text-center">
 		<ul class="pagination">
-			<li><a href="dashboard?page=-&search=${search}" aria-label="Previous"> 
+			<li><a href="dashboard?page=0&search=${search}" aria-label="Previous"> 
 			<span aria-hidden="true">&laquo;</span>
 			</a></li>
-			<li><a href="dashboard?page=1&search=${search}&nbPerPage=${nbPerPage}">1</a></li>
-			<li><a href="dashboard?page=2&search=${search}&nbPerPage=${nbPerPage}">2</a></li>
-			<li><a href="dashboard?page=3&search=${search}&nbPerPage=${nbPerPage}">3</a></li>
-			<li><a href="dashboard?page=4&search=${search}&nbPerPage=${nbPerPage}">4</a></li>
-			<li><a href="dashboard?page=5&search=${search}&nbPerPage=${nbPerPage}">5</a></li>
-			<li><a href="dashboard?page=+&search=${search}&nbPerPage=${nbPerPage}" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+			<li><a href="dashboard?page=1&search=${search}&nbPerPage=${page.nbPerPage}">1</a></li>
+			<li><a href="dashboard?page=2&search=${search}&nbPerPage=${page.nbPerPage}">2</a></li>
+			<li><a href="dashboard?page=3&search=${search}&nbPerPage=${page.nbPerPage}">3</a></li>
+			<li><a href="dashboard?page=4&search=${search}&nbPerPage=${page.nbPerPage}">4</a></li>
+			<li><a href="dashboard?page=5&search=${search}&nbPerPage=${page.nbPerPage}">5</a></li>
+			<li><a href="dashboard?page=6&search=${search}&nbPerPage=${page.nbPerPage}" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</ul>
 

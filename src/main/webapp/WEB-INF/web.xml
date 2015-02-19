@@ -13,27 +13,20 @@
 <!-- </welcome-file-list> -->
 <!-- </web-app> -->
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  	<display-name>computer database</display-name>
-  	<welcome-file-list>
-   	 	<welcome-file>/dashboard</welcome-file>
-  	</welcome-file-list>
-  	<error-page>
-    	<error-code>403</error-code>
-   		 <location>/static/views/403.jsp</location>
-	</error-page>
-	<error-page>
-    	<error-code>404</error-code>
-    	<location>/static/views/404.jsp</location>
-	</error-page>
-	<error-page>
- 	   <error-code>500</error-code>
-  	  <location>/static/views/500.jsp</location>
-	</error-page>
-	
-<!-- <taglib> -->
-<!--     <taglib-uri>taglib-URI</taglib-uri> -->
-<!--     <taglib-location>/WEB-INF/lib/taglib.jar</taglib-location> -->
-<!-- </taglib> -->
-	
-
+  <display-name>computer database</display-name>
+  <welcome-file-list>
+    <welcome-file>/dashboard</welcome-file>
+  </welcome-file-list>
+  <error-page>
+    <error-code>403</error-code>
+    <location>/static/views/403.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/static/views/404.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/static/views/500.jsp</location>
+  </error-page>
 </web-app>

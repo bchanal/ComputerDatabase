@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.cli.util;
 import com.excilys.cdb.model.Company;
-import com.excilys.cdb.persistence.CompanyDaoImpl;
-import com.excilys.cdb.persistence.ComputerDaoImpl;
+import com.excilys.cdb.service.CompanyServiceImpl;
+import com.excilys.cdb.service.ComputerServiceImpl;
 
 @WebServlet("/add-computer")
 public class AddComputer extends HttpServlet {
@@ -86,19 +86,19 @@ public class AddComputer extends HttpServlet {
 			companyId = 0;
 		}
 
-		// Company company = CompanyDAOImpl.instance.getById(companyId);
+		ComputerServiceImpl.instance.create(name, dateIntro, dateDisc, companyId);
 
-		// try {
-		ComputerDaoImpl.instance.create(name, dateIntro, dateDisc, companyId);
-		// } catch (SQLException e) {
-		// e.printStackTrace();
-		// LOGGER.error(e.getMessage());
-		// throw new RuntimeException();
-		// }
 	}
 
 	private List<Company> getCompanies(HttpServletRequest request) {
-		return CompanyDaoImpl.instance.getAll();
+		try {
+			return CompanyServiceImpl.instance.getAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.error(e.getMessage());
+			throw new RuntimeException();
+		}
+		
 
 	}
 }

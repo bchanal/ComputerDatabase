@@ -13,13 +13,15 @@ public interface ComputerService {
 
 	public List<Computer> getAll();
 
-	// public Page getByPage(int index, int nbEntityByPage, String name);
+	public Page getAPage(int index, int nbEntityByPage, String name);
 
-	public void deleteById(int computerId);
+	public void delete(int computerId);
 
 	public void update(Computer computer);
+	
+	public int getNbComputers();
 
-	public Computer getByID(int computerId);
+	public Computer getById(int computerId);
 
 	public List<Computer> getByName(String name);
 

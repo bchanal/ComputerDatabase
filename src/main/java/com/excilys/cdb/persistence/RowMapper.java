@@ -1,6 +1,8 @@
 package com.excilys.cdb.persistence;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +14,15 @@ import java.util.List;
  */
 public interface RowMapper<T> {
 
-	List<T> toList(ResultSet rs);
+	default List<T> toList(ResultSet rs) throws SQLException{
+		
+		List<T> listT = new ArrayList<T>();
+
+		while (rs.next()) {
+			listT.add(toObject(rs));
+		}
+		return listT;
+	}
 
 	T toObject(ResultSet rs);
 

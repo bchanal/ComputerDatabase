@@ -1,22 +1,26 @@
 package com.excilys.cdb.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.cdb.dto.ComputerDto;
+import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.ComputerDaoImpl;
 
-public class ComputerServiceImpl implements ComputerService {
+public enum ComputerServiceImpl implements ComputerService {
+	
+	instance;
 
 	private ComputerDaoImpl cdao = ComputerDaoImpl.instance;
 
-	public ComputerServiceImpl() {
+	private ComputerServiceImpl() {
 	}
 
 	@Override
-	public void create(String name, LocalDateTime dateTime,
-			LocalDateTime dateTimeFin, int comp) {
+	public void create(String name, LocalDateTime dateTime,	LocalDateTime dateTimeFin, int comp) {
 		cdao.create(name, dateTime, dateTimeFin, comp);
 	}
 
@@ -25,13 +29,27 @@ public class ComputerServiceImpl implements ComputerService {
 		return cdao.getAll();
 	}
 
-	// @Override
-	// public Page getByPage(int index, int nbEntityByPage, String name) {
-	// return cdao.getByPage(index, nbEntityByPage, name);
-	// }
+	 @Override
+	 public Page getAPage(int index, int nb, String name) {
+//		 List<Computer> lcomp = cdao.getAPage(index, nb); 
+//		 List<ComputerDto> ldto = new ArrayList<ComputerDto>();
+//		 for(Computer c : lcomp){
+//			 ComputerDto cdto = DtoMapper.computerToDto(c);
+//			 ldto.add(cdto);
+//		 }
+//		 Page p = new Page(index,nb,ldto);
+		 
+		 return cdao.getAPage(index, nb, name);
+	 }
+	 
+	 @Override
+		public int getNbComputers() {
+		  	return cdao.getNbComputers("");
+		}
+
 
 	@Override
-	public void deleteById(int computerId) {
+	public void delete(int computerId) {
 		cdao.delete(computerId);
 	}
 
@@ -41,7 +59,7 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public Computer getByID(int computerId) {
+	public Computer getById(int computerId) {
 		return cdao.getById(computerId);
 	}
 
