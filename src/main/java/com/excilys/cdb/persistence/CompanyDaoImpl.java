@@ -101,5 +101,40 @@ public enum CompanyDaoImpl implements CompanyDao {
 
 		return comp;
 	}
+	
+	public synchronized static void delete(int id) {
+		Connection connect = null;
+		PreparedStatement prep1 = null;
+		PreparedStatement prep2 = null;
+		try {
+
+			String query = "DELETE FROM computer WHERE company_id= ?";
+			String query2 = "DELETE FROM company WHERE id= ?";
+			System.out.println(id);
+
+			connect = ConnectDao.instance.getConnection();
+			prep1 = connect.prepareStatement(query);
+			prep1.setInt(1, id);
+			prep1.executeUpdate();
+			
+			prep2 = connect.prepareStatement(query2);
+			prep2.setInt(1, id);
+			prep2.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.error(e.getMessage());
+			throw new RuntimeException();
+
+		} finally {
+			try {
+				prep1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				LOGGER.error(e.getMessage());
+			}
+			ConnectDao.close(connect);
+		}
+	}
 
 }

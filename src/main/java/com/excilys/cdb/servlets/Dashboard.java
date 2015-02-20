@@ -23,7 +23,7 @@ public class Dashboard extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	//private static final long serialVersionUID = 1L;
-	private static final String ATT_NBCOMPUTERS = "nbTotalComputer";
+	//private static final String ATT_NBCOMPUTERS = "nbTotalComputer";
 	//private static final String ATT_NBPERPAGE = "nbPerPage";
 	private static final String ATT_SEARCH = "search";
 
@@ -62,7 +62,6 @@ public class Dashboard extends HttpServlet {
 		}
 
 		Page p = getAPage(numPage, nbPP, nameSearched);
-
 		
 		//request.setAttribute(ATT_NBCOMPUTERS, p.getNbTotalComputer());
 		//request.setAttribute(ATT_NBPAGES,p.getNbTotalPages());
@@ -72,8 +71,7 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute(ATT_PAGE, p);
 
 
-		this.getServletContext().getRequestDispatcher(VUE)
-				.forward(request, response);
+		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 	}
 
 	/**
@@ -91,11 +89,6 @@ public class Dashboard extends HttpServlet {
 		int index = (numPage - 1) * nbPP;
 		Page page = ComputerServiceImpl.instance.getAPage(index, nbPP, search);
 		return page;
-	}
-
-	protected int getNbComputers(HttpServletRequest request) {
-
-		return ComputerServiceImpl.instance.getNbComputers();
 	}
 
 }

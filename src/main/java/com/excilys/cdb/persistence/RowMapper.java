@@ -14,10 +14,9 @@ import java.util.List;
  */
 public interface RowMapper<T> {
 
-	default List<T> toList(ResultSet rs) throws SQLException{
+	public default List<T> toList(ResultSet rs) throws SQLException{
 		
 		List<T> listT = new ArrayList<T>();
-
 		while (rs.next()) {
 			listT.add(toObject(rs));
 		}

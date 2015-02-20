@@ -75,7 +75,7 @@ public class ComputerServiceImplTest extends TestCase {
 		Computer comp = ComputerServiceImpl.instance.getById(1);
 		assertEquals(listComputer.get(0), comp);
 
-		int sizeDB = ComputerServiceImpl.instance.getNbComputers();
+		int sizeDB = ComputerServiceImpl.instance.getAPage(1, 50, "").getNbTotalComputer();
 		assertEquals(listComputer.size(), sizeDB);
 	}
 /**
@@ -199,13 +199,5 @@ public class ComputerServiceImplTest extends TestCase {
 
 	}
 
-//	@Test(expected = NullPointerException.class)
-//	public void testUpdateInvalid() {
-//
-//		Company company = null;
-//		Computer comp2 = new Computer(-7, "computerTest", null, null, company);
-//		ComputerDaoImpl.instance.update(comp2);
-//
-//	}
 
 }

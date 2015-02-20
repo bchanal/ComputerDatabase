@@ -16,6 +16,7 @@ public class DtoMapper {
     	
     	String introduced="";
     	String discontinued = "";
+    	Company company= new Company();
         
         int id = computer.getId();
         String name = computer.getName();
@@ -26,7 +27,9 @@ public class DtoMapper {
         if(computer.getDateDiscontinued()!=null){
         	discontinued = computer.getDateDiscontinued().toString();
         }
-        Company company = computer.getManufacturer();
+        if(computer.getManufacturer()!= null){
+        	company = computer.getManufacturer();
+        }
         
         ComputerDto cdto = new ComputerDto(id, name, introduced, discontinued, company);
         

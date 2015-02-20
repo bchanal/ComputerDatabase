@@ -61,8 +61,7 @@
 
 				<c:forEach items="${ page.list }" var="computer" varStatus="boucle">
 					<tr>
-						<td class="editMode"><input type="checkbox" name="cb"
-							class="cb" value= ${ computer.id }></td>
+						<td class="editMode"><input type="checkbox" name="cb" class="cb" value= ${ computer.id }></td>
 						<td><a href="edit-computer?id=${ computer.id }" onclick="">${ computer.name }</a>
 						</td>
 						<td>${ computer.introduced}</td>

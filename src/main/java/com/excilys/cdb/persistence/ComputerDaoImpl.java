@@ -17,9 +17,11 @@ import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.*;
 
 /**
- * 
- * @author berangere ComputerDAO contains all the requests concerning the
+ * ComputerDAO contains all the requests concerning the
  *         computers
+ *         
+ * @author berangere 
+ * 
  */
 public enum ComputerDaoImpl {
 
@@ -86,11 +88,8 @@ public enum ComputerDaoImpl {
 		try {
 			connect = ConnectDao.instance.getConnection();
 			prep1 = connect.prepareStatement(query);
-			if(name!=""){
+
 			prep1.setString(1, "%" + name + "%");
-			}
-			else
-				prep1.setString(1,"");
 
 			prep1.setInt(2, index);
 			prep1.setInt(3, nb);
@@ -98,13 +97,13 @@ public enum ComputerDaoImpl {
 			result = prep1.executeQuery();
 
 			list = ComputerMapper.instance.toList(result);
+
 			for(Computer c : list){
-				listdto.add(DtoMapper.computerToDto(c));
+		    	listdto.add(DtoMapper.computerToDto(c));
 			}
 			
 			page= new Page(index, nb, listdto);
-			
-
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());
@@ -126,7 +125,10 @@ public enum ComputerDaoImpl {
 
 	public int getNbComputers(String name) {
 
-		String query = "SELECT COUNT(*) FROM computer WHERE name LIKE ? ";
+		String query = "SELECT COUNT(*) "
+				+ "FROM computer "
+				+ "LEFT JOIN company ON computer.company_id = company.id "
+				+ "WHERE computer.name LIKE ? OR company.name LIKE ?;";
 		Connection connect = null;
 		ResultSet result = null;
 		PreparedStatement prep1 = null;
@@ -137,6 +139,8 @@ public enum ComputerDaoImpl {
 			prep1 = connect.prepareStatement(query);
 			
 			prep1.setString(1, "%" + name + "%");
+			prep1.setString(2, "%" + name + "%");
+
 			result = prep1.executeQuery();
 			result.next();
 
@@ -179,6 +183,7 @@ public enum ComputerDaoImpl {
 
 			result = state
 					.executeQuery("SELECT * FROM computer WHERE id=" + id);
+			result.next();
 			comp = ComputerMapper.instance.toObject(result);
 
 		} catch (SQLException e) {
@@ -207,7 +212,10 @@ public enum ComputerDaoImpl {
 	 */
 	public List<Computer> getByName(String name) {
 
-		String query = "SELECT * FROM computer WHERE name LIKE ?; ";
+		String query = "SELECT * "
+				+ "FROM computer "
+				+ "LEFT JOIN company ON computer.company_id = company.id "
+				+ "WHERE computer.name LIKE ? OR company.name LIKE ?;";
 		List<Computer> comp = null;
 		Connection connect = null;
 		ResultSet result = null;
@@ -218,6 +226,8 @@ public enum ComputerDaoImpl {
 			prep1 = connect.prepareStatement(query);
 
 			prep1.setString(1, "%" + name + "%");
+			prep1.setString(2, "%" + name + "%");
+
 
 			result = prep1.executeQuery();
 			result.next();

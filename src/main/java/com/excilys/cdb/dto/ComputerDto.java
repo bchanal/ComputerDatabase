@@ -18,6 +18,13 @@ public class ComputerDto {
         this.company = company;
 	}
 
+	@Override
+	public String toString() {
+		return "ComputerDto [id=" + id + ", name=" + name + ", introduced="
+				+ introduced + ", discontinued=" + discontinued + ", company="
+				+ company + "]";
+	}
+
 	public int getId() {
 		return id;
 	}

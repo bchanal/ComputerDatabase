@@ -19,7 +19,7 @@ public interface ComputerService {
 
 	public void update(Computer computer);
 	
-	public int getNbComputers();
+	//public int getNbComputers();
 
 	public Computer getById(int computerId);
 

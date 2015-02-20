@@ -1,11 +1,8 @@
 package com.excilys.cdb.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.cdb.dto.ComputerDto;
-import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.ComputerDaoImpl;
@@ -38,14 +35,16 @@ public enum ComputerServiceImpl implements ComputerService {
 //			 ldto.add(cdto);
 //		 }
 //		 Page p = new Page(index,nb,ldto);
+		 Page p = cdao.getAPage(index, nb, name);
+		 p.setNbTotalComputer(cdao.getNbComputers(name));
 		 
-		 return cdao.getAPage(index, nb, name);
+		 return p;
 	 }
 	 
-	 @Override
-		public int getNbComputers() {
-		  	return cdao.getNbComputers("");
-		}
+////	 @Override
+//		public int getNbComputers() {
+//		  	return cdao.getNbComputers("");
+//		}
 
 
 	@Override

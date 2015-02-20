@@ -26,7 +26,6 @@ public class Page {
 		this.nbPerPage = 10;
 		this.index = 1;
 		this.nbTotalPages=(int) Math.ceil(nbTotalComputer/nbPerPage);
-
 	}
 
 	public Page(int index, int nb) {
@@ -39,7 +38,6 @@ public class Page {
 		this.nbPerPage = nb;
 		this.list = list;
 		this.nbTotalPages=(int) Math.ceil(nbTotalComputer/nbPerPage);
-
 	}
 
 	public int getNbPerPage() {
@@ -89,19 +87,18 @@ public class Page {
 
 		boolean fini = false;
 		Scanner scanner = new Scanner(System.in);
-		this.nbTotalComputer = ComputerServiceImpl.instance.getNbComputers();
+		Page p = ComputerServiceImpl.instance.getAPage(index, 20, " ");
+		this.nbTotalComputer = p.getNbTotalComputer();
 
 		while (!fini) {
-			this.list = ComputerServiceImpl.instance.getAPage(index, 20, "").getList();
+			this.list = p.getList();
 			for (int i = 1; i < nbPerPage; i++) {
-				if (this.list.get(i) != null) {
-					System.out.println(index + i + " "
-							+ this.list.get(i));
+				if (this.getList().get(i) != null) {
+					System.out.println(index + i + " "+ this.list.get(i));
 				} else
 					fini = true;
 			}
-			System.out
-					.println("\n enter (p : previous, n : next, q : quit)\n ");
+			System.out.println("\n enter (p : previous, n : next, q : quit)\n ");
 			System.out.println("computers " + (index + nbPerPage) + " sur "	+ nbTotalComputer);
 			String ok = scanner.nextLine();
 			if (ok.equals("p")) {

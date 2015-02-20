@@ -8,6 +8,8 @@ import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.*;
+import com.excilys.cdb.service.CompanyServiceImpl;
+import com.excilys.cdb.service.ComputerServiceImpl;
 
 /**
  * Cli is a user interface
@@ -22,14 +24,12 @@ public class Cli {
 	}
 
 	public static void main(String[] args) throws SQLException {
-		String str;
 
 		end = false;
 		Scanner sc = new Scanner(System.in);
 		while (!end) {
 			displayMenu();
-			str = sc.nextLine();
-			process(str);
+			process();
 		}
 		sc.close();
 	}
@@ -47,7 +47,8 @@ public class Cli {
 		System.out.println(" 4 - Create new computer");
 		System.out.println(" 5 - Update a computer");
 		System.out.println(" 6 - Delete a computer");
-		System.out.println(" 7 - Quit");
+		System.out.println(" 7 - Delete a company");
+		System.out.println(" 8 - Quit ");
 		System.out.println("\n----------------\n");
 
 	}
@@ -59,8 +60,13 @@ public class Cli {
 	 *            the menu entry choosen by the user
 	 * @throws SQLException
 	 */
-	private static void process(String str) throws SQLException {
+	private static void process() throws SQLException {
 		Scanner scan = new Scanner(System.in);
+		String str="8";
+		if(scan.hasNext()){
+			str = scan.nextLine(); 
+		}
+
 		switch (str) {
 
 		case "1":
@@ -73,7 +79,7 @@ public class Cli {
 
 		case "2":
 			System.out.println("List companies : ");
-			List<Company> res = CompanyDaoImpl.instance.getAll();
+			List<Company> res = CompanyServiceImpl.instance.getAll();
 			for (Company entr : res) {
 				System.out.println(entr.toString());
 
@@ -85,7 +91,7 @@ public class Cli {
 			System.out.println("Id to display : ");
 			String idStr = scan.nextLine();
 			int id = util.checkId(idStr);
-			Computer computer = ComputerDaoImpl.instance.getById(id);
+			Computer computer = ComputerServiceImpl.instance.getById(id);
 			if (computer != null) {
 				System.out.println(computer.toString());
 			} else {
@@ -117,7 +123,7 @@ public class Cli {
 			String ideStr = scan.nextLine();
 			int ide = Integer.parseInt(ideStr);
 
-			Computer compute = ComputerDaoImpl.instance.getById(ide);
+			Computer compute = ComputerServiceImpl.instance.getById(ide);
 			if (compute != null) {
 				System.out.println(compute.toString());
 			}
@@ -126,8 +132,23 @@ public class Cli {
 			System.out.println("Done !");
 
 			break;
-
+			
 		case "7":
+			System.out.println("delete a company and all his computers");
+			System.out.println("Id : ");
+			idStr = scan.nextLine();
+			id = Integer.parseInt(idStr);
+			
+			Company c = CompanyServiceImpl.instance.getById(id);
+			if (c != null) {
+				System.out.println(c.toString());
+			}
+
+			CompanyDaoImpl.delete(id);
+			System.out.println("Done !");
+			break;
+
+		case "8":
 			System.out.println("Bye !");
 			end = true;
 			System.exit(0);
@@ -171,7 +192,7 @@ public class Cli {
 			dateTimeFin = util.checkDate(dateFin);
 		}
 
-		ComputerDaoImpl.instance.create(nom, dateTime, dateTimeFin, comp);
+		ComputerServiceImpl.instance.create(nom, dateTime, dateTimeFin, comp);
 		scan.close();
 	}
 
@@ -181,7 +202,7 @@ public class Cli {
 		String idUpStr = scan.nextLine();
 		int idUp = Integer.parseInt(idUpStr);
 
-		Computer comput = ComputerDaoImpl.instance.getById(idUp);
+		Computer comput = ComputerServiceImpl.instance.getById(idUp);
 		System.out.println(comput.toString());
 		System.out.println("------------------");
 
@@ -238,7 +259,7 @@ public class Cli {
 			compUpId = util.checkId(compUpIdStr);
 			// compUpId = Integer.parseInt(compUpIdStr);
 
-			CompanyDaoImpl cdao = CompanyDaoImpl.instance;
+			CompanyServiceImpl cdao = CompanyServiceImpl.instance;
 			compUp = cdao.getById(compUpId);
 
 		} else {
@@ -247,7 +268,7 @@ public class Cli {
 
 		Computer nouveau = new Computer(idUp, nomUp, dateTimeUp, dateTimeFinUp,
 				compUp);
-		ComputerDaoImpl.instance.update(nouveau);
+		ComputerServiceImpl.instance.update(nouveau);
 		scan.close();
 	}
 
