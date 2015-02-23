@@ -4,7 +4,8 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application -	ComputerDatabase </a>
+			<a class="navbar-brand" href="dashboard"> Application -
+				ComputerDatabase </a>
 		</div>
 	</header>
 
@@ -25,24 +26,25 @@
 									value="${ computer.name }">
 								<div>
 									<div class="form-group">
-										<label for="introduced">Introduced date</label> 
-										<input type="datetime-local" class="form-control" id="introduced"
+										<label for="introduced">Introduced date</label> <input
+											type="datetime-local" class="form-control" id="introduced"
 											name="introduced" placeholder="Introduced date"
-											value=${ computer.dateIntro }>
-											<span class="errorintroduced">Wrong format !</span>
-											
+											value=${ computer.introduced }> <span
+											class="errorintroduced">Wrong format !</span>
+
 									</div>
 									<div class="form-group">
 										<label for="discontinued">Discontinued date</label> <input
 											type="datetime-local" class="form-control" id="discontinued"
 											name="discontinued" placeholder="Discontinued date"
-											value=${ computer.dateDiscontinued }><span class="errordiscontinued">Wrong format !</span>
-											
+											value=${ computer.discontinued }><span
+											class="errordiscontinued">Wrong format !</span>
+
 									</div>
 									<div class="form-group">
 										<label for="companyId">Company</label> <select
 											class="form-control" id="companyId" name="companyId">
-											<option value=${ computer.manufacturer.id }>${ computer.manufacturer.name }</option>
+											<option value=${ computer.company.id }>${ computer.company.name }</option>
 
 											<c:forEach items="${ listCompanies }" var="company"
 												varStatus="boucle">
@@ -52,15 +54,15 @@
 									</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input id="btnSubmit" type="submit" value="Edit" class="btn btn-primary">
-							or <a href="dashboard" class="btn btn-default">Cancel</a>
+							<input id="btnSubmit" type="submit" value="Edit"
+								class="btn btn-primary"> or <a href="dashboard"
+								class="btn btn-default">Cancel</a>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</section>
-	<script src="<c:url value="/static/js/jquery.min.js"/>"></script>		
-	<script src="<c:url value="/static/js/checkdate.js"/>"></script>	
+	<%@ include file="footer.jsp"%>
 </body>
 </html>

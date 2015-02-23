@@ -28,20 +28,13 @@ public enum ComputerServiceImpl implements ComputerService {
 
 	 @Override
 	 public Page getAPage(int index, int nb, String name) {
-//		 List<Computer> lcomp = cdao.getAPage(index, nb); 
-//		 List<ComputerDto> ldto = new ArrayList<ComputerDto>();
-//		 for(Computer c : lcomp){
-//			 ComputerDto cdto = DtoMapper.computerToDto(c);
-//			 ldto.add(cdto);
-//		 }
-//		 Page p = new Page(index,nb,ldto);
+
 		 Page p = cdao.getAPage(index, nb, name);
-		 p.setNbTotalComputer(cdao.getNbComputers(name));
-		 
+
 		 return p;
 	 }
 	 
-////	 @Override
+//	 @Override
 //		public int getNbComputers() {
 //		  	return cdao.getNbComputers("");
 //		}

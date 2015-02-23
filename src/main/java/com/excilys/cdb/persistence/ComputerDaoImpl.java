@@ -17,17 +17,17 @@ import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.*;
 
 /**
- * ComputerDAO contains all the requests concerning the
- *         computers
- *         
- * @author berangere 
+ * ComputerDAO contains all the requests concerning the computers
+ * 
+ * @author berangere
  * 
  */
 public enum ComputerDaoImpl {
 
 	instance;
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(ComputerDaoImpl.class);
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(ComputerDaoImpl.class);
 
 	private ComputerDaoImpl() {
 	}
@@ -43,7 +43,7 @@ public enum ComputerDaoImpl {
 		List<Computer> list = null;
 		Statement state = null;
 		try {
-			connect = ConnectDao.instance.getConnection();
+			connect = ConnectDao.getConnection();
 			state = connect.createStatement();
 			result = state.executeQuery("SELECT * FROM computer");
 			list = ComputerMapper.instance.toList(result);
@@ -61,10 +61,8 @@ public enum ComputerDaoImpl {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
 			}
-
 			ConnectDao.close(connect);
 		}
-
 		return list;
 	}
 
@@ -86,7 +84,7 @@ public enum ComputerDaoImpl {
 		Page page;
 
 		try {
-			connect = ConnectDao.instance.getConnection();
+			connect = ConnectDao.getConnection();
 			prep1 = connect.prepareStatement(query);
 
 			prep1.setString(1, "%" + name + "%");
@@ -98,12 +96,12 @@ public enum ComputerDaoImpl {
 
 			list = ComputerMapper.instance.toList(result);
 
-			for(Computer c : list){
-		    	listdto.add(DtoMapper.computerToDto(c));
+			for (Computer c : list) {
+				listdto.add(DtoMapper.computerToDto(c));
 			}
-			
-			page= new Page(index, nb, listdto);
-		
+
+			page = new Page(index, nb, listdto, this.getNbComputers(name));
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());
@@ -111,8 +109,10 @@ public enum ComputerDaoImpl {
 
 		} finally {
 			try {
-				result.close();
-				prep1.close();
+				if (result != null)
+					result.close();
+				if (prep1 != null)
+					prep1.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
@@ -125,8 +125,7 @@ public enum ComputerDaoImpl {
 
 	public int getNbComputers(String name) {
 
-		String query = "SELECT COUNT(*) "
-				+ "FROM computer "
+		String query = "SELECT COUNT(*) " + "FROM computer "
 				+ "LEFT JOIN company ON computer.company_id = company.id "
 				+ "WHERE computer.name LIKE ? OR company.name LIKE ?;";
 		Connection connect = null;
@@ -135,9 +134,9 @@ public enum ComputerDaoImpl {
 		int size = 0;
 
 		try {
-			connect = ConnectDao.instance.getConnection();
+			connect = ConnectDao.getConnection();
 			prep1 = connect.prepareStatement(query);
-			
+
 			prep1.setString(1, "%" + name + "%");
 			prep1.setString(2, "%" + name + "%");
 
@@ -178,7 +177,7 @@ public enum ComputerDaoImpl {
 		Connection connect = null;
 		Statement state = null;
 		try {
-			connect = ConnectDao.instance.getConnection();
+			connect = ConnectDao.getConnection();
 			state = connect.createStatement();
 
 			result = state
@@ -212,8 +211,7 @@ public enum ComputerDaoImpl {
 	 */
 	public List<Computer> getByName(String name) {
 
-		String query = "SELECT * "
-				+ "FROM computer "
+		String query = "SELECT * " + "FROM computer "
 				+ "LEFT JOIN company ON computer.company_id = company.id "
 				+ "WHERE computer.name LIKE ? OR company.name LIKE ?;";
 		List<Computer> comp = null;
@@ -222,12 +220,11 @@ public enum ComputerDaoImpl {
 		PreparedStatement prep1 = null;
 
 		try {
-			connect = ConnectDao.instance.getConnection();
+			connect = ConnectDao.getConnection();
 			prep1 = connect.prepareStatement(query);
 
 			prep1.setString(1, "%" + name + "%");
 			prep1.setString(2, "%" + name + "%");
-
 
 			result = prep1.executeQuery();
 			result.next();
@@ -274,7 +271,7 @@ public enum ComputerDaoImpl {
 
 		try {
 
-			connect = ConnectDao.instance.getConnection();
+			connect = ConnectDao.getConnection();
 			// TODO a sortir du try catch
 
 			prep1 = connect.prepareStatement(query);
@@ -330,7 +327,7 @@ public enum ComputerDaoImpl {
 		try {
 
 			String query = "DELETE FROM computer WHERE id= ?";
-			connect = ConnectDao.instance.getConnection();
+			connect = ConnectDao.getConnection();
 			prep1 = connect.prepareStatement(query);
 
 			prep1.setInt(1, id);
@@ -364,7 +361,7 @@ public enum ComputerDaoImpl {
 		PreparedStatement prep1 = null;
 
 		try {
-			connect = ConnectDao.instance.getConnection();
+			connect = ConnectDao.getConnection();
 			// TODO : sortir ça du try catch
 
 			String query = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";

@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.cdb.cli.util;
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.CompanyServiceImpl;
 import com.excilys.cdb.service.ComputerServiceImpl;
+import com.excilys.cdb.util.Util;
 
 /**
  * Servlet implementation class editComputer
@@ -102,14 +102,14 @@ public class EditComputer extends HttpServlet {
 		if (request.getParameter("introduced") != null
 				&& !request.getParameter("introduced").equals("null")
 				&& request.getParameter("introduced") != "") {
-			dateIntro = util.checkDate(request.getParameter("introduced"));
+			dateIntro = Util.checkDate(request.getParameter("introduced"));
 		} else {
 			dateIntro = null;
 		}
 		if (request.getParameter("discontinued") != null
 				&& !request.getParameter("discontinued").equals("null")
 				&& request.getParameter("discontinued") != "") {
-			dateDisc = util.checkDate(request.getParameter("discontinued"));
+			dateDisc = Util.checkDate(request.getParameter("discontinued"));
 		} else {
 			dateDisc = null;
 		}

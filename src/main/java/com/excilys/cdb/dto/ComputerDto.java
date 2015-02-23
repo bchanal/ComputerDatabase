@@ -1,11 +1,17 @@
 package com.excilys.cdb.dto;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.validation.*;
 
 public class ComputerDto {
 	private int id;
+	@NotBlank(message="name mandatory")
 	private String name;
+	@Date(message="wrong date format : introduced")
 	private String introduced;
+	@Date(message="wrong date format : introduced")
 	private String discontinued;
 	private Company company;
 	

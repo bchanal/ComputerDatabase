@@ -10,6 +10,7 @@ import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.*;
 import com.excilys.cdb.service.CompanyServiceImpl;
 import com.excilys.cdb.service.ComputerServiceImpl;
+import com.excilys.cdb.util.Util;
 
 /**
  * Cli is a user interface
@@ -72,7 +73,7 @@ public class Cli {
 		case "1":
 			System.out.println("List computers : ");
 			int index = 0;
-			Page page = new Page(index, 20);
+			Page page = ComputerServiceImpl.instance.getAPage(index, 20, "");
 			page.display();
 
 			break;
@@ -90,7 +91,7 @@ public class Cli {
 		case "3":
 			System.out.println("Id to display : ");
 			String idStr = scan.nextLine();
-			int id = util.checkId(idStr);
+			int id = Util.checkId(idStr);
 			Computer computer = ComputerServiceImpl.instance.getById(id);
 			if (computer != null) {
 				System.out.println(computer.toString());
@@ -175,21 +176,21 @@ public class Cli {
 		System.out.println("Id of the company");
 		String compStr = scan.nextLine();
 		// int comp = Integer.parseInt(compStr);
-		int comp = util.checkId(compStr);
+		int comp = Util.checkId(compStr);
 
 		LocalDateTime dateTime = null;
 		LocalDateTime dateTimeFin = null;
 
 		if (!date.equals("null")) {
 			// date.checkDate();
-			dateTime = util.checkDate(date);
+			dateTime = Util.checkDate(date);
 			// LocalDateTime.parse(date, formatter);
 		}
 
 		if (!dateFin.equals("null")) {
 			// dateFin.checkDate();
 			// dateTimeFin = LocalDateTime.parse(dateFin, formatter);
-			dateTimeFin = util.checkDate(dateFin);
+			dateTimeFin = Util.checkDate(dateFin);
 		}
 
 		ComputerServiceImpl.instance.create(nom, dateTime, dateTimeFin, comp);
@@ -225,7 +226,7 @@ public class Cli {
 			String dateUp = scan.nextLine();
 
 			if (!dateUp.equals("null")) {
-				dateTimeUp = util.checkDate(dateUp);
+				dateTimeUp = Util.checkDate(dateUp);
 				// dateTimeUp = LocalDateTime.parse(dateUp, formatterUp);
 			}
 		} else {
@@ -242,7 +243,7 @@ public class Cli {
 			String dateFinUp = scan.nextLine();
 
 			if (!dateFinUp.equals("null")) {
-				dateTimeFinUp = util.checkDate(dateFinUp);
+				dateTimeFinUp = Util.checkDate(dateFinUp);
 				// dateTimeFinUp = LocalDateTime.parse(dateFinUp, formatterUp);
 			}
 		} else {
@@ -256,7 +257,7 @@ public class Cli {
 		if (rep.equals("y")) {
 			System.out.println("Id  : ");
 			String compUpIdStr = scan.nextLine();
-			compUpId = util.checkId(compUpIdStr);
+			compUpId = Util.checkId(compUpIdStr);
 			// compUpId = Integer.parseInt(compUpIdStr);
 
 			CompanyServiceImpl cdao = CompanyServiceImpl.instance;

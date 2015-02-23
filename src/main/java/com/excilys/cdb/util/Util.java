@@ -1,11 +1,11 @@
-package com.excilys.cdb.cli;
+package com.excilys.cdb.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class util {
+public class Util {
 
 	private static final String DATE_REGEX = "(19|20)[0-9][0-9]-((0[1-9])|(1[0-2]))-((0[1-9])|([1-2][0-9])|(3[0-1]))(T|\\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9])";
 	private static final String INT_REGEX = "^[0-9]*$";

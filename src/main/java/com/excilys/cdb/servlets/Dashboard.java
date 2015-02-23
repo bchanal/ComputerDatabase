@@ -22,13 +22,9 @@ public class Dashboard extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	//private static final long serialVersionUID = 1L;
-	//private static final String ATT_NBCOMPUTERS = "nbTotalComputer";
-	//private static final String ATT_NBPERPAGE = "nbPerPage";
 	private static final String ATT_SEARCH = "search";
-
+	private static final String ATT_NUMPAGE = "numPage";
 	private static final String ATT_PAGE = "page";
-	//private static final String ATT_NBPAGES = "nbTotalPages";
 	private static final String VUE = "/static/views/dashboard.jsp";
 
 	public Dashboard() {
@@ -43,11 +39,9 @@ public class Dashboard extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String nameSearched = "";
-		int nbPP = 50;
+		int nbPP = 50; // a definir par défaut dans la page
 		int numPage = 1;
-
-		//int nbComputers = getNbComputers(request); // trouver comment le faire
-													// en fonction de la requete
+		//TODO mettre dans static final
 
 		if (request.getParameter("nbPerPage") != null) {
 			nbPP = Integer.parseInt(request.getParameter("nbPerPage"));
@@ -61,27 +55,15 @@ public class Dashboard extends HttpServlet {
 			nameSearched = request.getParameter("search");
 		}
 
-		Page p = getAPage(numPage, nbPP, nameSearched);
+		Page page = getAPage(numPage, nbPP, nameSearched);
 		
-		//request.setAttribute(ATT_NBCOMPUTERS, p.getNbTotalComputer());
-		//request.setAttribute(ATT_NBPAGES,p.getNbTotalPages());
-		request.setAttribute(ATT_PAGE, numPage);
-		//request.setAttribute(ATT_NBPERPAGE, nbPP);
+
+		request.setAttribute(ATT_NUMPAGE, numPage);
 		request.setAttribute(ATT_SEARCH, nameSearched);
-		request.setAttribute(ATT_PAGE, p);
+		request.setAttribute(ATT_PAGE, page);
 
 
 		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
-		
 	}
 	
 	protected Page getAPage(int numPage, int nbPP, String search) {

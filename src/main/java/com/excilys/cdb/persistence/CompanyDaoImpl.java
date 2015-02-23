@@ -42,7 +42,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 		ResultSet result = null;
 
 		try {
-			connect = ConnectDao.instance.getConnection();
+			connect = ConnectDao.getConnection();
 			state = connect.createStatement();
 			result = state.executeQuery("SELECT * FROM company");
 			listCompany = CompanyMapper.instance.toList(result);
@@ -77,7 +77,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 		try {
 
 			String query = "SELECT * FROM company WHERE id= ?";
-			connect = ConnectDao.instance.getConnection();
+			connect = ConnectDao.getConnection();
 			prep1 = connect.prepareStatement(query);
 
 			prep1.setInt(1, id);
@@ -102,17 +102,18 @@ public enum CompanyDaoImpl implements CompanyDao {
 		return comp;
 	}
 	
-	public synchronized static void delete(int id) {
-		Connection connect = null;
+	public synchronized static void delete(Connection connect, int id) {
+		//Connection connect = null;
 		PreparedStatement prep1 = null;
 		PreparedStatement prep2 = null;
 		try {
-
 			String query = "DELETE FROM computer WHERE company_id= ?";
 			String query2 = "DELETE FROM company WHERE id= ?";
 			System.out.println(id);
 
-			connect = ConnectDao.instance.getConnection();
+//			connect = ConnectDao.getConnection();
+//			connect.setAutoCommit(false);
+
 			prep1 = connect.prepareStatement(query);
 			prep1.setInt(1, id);
 			prep1.executeUpdate();
@@ -120,8 +121,18 @@ public enum CompanyDaoImpl implements CompanyDao {
 			prep2 = connect.prepareStatement(query2);
 			prep2.setInt(1, id);
 			prep2.executeUpdate();
+//			connect.commit();
 
 		} catch (SQLException e) {
+//			if(connect!=null){
+//				try {
+//					connect.rollback();
+//				} catch (SQLException e1) {
+//					e.printStackTrace();
+//					LOGGER.error(e.getMessage());
+//					throw new RuntimeException();
+//				}
+//			}
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());
 			throw new RuntimeException();
@@ -129,11 +140,12 @@ public enum CompanyDaoImpl implements CompanyDao {
 		} finally {
 			try {
 				prep1.close();
+				prep2.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
 			}
-			ConnectDao.close(connect);
+//			ConnectDao.close(connect);
 		}
 	}
 

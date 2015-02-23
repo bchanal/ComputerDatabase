@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.cdb.cli.util;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.service.CompanyServiceImpl;
 import com.excilys.cdb.service.ComputerServiceImpl;
+import com.excilys.cdb.util.Util;
 
 @WebServlet("/add-computer")
 public class AddComputer extends HttpServlet {
@@ -32,8 +32,7 @@ public class AddComputer extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
 
 		List<Company> listCompanies = getCompanies(request);
 		request.setAttribute(ATT_LISTCOMPANIES, listCompanies);
@@ -46,19 +45,15 @@ public class AddComputer extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		List<Company> listCompanies = getCompanies(request);
-		request.setAttribute(ATT_LISTCOMPANIES, listCompanies);
-
 		createComputer(request, response);
 
-		this.getServletContext().getRequestDispatcher(VUE)
-				.forward(request, response);
+		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 
 	}
 
 	private void createComputer(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-
+//TODO : Dto, validator sur le dto, 
 		LocalDateTime dateIntro;
 		LocalDateTime dateDisc;
 		int companyId;
@@ -67,14 +62,14 @@ public class AddComputer extends HttpServlet {
 		if (request.getParameter("introduced") != null
 				&& !request.getParameter("introduced").equals("null")
 				&& request.getParameter("introduced") != "") {
-			dateIntro = util.checkDate(request.getParameter("introduced"));
+			dateIntro = Util.checkDate(request.getParameter("introduced"));
 		} else {
 			dateIntro = null;
 		}
 		if (request.getParameter("discontinued") != null
 				&& !request.getParameter("discontinued").equals("null")
 				&& request.getParameter("discontinued") != "") {
-			dateDisc = util.checkDate(request.getParameter("discontinued"));
+			dateDisc = Util.checkDate(request.getParameter("discontinued"));
 		} else {
 			dateDisc = null;
 		}

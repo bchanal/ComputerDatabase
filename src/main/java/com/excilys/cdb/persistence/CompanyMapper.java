@@ -27,8 +27,7 @@ public enum CompanyMapper implements RowMapper<Company> {
 		Company company = null;
 
 		try {
-			rs.next();
-			 company = new Company(rs.getInt("id"), rs.getString("name"));
+			company = new Company(rs.getInt("id"), rs.getString("name"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());

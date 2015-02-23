@@ -1,6 +1,6 @@
 package com.excilys.cdb.model;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,29 +15,42 @@ import com.excilys.cdb.service.ComputerServiceImpl;
  */
 public class Page {
 
+	@Override
+	public String toString() {
+		return "Page [list=" + list + ", nbPerPage=" + nbPerPage
+				+ ", nbTotalComputer=" + nbTotalComputer + ", nbTotalPages="
+				+ nbTotalPages + ", index=" + index + ", range="
+				+ Arrays.toString(range) + "]";
+	}
+
 	private List<ComputerDto> list;
 	private int nbPerPage;
 	private int nbTotalComputer;
 	private int nbTotalPages;
 	private int index;
+	private int[] range = new int[2];
 
-	public Page() {
-		this.list = new ArrayList<ComputerDto>();
-		this.nbPerPage = 10;
-		this.index = 1;
-		this.nbTotalPages=(int) Math.ceil(nbTotalComputer/nbPerPage);
-	}
+//	public Page() {
+//		this.list = new ArrayList<ComputerDto>();
+//		this.nbPerPage = 10;
+//		this.index = 1;
+//		this.nbTotalPages=(int) Math.ceil(nbTotalComputer/nbPerPage);
+//	}
 
-	public Page(int index, int nb) {
-		this.index = index;
-		this.nbPerPage = nb;
-	}
+//	public Page(int index, int nb) {
+//		this.index = index;
+//		this.nbPerPage = nb;
+//	}
 
-	public Page(int index, int nb, List<ComputerDto> list) {
+	public Page(int index, int nb, List<ComputerDto> list, int nbTotal) {
 		this.index = index;
 		this.nbPerPage = nb;
 		this.list = list;
+		this.nbTotalComputer = nbTotal+1;
 		this.nbTotalPages=(int) Math.ceil(nbTotalComputer/nbPerPage);
+		this.range[0] = Math.max(1, this.index/this.nbPerPage -5);
+		this.range[1] = Math.min(nbTotalPages, this.index/this.nbPerPage +5);
+
 	}
 
 	public int getNbPerPage() {
@@ -79,6 +92,14 @@ public class Page {
 	public void setIndex(int index) {
 		this.index = index;
 	}
+	
+	public int[] getRange() {
+		return range;
+	}
+
+	public void setRange(int[] range) {
+		this.range = range;
+	}
 
 	/**
 	 * display the results by page, with a certain number of results per page
@@ -104,7 +125,6 @@ public class Page {
 			if (ok.equals("p")) {
 				index = index - nbPerPage;
 			} else if (ok.equals("q")) {
-				// break;
 				fini = true;
 			} else {
 				index = index + nbPerPage;
