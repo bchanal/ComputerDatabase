@@ -54,6 +54,34 @@ public class AddComputer extends HttpServlet {
 	private void createComputer(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 //TODO : Dto, validator sur le dto, 
+		
+//		final String name = request.getParameter("computerName");
+//		final String introduced = request.getParameter("introduced");
+//		final String discontinued = request.getParameter("discontinued");
+//		final int companyId = Integer.parseInt(request
+//				.getParameter("companyId"));
+//
+//		Company comp = CompanyServiceImpl.instance.getById(companyId);
+//
+//		ComputerDto cdto = new ComputerDto(0, name, introduced, discontinued,
+//				comp);
+//
+//		List<String> validationErrors = new ArrayList<>();
+//		validationErrors = ComputerDto.validate(cdto);
+//
+//		if (validationErrors.size() == 0) {
+//			this.computerService.add(ComputerDtoMapper.ComputerFromDto(computerDto));
+//			LOGGER.info("Computer added with success, redirecting to the Dashboard");
+//			response.sendRedirect(request.getContextPath() + "/dashboard");
+//		} else {
+//			LOGGER.info("Wrong input, redirecting to the view");
+//			request.setAttribute("validationErrors", validationErrors);
+//			doGet(request, response);
+//		}
+//
+//	}
+	
+	
 		LocalDateTime dateIntro;
 		LocalDateTime dateDisc;
 		int companyId;

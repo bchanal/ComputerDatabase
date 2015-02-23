@@ -18,9 +18,7 @@ import com.excilys.cdb.service.ComputerServiceImpl;
  */
 @WebServlet("/dashboard")
 public class Dashboard extends HttpServlet {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private static final String ATT_SEARCH = "search";
 	private static final String ATT_NUMPAGE = "numPage";
