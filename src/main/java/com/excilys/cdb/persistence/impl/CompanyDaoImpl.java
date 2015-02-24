@@ -1,4 +1,4 @@
-package com.excilys.cdb.persistence;
+package com.excilys.cdb.persistence.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.model.*;
+import com.excilys.cdb.persistence.CompanyDao;
+import com.excilys.cdb.persistence.ConnectDao;
+import com.excilys.cdb.persistence.mapper.CompanyMapper;
 
 /**
  * CompanyDAO contains all the requests concerning companies
@@ -33,7 +36,6 @@ public enum CompanyDaoImpl implements CompanyDao {
 	 * create a DAO, get the list of companies and return it in a ArrayList
 	 * 
 	 * @return listCompany : all the companies in a list
-	 * @throws SQLException
 	 */
 	public List<Company> getAll() {
 		List<Company> listCompany = new ArrayList<Company>();

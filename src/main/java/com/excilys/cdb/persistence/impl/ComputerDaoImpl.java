@@ -1,4 +1,4 @@
-package com.excilys.cdb.persistence;
+package com.excilys.cdb.persistence.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.*;
+import com.excilys.cdb.persistence.ConnectDao;
+import com.excilys.cdb.persistence.util;
+import com.excilys.cdb.persistence.mapper.ComputerMapper;
 
 /**
  * ComputerDAO contains all the requests concerning the computers
@@ -69,15 +72,18 @@ public enum ComputerDaoImpl {
 	/**
 	 * get All computers and return them in a list
 	 * 
-	 * @param index the first id requested
-	 * @param nb the number of computers we want
-	 * @param name the name searched
+	 * @param index
+	 *            the first id requested
+	 * @param nb
+	 *            the number of computers we want
+	 * @param name
+	 *            the name searched
 	 * @return list the list of computers
 	 */
 	public Page getAPage(int index, int nb, String name) {
 
-		String query = "SELECT * FROM computer WHERE name LIKE ? ORDER BY id LIMIT ? , ?;";
-		// String query = "SELECT * FROM computer WHERE id > AND id < ?;";
+		String query = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY computer.id LIMIT ? , ?;";
+		// String query = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.id > AND computer.id < ?;";
 		Connection connect = null;
 		ResultSet result = null;
 		PreparedStatement prep1 = null;
@@ -88,17 +94,20 @@ public enum ComputerDaoImpl {
 
 		try {
 			connect = ConnectDao.getConnection();
+
 			prep1 = connect.prepareStatement(query);
 
 			prep1.setString(1, "%" + name + "%");
+			prep1.setString(2, "%" + name + "%");
 
-			prep1.setInt(2, index);
-			prep1.setInt(3, nb);
+			prep1.setInt(3, index);
+			prep1.setInt(4, nb);
 
 			result = prep1.executeQuery();
 
 			list = ComputerMapper.instance.toList(result);
 
+			// TODO : faire ces trois lignes en Stream
 			for (Computer c : list) {
 				listdto.add(DtoMapper.computerToDto(c));
 			}
@@ -112,24 +121,29 @@ public enum ComputerDaoImpl {
 
 		} finally {
 			try {
-				if (result != null)
-					result.close();
-				if (prep1 != null)
-					prep1.close();
+				 if (result != null)
+					 result.close();
+				 if (prep1 != null)
+					 prep1.close();
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
 			}
 			ConnectDao.close(connect);
+
 		}
 
 		return page;
 	}
-/**
- * get the number of computers for a request
- * @param name the name searched
- * @return size the number of results
- */
+
+	/**
+	 * get the number of computers for a request
+	 * 
+	 * @param name
+	 *            the name searched
+	 * @return size the number of results
+	 */
 	public int getNbComputers(String name) {
 
 		String query = "SELECT COUNT(*) " + "FROM computer "
@@ -175,20 +189,22 @@ public enum ComputerDaoImpl {
 	/**
 	 * get a computer by id
 	 * 
-	 * @param id
+	 * @param id the id to get
 	 * @return comp the Computer requested
 	 */
 	public Computer getById(int id) {
 		Computer comp = null;
 		ResultSet result = null;
 		Connection connect = null;
-		Statement state = null;
+		PreparedStatement prep1 = null;
+		String query = "SELECT * FROM computer WHERE id= ?";
 		try {
 			connect = ConnectDao.getConnection();
-			state = connect.createStatement();
+			prep1 = connect.prepareStatement(query);
 
-			result = state
-					.executeQuery("SELECT * FROM computer WHERE id=" + id);
+			prep1.setInt(1, id);
+
+			result = prep1.executeQuery();
 			result.next();
 			comp = ComputerMapper.instance.toObject(result);
 
@@ -199,7 +215,7 @@ public enum ComputerDaoImpl {
 		} finally {
 			try {
 				result.close();
-				state.close();
+				prep1.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
@@ -213,7 +229,7 @@ public enum ComputerDaoImpl {
 	/**
 	 * get a computer by name
 	 * 
-	 * @param name
+	 * @param name the name searched
 	 * @return comp the Computer requested
 	 */
 	public List<Computer> getByName(String name) {
@@ -270,7 +286,8 @@ public enum ComputerDaoImpl {
 	 * @param comp
 	 *            the id of the computer's company (if exists, 0 otherwise)
 	 */
-	public void create(String name, LocalDateTime dateTime,	LocalDateTime dateTimeFin, int comp) {
+	public void create(String name, LocalDateTime dateTime,
+			LocalDateTime dateTimeFin, int comp) {
 		String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 		Connection connect = null;
 		PreparedStatement prep1 = null;
@@ -278,9 +295,7 @@ public enum ComputerDaoImpl {
 		try {
 
 			connect = ConnectDao.getConnection();
-
 			prep1 = connect.prepareStatement(query);
-
 			prep1.setString(1, name);
 
 			if (dateTime != null) {
@@ -329,9 +344,10 @@ public enum ComputerDaoImpl {
 	public synchronized static void delete(int id) {
 		Connection connect = null;
 		PreparedStatement prep1 = null;
+		String query = "DELETE FROM computer WHERE id= ?";
+
 		try {
 
-			String query = "DELETE FROM computer WHERE id= ?";
 			connect = ConnectDao.getConnection();
 			prep1 = connect.prepareStatement(query);
 
@@ -359,7 +375,6 @@ public enum ComputerDaoImpl {
 	 * 
 	 * @param computer
 	 *            the computer to update
-	 * @throws SQLException
 	 */
 	public synchronized void update(Computer computer) {
 		Connection connect = null;
@@ -373,13 +388,15 @@ public enum ComputerDaoImpl {
 			prep1.setString(1, computer.getName());
 
 			if (computer.getDateIntro() != null) {
-				prep1.setTimestamp(2,util.getTimestamp(computer.getDateIntro()));
+				prep1.setTimestamp(2,
+						util.getTimestamp(computer.getDateIntro()));
 			} else {
 				prep1.setNull(2, java.sql.Types.TIMESTAMP);
 			}
 
 			if (computer.getDateDiscontinued() != null) {
-				prep1.setTimestamp(3,util.getTimestamp(computer.getDateDiscontinued()));
+				prep1.setTimestamp(3,
+						util.getTimestamp(computer.getDateDiscontinued()));
 			} else {
 				prep1.setNull(3, java.sql.Types.TIMESTAMP);
 			}

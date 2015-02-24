@@ -1,4 +1,4 @@
-package com.excilys.cdb.persistence;
+package com.excilys.cdb.persistence.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ import java.util.List;
  * 
  * @author berangere
  *
- * @param <T>
+ * @param <T> the content to map
  */
 public interface RowMapper<T> {
 
