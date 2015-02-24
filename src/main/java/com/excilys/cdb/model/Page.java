@@ -103,6 +103,7 @@ public class Page {
 
 	/**
 	 * display the results by page, with a certain number of results per page
+	 * TODO: a supprimer
 	 */
 	public void display() {
 

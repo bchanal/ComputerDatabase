@@ -5,13 +5,21 @@ import java.time.LocalDateTime;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.util.Util;
-
+/**
+ * 
+ * @author berangere
+ *
+ */
 public class DtoMapper {
 	
 	public DtoMapper(){
 		
 	}
-	
+	/**
+	 * get a Dto from a computer
+	 * @param computer
+	 * @return computerDto : the computer with the dates in String format
+	 */
     public static ComputerDto computerToDto(Computer computer) {
     	
     	String introduced="";
@@ -36,7 +44,11 @@ public class DtoMapper {
         return cdto;    
         
     }
-    
+    /**
+     * get a computer from a dto
+     * @param computerd the computerDto
+     * @return computer the computer
+     */
     public static Computer dtoToComputer(ComputerDto computerd) {
     	
         int id = computerd.getId();

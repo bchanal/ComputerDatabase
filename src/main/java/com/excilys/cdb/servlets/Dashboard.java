@@ -60,7 +60,6 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute(ATT_SEARCH, nameSearched);
 		request.setAttribute(ATT_PAGE, page);
 
-
 		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 	}
 	

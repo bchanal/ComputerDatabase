@@ -25,8 +25,7 @@ public class ComputerDtoValidation {
 		if (constraintViolations.size() > 0) {
 			System.out.println("Impossible to validate dates : ");
 			for (ConstraintViolation<ComputerDto> contraintes : constraintViolations) {
-				String error = (contraintes.getRootBeanClass()
-						.getSimpleName()
+				String error = (contraintes.getRootBeanClass().getSimpleName()
 						+ "."
 						+ contraintes.getPropertyPath()
 						+ " " + contraintes.getMessage());

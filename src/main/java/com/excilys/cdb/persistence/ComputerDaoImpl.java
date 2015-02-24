@@ -35,7 +35,7 @@ public enum ComputerDaoImpl {
 	/**
 	 * get All computers and return them in a list
 	 * 
-	 * @return list the list of computers
+	 * @return list the list of all computers
 	 */
 	public static List<Computer> getAll() {
 		ResultSet result = null;
@@ -69,6 +69,9 @@ public enum ComputerDaoImpl {
 	/**
 	 * get All computers and return them in a list
 	 * 
+	 * @param index the first id requested
+	 * @param nb the number of computers we want
+	 * @param name the name searched
 	 * @return list the list of computers
 	 */
 	public Page getAPage(int index, int nb, String name) {
@@ -122,7 +125,11 @@ public enum ComputerDaoImpl {
 
 		return page;
 	}
-
+/**
+ * get the number of computers for a request
+ * @param name the name searched
+ * @return size the number of results
+ */
 	public int getNbComputers(String name) {
 
 		String query = "SELECT COUNT(*) " + "FROM computer "
@@ -263,8 +270,7 @@ public enum ComputerDaoImpl {
 	 * @param comp
 	 *            the id of the computer's company (if exists, 0 otherwise)
 	 */
-	public void create(String name, LocalDateTime dateTime,
-			LocalDateTime dateTimeFin, int comp) {
+	public void create(String name, LocalDateTime dateTime,	LocalDateTime dateTimeFin, int comp) {
 		String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 		Connection connect = null;
 		PreparedStatement prep1 = null;
@@ -272,7 +278,6 @@ public enum ComputerDaoImpl {
 		try {
 
 			connect = ConnectDao.getConnection();
-			// TODO a sortir du try catch
 
 			prep1 = connect.prepareStatement(query);
 
@@ -359,26 +364,22 @@ public enum ComputerDaoImpl {
 	public synchronized void update(Computer computer) {
 		Connection connect = null;
 		PreparedStatement prep1 = null;
+		String query = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
 
 		try {
 			connect = ConnectDao.getConnection();
-			// TODO : sortir ça du try catch
 
-			String query = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
 			prep1 = connect.prepareStatement(query);
-
 			prep1.setString(1, computer.getName());
 
 			if (computer.getDateIntro() != null) {
-				prep1.setTimestamp(2,
-						util.getTimestamp(computer.getDateIntro()));
+				prep1.setTimestamp(2,util.getTimestamp(computer.getDateIntro()));
 			} else {
 				prep1.setNull(2, java.sql.Types.TIMESTAMP);
 			}
 
 			if (computer.getDateDiscontinued() != null) {
-				prep1.setTimestamp(3,
-						util.getTimestamp(computer.getDateDiscontinued()));
+				prep1.setTimestamp(3,util.getTimestamp(computer.getDateDiscontinued()));
 			} else {
 				prep1.setNull(3, java.sql.Types.TIMESTAMP);
 			}

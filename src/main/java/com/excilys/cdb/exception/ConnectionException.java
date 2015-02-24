@@ -3,12 +3,11 @@ package com.excilys.cdb.exception;
 public class ConnectionException extends RuntimeException {
 
 	/**
-	 * 
+	 * @author berangere
 	 */
 	private static final long serialVersionUID = 1L;
 
 	public ConnectionException() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public ConnectionException(String message) {

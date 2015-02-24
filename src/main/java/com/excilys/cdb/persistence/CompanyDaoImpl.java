@@ -101,18 +101,18 @@ public enum CompanyDaoImpl implements CompanyDao {
 
 		return comp;
 	}
-	
+	/**
+	 * delete 	 company and all the computers made by this company
+	 * @param connect the connection
+	 * @param id the id of the computer to delete
+	 */
 	public synchronized static void delete(Connection connect, int id) {
-		//Connection connect = null;
 		PreparedStatement prep1 = null;
 		PreparedStatement prep2 = null;
 		try {
 			String query = "DELETE FROM computer WHERE company_id= ?";
 			String query2 = "DELETE FROM company WHERE id= ?";
 			System.out.println(id);
-
-//			connect = ConnectDao.getConnection();
-//			connect.setAutoCommit(false);
 
 			prep1 = connect.prepareStatement(query);
 			prep1.setInt(1, id);
@@ -121,18 +121,8 @@ public enum CompanyDaoImpl implements CompanyDao {
 			prep2 = connect.prepareStatement(query2);
 			prep2.setInt(1, id);
 			prep2.executeUpdate();
-//			connect.commit();
 
 		} catch (SQLException e) {
-//			if(connect!=null){
-//				try {
-//					connect.rollback();
-//				} catch (SQLException e1) {
-//					e.printStackTrace();
-//					LOGGER.error(e.getMessage());
-//					throw new RuntimeException();
-//				}
-//			}
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());
 			throw new RuntimeException();
@@ -145,7 +135,6 @@ public enum CompanyDaoImpl implements CompanyDao {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
 			}
-//			ConnectDao.close(connect);
 		}
 	}
 

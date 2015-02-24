@@ -2,7 +2,7 @@ package com.excilys.cdb.servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,10 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.cdb.dto.ComputerDto;
+import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.CompanyServiceImpl;
 import com.excilys.cdb.service.ComputerServiceImpl;
-import com.excilys.cdb.util.Util;
+import com.excilys.cdb.validation.ComputerDtoValidation;
 
 @WebServlet("/add-computer")
 public class AddComputer extends HttpServlet {
@@ -52,64 +55,37 @@ public class AddComputer extends HttpServlet {
 	}
 
 	private void createComputer(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
-//TODO : Dto, validator sur le dto, 
+			HttpServletResponse response) throws IOException, ServletException{
 		
-//		final String name = request.getParameter("computerName");
-//		final String introduced = request.getParameter("introduced");
-//		final String discontinued = request.getParameter("discontinued");
-//		final int companyId = Integer.parseInt(request
-//				.getParameter("companyId"));
-//
-//		Company comp = CompanyServiceImpl.instance.getById(companyId);
-//
-//		ComputerDto cdto = new ComputerDto(0, name, introduced, discontinued,
-//				comp);
-//
-//		List<String> validationErrors = new ArrayList<>();
-//		validationErrors = ComputerDto.validate(cdto);
-//
-//		if (validationErrors.size() == 0) {
-//			this.computerService.add(ComputerDtoMapper.ComputerFromDto(computerDto));
-//			LOGGER.info("Computer added with success, redirecting to the Dashboard");
-//			response.sendRedirect(request.getContextPath() + "/dashboard");
-//		} else {
-//			LOGGER.info("Wrong input, redirecting to the view");
-//			request.setAttribute("validationErrors", validationErrors);
-//			doGet(request, response);
-//		}
-//
-//	}
-	
-	
-		LocalDateTime dateIntro;
-		LocalDateTime dateDisc;
-		int companyId;
+		final String name = request.getParameter("computerName");
+		final String introduced = request.getParameter("introduced");
+		final String discontinued = request.getParameter("discontinued");
+		final int companyId = Integer.parseInt(request.getParameter("companyId"));
 
-		String name = request.getParameter("computerName");
-		if (request.getParameter("introduced") != null
-				&& !request.getParameter("introduced").equals("null")
-				&& request.getParameter("introduced") != "") {
-			dateIntro = Util.checkDate(request.getParameter("introduced"));
-		} else {
-			dateIntro = null;
-		}
-		if (request.getParameter("discontinued") != null
-				&& !request.getParameter("discontinued").equals("null")
-				&& request.getParameter("discontinued") != "") {
-			dateDisc = Util.checkDate(request.getParameter("discontinued"));
-		} else {
-			dateDisc = null;
-		}
-		if (request.getParameter("companyId") != null
-				&& !request.getParameter("companyId").equals("null")
-				&& request.getParameter("companyId") != "") {
-			companyId = Integer.parseInt(request.getParameter("companyId"));
-		} else {
-			companyId = 0;
+		Company comp = null;
+		try {
+			comp = CompanyServiceImpl.instance.getById(companyId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.error(e.getMessage());
+			throw new RuntimeException();
 		}
 
-		ComputerServiceImpl.instance.create(name, dateIntro, dateDisc, companyId);
+		ComputerDto cdto = new ComputerDto(0, name, introduced, discontinued,comp);
+
+		List<String> validationErrors = new ArrayList<>();
+		validationErrors = ComputerDtoValidation.validate(cdto);
+
+		if (validationErrors.size() == 0) {
+			Computer c = DtoMapper.dtoToComputer(cdto);
+			ComputerServiceImpl.instance.create(c.getName(), c.getDateIntro(), c.getDateDiscontinued(), c.getManufacturer().getId());
+			LOGGER.info("Computer added with success, redirecting to the Dashboard");
+			response.sendRedirect(request.getContextPath() + "/dashboard");
+		} else {
+			LOGGER.info("Wrong input, redirecting to the view");
+			request.setAttribute("validationErrors", validationErrors);
+			doGet(request, response);
+		}
 
 	}
 

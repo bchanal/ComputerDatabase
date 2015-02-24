@@ -145,7 +145,7 @@ public class Cli {
 				System.out.println(c.toString());
 			}
 
-			CompanyDaoImpl.delete(id);
+			CompanyServiceImpl.instance.delete(id);
 			System.out.println("Done !");
 			break;
 

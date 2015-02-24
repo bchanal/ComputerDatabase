@@ -19,8 +19,14 @@ public enum CompanyMapper implements RowMapper<Company> {
 
 	instance;
 
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(CompanyMapper.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(CompanyMapper.class);
+
+	
+	/**
+	 * toObject return an object company from a resultset
+	 * @param rs the resultset
+	 * @return company the company
+	 */
 
 	@Override
 	public Company toObject(ResultSet rs) {
