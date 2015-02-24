@@ -21,11 +21,11 @@ public class ComputerDto {
 	/**
 	 * Constructor from computerDto
 	 * 
-	 * @param id
-	 * @param name
-	 * @param date1
-	 * @param date2
-	 * @param company
+	 * @param id the id
+	 * @param name the name of the computerdto
+	 * @param date1 the date it was introduced
+	 * @param date2 thedate it was discontinued
+	 * @param company the company which made the computer(dto)
 	 */
 	public ComputerDto(int id, String name, String date1, String date2, Company company) {
         super();
@@ -67,7 +67,7 @@ public class ComputerDto {
 	}
 /**
  * set the name of thr computerdto
- * @param name
+ * @param name the name to set
  */
 	public void setName(String name) {
 		this.name = name;

@@ -17,7 +17,7 @@ public class DtoMapper {
 	}
 	/**
 	 * get a Dto from a computer
-	 * @param computer
+	 * @param computer the computer
 	 * @return computerDto : the computer with the dates in String format
 	 */
     public static ComputerDto computerToDto(Computer computer) {

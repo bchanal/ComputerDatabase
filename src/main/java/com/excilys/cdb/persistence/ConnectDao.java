@@ -19,22 +19,23 @@ import com.jolbox.bonecp.BoneCPConfig;
  */
 public class ConnectDao {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(ConnectDao.class);
-	
-	private static final String URL =PropertyValue.instance.getUrl();
-	private static final String USER =PropertyValue.instance.getUser();
-	private static final String PASSWD =PropertyValue.instance.getPasswd();
-	private static final int MINCONNECTIONS =PropertyValue.instance.getMin();
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(ConnectDao.class);
+
+	private static final String URL = PropertyValue.instance.getUrl();
+	private static final String USER = PropertyValue.instance.getUser();
+	private static final String PASSWD = PropertyValue.instance.getPasswd();
+	private static final int MINCONNECTIONS = PropertyValue.instance.getMin();
 	private static final int MAXCONNECTIONS = PropertyValue.instance.getMax();
-	private static final int PARTITIONCOUNT =PropertyValue.instance.getPartitionCount();
+	private static final int PARTITIONCOUNT = PropertyValue.instance.getPartitionCount();
 	private static BoneCP CONNECTIONPOOL;
+
+	private static ThreadLocal<Connection> connectThread = new ThreadLocal<Connection>();
 
 	/**
 	 * initialize connection
 	 */
 	static {
-		System.out.println("salut");
-
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -66,19 +67,16 @@ public class ConnectDao {
 	 * @throws SQLException
 	 */
 	public static Connection getConnection() throws SQLException {
-		Connection connect = null;
-
-		try {
-			// connect = DriverManager.getConnection(URL, USER, PASSWD);
-			connect = CONNECTIONPOOL.getConnection();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.error(e.getMessage());
-			throw new ConnectionException();
+		
+		if (connectThread.get() == null) {
+			connectThread.set(CONNECTIONPOOL.getConnection());
+			}
+		
+		if (connectThread.get() != null) {
+			LOGGER.debug("get a connection from the threadlocal "+ connectThread.get().hashCode());
+			return connectThread.get();
 		}
-
-		return connect;
+		return connectThread.get();
 	}
 
 	/**
