@@ -19,6 +19,11 @@ hs_err_pid*
 .metadata
 .settings/
 
+#doc
+doc/*
+target/*
+
+
 
 
 
