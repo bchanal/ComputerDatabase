@@ -4,8 +4,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application -
-				ComputerDatabase </a>
+			<a class="navbar-brand" href="dashboard"> Application -	ComputerDatabase </a>
 		</div>
 	</header>
 
@@ -20,43 +19,38 @@
 						<input type="hidden" value="0" />
 						<fieldset>
 							<div class="form-group">
-								<label for="computerName">Computer name</label> <input required
-									type="text" class="form-control" id="computerName"
-									name="computerName" placeholder="Computer name"
-									value="${ computer.name }">
-								<div>
-									<div class="form-group">
-										<label for="introduced">Introduced date</label> <input
-											type="datetime-local" class="form-control" id="introduced"
-											name="introduced" placeholder="Introduced date"
-											value=${ computer.introduced }> <span
-											class="errorintroduced">Wrong format !</span>
+								<label for="computerName">Computer name</label> 
+								<input required	type="text" class="form-control" id="computerName"
+									name="computerName" placeholder="Computer name"	value="${ computer.name }">
+							</div>
+							<div class="form-group">
+								<label for="introduced">Introduced date</label> 
+								<input type="datetime-local" class="form-control" id="introduced"
+									name="introduced" placeholder="Introduced date"	value=${ computer.introduced }> 
+								<span class="errorintroduced">Wrong format !</span>
 
-									</div>
-									<div class="form-group">
-										<label for="discontinued">Discontinued date</label> <input
-											type="datetime-local" class="form-control" id="discontinued"
-											name="discontinued" placeholder="Discontinued date"
-											value=${ computer.discontinued }><span
-											class="errordiscontinued">Wrong format !</span>
+							</div>
+							<div class="form-group">
+								<label for="discontinued">Discontinued date</label> 
+								<input	type="datetime-local" class="form-control" id="discontinued"
+									name="discontinued" placeholder="Discontinued date"	value=${ computer.discontinued }>
+								<span class="errordiscontinued">Wrong format !</span>
 
-									</div>
-									<div class="form-group">
-										<label for="companyId">Company</label> <select
-											class="form-control" id="companyId" name="companyId">
-											<option value=${ computer.company.id }>${ computer.company.name }</option>
-
-											<c:forEach items="${ listCompanies }" var="company"
-												varStatus="boucle">
-												<option value="${ company.id }">${ company.name }</option>
-											</c:forEach>
-										</select>
-									</div>
+							</div>
+							<div class="form-group">
+								<label for="companyId">Company</label> 
+								<select	class="form-control" id="companyId" name="companyId">
+									<option value=${ computer.company.id }>${ computer.company.name }</option>
+									<c:forEach items="${ listCompanies }" var="company"	varStatus="boucle">
+										<option value="${ company.id }">${ company.name }</option>
+									</c:forEach>
+								</select>
+							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input id="btnSubmit" type="submit" value="Edit"
-								class="btn btn-primary"> or <a href="dashboard"
-								class="btn btn-default">Cancel</a>
+							<input id="btnSubmit" type="submit" value="Edit" class="btn btn-primary">
+							 or 
+							 <a href="dashboard"	class="btn btn-default">Cancel</a>
 						</div>
 					</form>
 				</div>

@@ -2,7 +2,6 @@ package com.excilys.cdb.servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +18,9 @@ import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.service.CompanyServiceImpl;
-import com.excilys.cdb.service.ComputerServiceImpl;
-import com.excilys.cdb.util.Util;
-import com.excilys.cdb.validation.ComputerDtoValidation;
+import com.excilys.cdb.service.impl.CompanyServiceImpl;
+import com.excilys.cdb.service.impl.ComputerServiceImpl;
+import com.excilys.cdb.validation.DtoValidation;
 
 /**
  * Servlet implementation class editComputer
@@ -117,7 +115,7 @@ public class EditComputer extends HttpServlet {
 				comp);
 
 		List<String> validationErrors = new ArrayList<>();
-		validationErrors = ComputerDtoValidation.validate(cdto);
+		validationErrors = DtoValidation.validate(cdto);
 
 		if (validationErrors.size() == 0) {
 			Computer c = DtoMapper.dtoToComputer(cdto);

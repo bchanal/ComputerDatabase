@@ -18,9 +18,9 @@ import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.service.CompanyServiceImpl;
-import com.excilys.cdb.service.ComputerServiceImpl;
-import com.excilys.cdb.validation.ComputerDtoValidation;
+import com.excilys.cdb.service.impl.CompanyServiceImpl;
+import com.excilys.cdb.service.impl.ComputerServiceImpl;
+import com.excilys.cdb.validation.DtoValidation;
 
 @WebServlet("/add-computer")
 public class AddComputer extends HttpServlet {
@@ -50,7 +50,7 @@ public class AddComputer extends HttpServlet {
 
 		createComputer(request, response);
 
-		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+//		this.getServletContext().getRequestDispatcher("/static/views/dashboard.jsp").forward(request, response);
 
 	}
 
@@ -73,8 +73,8 @@ public class AddComputer extends HttpServlet {
 
 		ComputerDto cdto = new ComputerDto(0, name, introduced, discontinued,comp);
 
-		List<String> validationErrors = new ArrayList<>();
-		validationErrors = ComputerDtoValidation.validate(cdto);
+		List<String> validationErrors = new ArrayList<String>();
+		validationErrors = DtoValidation.validate(cdto);
 
 		if (validationErrors.size() == 0) {
 			Computer c = DtoMapper.dtoToComputer(cdto);

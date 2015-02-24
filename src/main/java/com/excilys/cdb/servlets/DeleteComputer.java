@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.excilys.cdb.service.ComputerServiceImpl;
+import com.excilys.cdb.service.impl.ComputerServiceImpl;
 
 /**
  * Servlet implementation class DeleteCommputer

@@ -7,9 +7,9 @@ import java.util.*;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.persistence.*;
-import com.excilys.cdb.service.CompanyServiceImpl;
-import com.excilys.cdb.service.ComputerServiceImpl;
+import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
+import com.excilys.cdb.service.impl.CompanyServiceImpl;
+import com.excilys.cdb.service.impl.ComputerServiceImpl;
 import com.excilys.cdb.util.Util;
 
 /**
@@ -99,17 +99,12 @@ public class Cli {
 				System.out.println("id not found");
 			}
 
-			// vérifier que l'int est dans la liste
-			// cas de l'id non existant
-			// cas ou on rentre n'importe quoi
 			break;
 
 		case "4":
 			System.out
 					.println("Create a computer (enter null for undefined) : ");
 			caseCreate();
-
-			// cas ou saisie incorrecte
 			break;
 
 		case "5":
@@ -182,14 +177,10 @@ public class Cli {
 		LocalDateTime dateTimeFin = null;
 
 		if (!date.equals("null")) {
-			// date.checkDate();
 			dateTime = Util.checkDate(date);
-			// LocalDateTime.parse(date, formatter);
 		}
 
 		if (!dateFin.equals("null")) {
-			// dateFin.checkDate();
-			// dateTimeFin = LocalDateTime.parse(dateFin, formatter);
 			dateTimeFin = Util.checkDate(dateFin);
 		}
 
@@ -227,12 +218,10 @@ public class Cli {
 
 			if (!dateUp.equals("null")) {
 				dateTimeUp = Util.checkDate(dateUp);
-				// dateTimeUp = LocalDateTime.parse(dateUp, formatterUp);
 			}
 		} else {
 			dateTimeUp = comput.getDateIntro();
 		}
-		// date discontinued
 
 		System.out.println("Update discontinued date ? y/n ");
 		rep = scan.nextLine();
@@ -244,7 +233,6 @@ public class Cli {
 
 			if (!dateFinUp.equals("null")) {
 				dateTimeFinUp = Util.checkDate(dateFinUp);
-				// dateTimeFinUp = LocalDateTime.parse(dateFinUp, formatterUp);
 			}
 		} else {
 			dateTimeFinUp = comput.getDateDiscontinued();
@@ -258,7 +246,6 @@ public class Cli {
 			System.out.println("Id  : ");
 			String compUpIdStr = scan.nextLine();
 			compUpId = Util.checkId(compUpIdStr);
-			// compUpId = Integer.parseInt(compUpIdStr);
 
 			CompanyServiceImpl cdao = CompanyServiceImpl.instance;
 			compUp = cdao.getById(compUpId);

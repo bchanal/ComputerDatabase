@@ -19,8 +19,6 @@ public interface ComputerService {
 
 	public void update(Computer computer);
 	
-	//public int getNbComputers();
-
 	public Computer getById(int computerId);
 
 	public List<Computer> getByName(String name);

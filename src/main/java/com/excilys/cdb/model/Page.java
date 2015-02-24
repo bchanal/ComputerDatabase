@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.excilys.cdb.dto.ComputerDto;
-import com.excilys.cdb.service.ComputerServiceImpl;
+import com.excilys.cdb.service.impl.ComputerServiceImpl;
 
 /**
  * Page can be used to make a pagination system for the results display
