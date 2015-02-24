@@ -5,17 +5,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.persistence.CompanyDaoImpl;
-import com.excilys.cdb.persistence.ComputerDaoImpl;
-import com.excilys.cdb.service.ComputerServiceImpl;
+import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
+import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
 
 public class ComputerDaoImplTest {
 
@@ -47,7 +44,7 @@ public class ComputerDaoImplTest {
 	 */
 	@Test
 	public void testgetAll() {
-		List<Computer> listComputer = ComputerDaoImpl.instance.getAll();
+		List<Computer> listComputer = ComputerDaoImpl.getAll();
 		assertNotNull(listComputer);
 
 		Computer comp = ComputerDaoImpl.instance.getById(1);
@@ -107,7 +104,7 @@ public class ComputerDaoImplTest {
 	@Test(expected = SQLException.class)
 	public void testDeleteInvalid() {
 
-		ComputerDaoImpl.instance.delete(-1);
+		ComputerDaoImpl.delete(-1);
 
 	}
 
@@ -118,7 +115,7 @@ public class ComputerDaoImplTest {
 	@Test
 	public void testCreate() {
 
-		List<Computer> listComputer = ComputerDaoImpl.instance.getAll();
+		List<Computer> listComputer = ComputerDaoImpl.getAll();
 		int sizeMax = listComputer.size();
 
 		Computer comp = ComputerDaoImpl.instance.getById(sizeMax + 1);

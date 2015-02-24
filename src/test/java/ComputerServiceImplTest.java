@@ -20,9 +20,9 @@ import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.persistence.CompanyDaoImpl;
-import com.excilys.cdb.persistence.ComputerDaoImpl;
-import com.excilys.cdb.service.ComputerServiceImpl;
+import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
+import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
+import com.excilys.cdb.service.impl.ComputerServiceImpl;
 
 /**
  * Test for @linkComputerDerviceImpl
@@ -35,7 +35,7 @@ public class ComputerServiceImplTest extends TestCase {
 	
 	@Mock private ComputerDaoImpl computerDao;
 	private Page page;
-	private Page page2;
+	//private Page page2;
 	private List<ComputerDto> listDto;
 	private List<Computer> list;
 
@@ -43,7 +43,7 @@ public class ComputerServiceImplTest extends TestCase {
 	public void setUp(){
 		
 	page = ComputerDaoImpl.instance.getAPage(1,20, "");
-	page2 = ComputerDaoImpl.instance.getAPage(1,20, "test");
+	//page2 = ComputerDaoImpl.instance.getAPage(1,20, "test");
 	listDto = page.getList();
 	list = new ArrayList<Computer>();
 	
@@ -52,7 +52,7 @@ public class ComputerServiceImplTest extends TestCase {
 		list.add(c);
 	}
 
-	when(computerDao.getAll()).thenReturn(list);
+	when(ComputerDaoImpl.getAll()).thenReturn(list);
 	when(computerDao.getById(3)).thenReturn(list.get(3));
 	when(computerDao.getAPage(1,20,"test")).thenReturn(page);
 	when(computerDao.getNbComputers("test")).thenReturn(10);
@@ -94,6 +94,11 @@ public class ComputerServiceImplTest extends TestCase {
 		comp = ComputerServiceImpl.instance.getById(7000);
 		assertNull(comp);
 
+	}
+	
+	@Test
+	public void testGetByName(){
+		//TODO test by name using page2
 	}
 /** 
  * test fot illegal call of getById

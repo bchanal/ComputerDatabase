@@ -8,12 +8,12 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+//import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+//import org.openqa.selenium.support.ui.ExpectedConditions;
+//import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DashboardTest {
 	private WebDriver driver;
@@ -47,43 +47,43 @@ public class DashboardTest {
 		driver.quit();
 	}
 
-//	@Test
-//	public void testSearchByName() {
-//		WebElement resultTab = driver.findElement(By.id("results"));
-//		List<WebElement> results = resultTab.findElements(By.tagName("tr"));
-//		WebElement searchbox = driver.findElement(By.id("searchbox"));
-//		WebElement searchsubmit = driver.findElement(By.id("searchsubmit"));
-//		Assert.assertEquals(100, results.size());
-//
-//		searchbox.clear();
-//		searchbox.sendKeys("test");
-//		searchsubmit.click();
-//		resultTab = driver.findElement(By.id("results"));
-//		results = resultTab.findElements(By.tagName("tr"));
-//
-//		Assert.assertEquals(5, results.size());
-//	}
-//
-//	@Test
-//	public void testPagination() {
-//		WebElement resultTab = driver.findElement(By.id("results"));
-//		List<WebElement> results = resultTab.findElements(By.tagName("tr"));
-//
-//		WebElement paginationBtn10 = driver.findElement(By.linkText("10"));
-//		Assert.assertEquals(100, results.size());
-//		paginationBtn10.click();
-//		Assert.assertEquals(10, results.size());
-//
-//		WebElement paginationBtn50 = driver.findElement(By.linkText("50"));
-//		paginationBtn50.click();
-//		resultTab = driver.findElement(By.id("results"));
-//		results = resultTab.findElements(By.tagName("tr"));
-//		Assert.assertEquals(50, results.size());
-//
-//		WebElement paginationBtn100 = driver.findElement(By.linkText("100"));
-//		paginationBtn100.click();
-//		resultTab = driver.findElement(By.id("results"));
-//		results = resultTab.findElements(By.tagName("tr"));
-//		Assert.assertEquals(100, results.size());
-//	}
+	@Test
+	public void testSearchByName() {
+		WebElement resultTab = driver.findElement(By.id("results"));
+		List<WebElement> results = resultTab.findElements(By.tagName("tr"));
+		WebElement searchbox = driver.findElement(By.id("searchbox"));
+		WebElement searchsubmit = driver.findElement(By.id("searchsubmit"));
+		Assert.assertEquals(100, results.size());
+
+		searchbox.clear();
+		searchbox.sendKeys("test");
+		searchsubmit.click();
+		resultTab = driver.findElement(By.id("results"));
+		results = resultTab.findElements(By.tagName("tr"));
+
+		Assert.assertEquals(5, results.size());
+	}
+
+	@Test
+	public void testPagination() {
+		WebElement resultTab = driver.findElement(By.id("results"));
+		List<WebElement> results = resultTab.findElements(By.tagName("tr"));
+
+		WebElement paginationBtn10 = driver.findElement(By.linkText("10"));
+		Assert.assertEquals(100, results.size());
+		paginationBtn10.click();
+		Assert.assertEquals(10, results.size());
+
+		WebElement paginationBtn50 = driver.findElement(By.linkText("50"));
+		paginationBtn50.click();
+		resultTab = driver.findElement(By.id("results"));
+		results = resultTab.findElements(By.tagName("tr"));
+		Assert.assertEquals(50, results.size());
+
+		WebElement paginationBtn100 = driver.findElement(By.linkText("100"));
+		paginationBtn100.click();
+		resultTab = driver.findElement(By.id("results"));
+		results = resultTab.findElements(By.tagName("tr"));
+		Assert.assertEquals(100, results.size());
+	}
 }

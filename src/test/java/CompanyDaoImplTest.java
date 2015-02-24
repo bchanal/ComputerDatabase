@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.excilys.cdb.model.Company;
-import com.excilys.cdb.persistence.CompanyDaoImpl;
+import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
 
 /**
  * Test for @linkComputerDAOImpl
