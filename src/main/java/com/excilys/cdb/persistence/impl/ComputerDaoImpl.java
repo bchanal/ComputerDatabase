@@ -40,7 +40,7 @@ public enum ComputerDaoImpl {
 	 * 
 	 * @return list the list of all computers
 	 */
-	public static List<Computer> getAll(boolean isTransaction) {
+	public static List<Computer> getAll() {
 		ResultSet result = null;
 		Connection connect = null;
 		List<Computer> list = null;
@@ -64,7 +64,7 @@ public enum ComputerDaoImpl {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
 			}
-			ConnectDao.close(connect);
+			ConnectDao.close();
 		}
 		return list;
 	}
@@ -80,7 +80,7 @@ public enum ComputerDaoImpl {
 	 *            the name searched
 	 * @return list the list of computers
 	 */
-	public Page getAPage(int index, int nb, String name, boolean isTransaction) {
+	public Page getAPage(int index, int nb, String name) {
 
 		String query = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY computer.id LIMIT ? , ?;";
 		// String query =
@@ -131,8 +131,7 @@ public enum ComputerDaoImpl {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
 			}
-			if (!isTransaction)
-				ConnectDao.close(connect);
+			ConnectDao.close();
 
 		}
 
@@ -146,7 +145,7 @@ public enum ComputerDaoImpl {
 	 *            the name searched
 	 * @return size the number of results
 	 */
-	public int getNbComputers(String name, boolean isTransaction) {
+	public int getNbComputers(String name) {
 
 		String query = "SELECT COUNT(*) " + "FROM computer "
 				+ "LEFT JOIN company ON computer.company_id = company.id "
@@ -182,8 +181,7 @@ public enum ComputerDaoImpl {
 				LOGGER.error(e.getMessage());
 			}
 
-			if (!isTransaction)
-				ConnectDao.close(connect);
+			ConnectDao.close();
 		}
 
 		return size;
@@ -196,7 +194,7 @@ public enum ComputerDaoImpl {
 	 *            the id to get
 	 * @return comp the Computer requested
 	 */
-	public Computer getById(int id, boolean isTransaction) {
+	public Computer getById(int id) {
 		Computer comp = null;
 		ResultSet result = null;
 		Connection connect = null;
@@ -224,8 +222,7 @@ public enum ComputerDaoImpl {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
 			}
-			if (!isTransaction)
-				ConnectDao.close(connect);
+			ConnectDao.close();
 		}
 
 		return comp;
@@ -238,7 +235,7 @@ public enum ComputerDaoImpl {
 	 *            the name searched
 	 * @return comp the Computer requested
 	 */
-	public List<Computer> getByName(String name, boolean isTransaction) {
+	public List<Computer> getByName(String name) {
 
 		String query = "SELECT * " + "FROM computer "
 				+ "LEFT JOIN company ON computer.company_id = company.id "
@@ -273,8 +270,7 @@ public enum ComputerDaoImpl {
 				LOGGER.error(e.getMessage());
 			}
 
-			if (!isTransaction)
-				ConnectDao.close(connect);
+			ConnectDao.close();
 		}
 
 		return comp;
@@ -294,7 +290,7 @@ public enum ComputerDaoImpl {
 	 *            the id of the computer's company (if exists, 0 otherwise)
 	 */
 	public void create(String name, LocalDateTime dateTime,
-			LocalDateTime dateTimeFin, int comp, boolean isTransaction) {
+			LocalDateTime dateTimeFin, int comp) {
 		String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 		Connection connect = null;
 		PreparedStatement prep1 = null;
@@ -337,8 +333,7 @@ public enum ComputerDaoImpl {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
 			}
-			if (!isTransaction)
-				ConnectDao.close(connect);
+			ConnectDao.close();
 		}
 
 	}
@@ -349,7 +344,7 @@ public enum ComputerDaoImpl {
 	 * @param id
 	 *            the id of the computer to delete
 	 */
-	public synchronized static void delete(int id, boolean isTransaction) {
+	public synchronized static void delete(int id) {
 		Connection connect = null;
 		PreparedStatement prep1 = null;
 		String query = "DELETE FROM computer WHERE id= ?";
@@ -374,8 +369,7 @@ public enum ComputerDaoImpl {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
 			}
-			if (!isTransaction)
-				ConnectDao.close(connect);
+			ConnectDao.close();
 		}
 	}
 
@@ -385,7 +379,7 @@ public enum ComputerDaoImpl {
 	 * @param computer
 	 *            the computer to update
 	 */
-	public synchronized void update(Computer computer, boolean isTransaction) {
+	public synchronized void update(Computer computer) {
 		Connection connect = null;
 		PreparedStatement prep1 = null;
 		String query = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
@@ -397,13 +391,13 @@ public enum ComputerDaoImpl {
 			prep1.setString(1, computer.getName());
 
 			if (computer.getDateIntro() != null) {
-				prep1.setTimestamp(2,util.getTimestamp(computer.getDateIntro()));
+				prep1.setTimestamp(2, util.getTimestamp(computer.getDateIntro()));
 			} else {
 				prep1.setNull(2, java.sql.Types.TIMESTAMP);
 			}
 
 			if (computer.getDateDiscontinued() != null) {
-				prep1.setTimestamp(3,util.getTimestamp(computer.getDateDiscontinued()));
+				prep1.setTimestamp(3, util.getTimestamp(computer.getDateDiscontinued()));
 			} else {
 				prep1.setNull(3, java.sql.Types.TIMESTAMP);
 			}
@@ -430,8 +424,7 @@ public enum ComputerDaoImpl {
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
 			}
-			if (!isTransaction)
-				ConnectDao.close(connect);
+			ConnectDao.close();
 		}
 
 	}

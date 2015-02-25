@@ -19,8 +19,7 @@ import com.jolbox.bonecp.BoneCPConfig;
  */
 public class ConnectDao {
 
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(ConnectDao.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(ConnectDao.class);
 
 	private static final String URL = PropertyValue.instance.getUrl();
 	private static final String USER = PropertyValue.instance.getUser();
@@ -67,27 +66,56 @@ public class ConnectDao {
 	 * @throws SQLException
 	 */
 	public static Connection getConnection() throws SQLException {
-		
+
 		if (connectThread.get() == null) {
 			connectThread.set(CONNECTIONPOOL.getConnection());
-			}
-		
+		}
+
 		if (connectThread.get() != null) {
-			LOGGER.debug("get a connection from the threadlocal "+ connectThread.get().hashCode());
+			LOGGER.debug("get a connection from the threadlocal "
+					+ connectThread.get().hashCode());
 			return connectThread.get();
 		}
 		return connectThread.get();
 	}
 
-	/**
-	 * close
-	 * 
-	 * @param connect
-	 *            the connection to close
-	 */
-	public static void close(Connection connect) {
+	public static void initTransaction() {
+		Connection connect;
 		try {
+			connect = CONNECTIONPOOL.getConnection();
+			connect.setAutoCommit(false);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.error(e.getMessage());
+			throw new ConnectionException();
+		}
+		connectThread.set(connect);
+	}
+
+	/**
+	 * close connection
+	 * 
+	 */
+	public static void close() {
+		try {
+			Connection connect = connectThread.get();
+			if (connect.getAutoCommit()){
+				connect.close();
+				connectThread.remove();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.error(e.getMessage());
+			throw new ConnectionException();
+
+		}
+	}
+
+	public static void closeTransaction() {
+		try {
+			Connection connect = connectThread.get();
 			connect.close();
+			connectThread.remove();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());

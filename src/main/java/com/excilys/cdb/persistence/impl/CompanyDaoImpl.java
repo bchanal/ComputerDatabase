@@ -38,7 +38,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 	 * 
 	 * @return listCompany : all the companies in a list
 	 */
-	public List<Company> getAll(boolean isTransaction) {
+	public List<Company> getAll() {
 		List<Company> listCompany = new ArrayList<Company>();
 		Connection connect = null;
 		Statement state = null;
@@ -62,8 +62,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 				LOGGER.error(e.getMessage());
 				throw new ConnectionException();
 			}
-			if (!isTransaction)
-				ConnectDao.close(connect);
+			ConnectDao.close();
 		}
 		return listCompany;
 
@@ -77,7 +76,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 	 * @return comp the Computer requested
 	 * @throws SQLException
 	 */
-	public Company getById(int id, boolean isTransaction) throws SQLException {
+	public Company getById(int id) throws SQLException {
 		Company comp = null;
 		Connection connect = null;
 		ResultSet result = null;
@@ -104,8 +103,8 @@ public enum CompanyDaoImpl implements CompanyDao {
 		} finally {
 			result.close();
 			prep1.close();
-			if (!isTransaction)
-				ConnectDao.close(connect);		}
+			ConnectDao.close();
+		}
 
 		return comp;
 	}

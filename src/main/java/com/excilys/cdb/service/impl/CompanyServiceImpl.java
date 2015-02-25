@@ -25,12 +25,12 @@ public enum CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public List<Company> getAll() throws SQLException {
-		return cdao.getAll(false);
+		return cdao.getAll();
 	}
 
 	@Override
 	public Company getById(int id) throws SQLException {
-		return cdao.getById(id, false);
+		return cdao.getById(id);
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public enum CompanyServiceImpl implements CompanyService {
 		Connection connect = null;
 		try {
 			connect = ConnectDao.getConnection();
-			connect.setAutoCommit(false);
+			ConnectDao.initTransaction();
 			CompanyDaoImpl.delete(connect, id);
 			connect.commit();
 		} catch (SQLException e) {
@@ -57,7 +57,7 @@ public enum CompanyServiceImpl implements CompanyService {
 
 		} finally {
 
-			ConnectDao.close(connect);
+			ConnectDao.closeTransaction();
 		}
 	}
 
