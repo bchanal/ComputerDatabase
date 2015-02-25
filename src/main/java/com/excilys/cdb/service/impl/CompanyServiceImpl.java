@@ -25,12 +25,12 @@ public enum CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public List<Company> getAll() throws SQLException {
-		return cdao.getAll();
+		return cdao.getAll(false);
 	}
 
 	@Override
 	public Company getById(int id) throws SQLException {
-		return cdao.getById(id);
+		return cdao.getById(id, false);
 	}
 
 	@Override

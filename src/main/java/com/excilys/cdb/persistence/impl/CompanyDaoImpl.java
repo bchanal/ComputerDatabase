@@ -11,6 +11,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.cdb.exception.ConnectionException;
 import com.excilys.cdb.model.*;
 import com.excilys.cdb.persistence.CompanyDao;
 import com.excilys.cdb.persistence.ConnectDao;
@@ -37,7 +38,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 	 * 
 	 * @return listCompany : all the companies in a list
 	 */
-	public List<Company> getAll() {
+	public List<Company> getAll(boolean isTransaction) {
 		List<Company> listCompany = new ArrayList<Company>();
 		Connection connect = null;
 		Statement state = null;
@@ -48,17 +49,22 @@ public enum CompanyDaoImpl implements CompanyDao {
 			state = connect.createStatement();
 			result = state.executeQuery("SELECT * FROM company");
 			listCompany = CompanyMapper.instance.toList(result);
-			result.close();
-			state.close();
-			ConnectDao.close(connect);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());
 			throw new RuntimeException();
 		} finally {
-
+			try {
+				result.close();
+				state.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				LOGGER.error(e.getMessage());
+				throw new ConnectionException();
+			}
+			if (!isTransaction)
+				ConnectDao.close(connect);
 		}
-
 		return listCompany;
 
 	}
@@ -71,7 +77,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 	 * @return comp the Computer requested
 	 * @throws SQLException
 	 */
-	public Company getById(int id) throws SQLException {
+	public Company getById(int id, boolean isTransaction) throws SQLException {
 		Company comp = null;
 		Connection connect = null;
 		ResultSet result = null;
@@ -98,15 +104,19 @@ public enum CompanyDaoImpl implements CompanyDao {
 		} finally {
 			result.close();
 			prep1.close();
-			ConnectDao.close(connect);
-		}
+			if (!isTransaction)
+				ConnectDao.close(connect);		}
 
 		return comp;
 	}
+
 	/**
-	 * delete 	 company and all the computers made by this company
-	 * @param connect the connection
-	 * @param id the id of the computer to delete
+	 * delete company and all the computers made by this company
+	 * 
+	 * @param connect
+	 *            the connection
+	 * @param id
+	 *            the id of the computer to delete
 	 */
 	public synchronized static void delete(Connection connect, int id) {
 		PreparedStatement prep1 = null;
@@ -119,7 +129,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 			prep1 = connect.prepareStatement(query);
 			prep1.setInt(1, id);
 			prep1.executeUpdate();
-			
+
 			prep2 = connect.prepareStatement(query2);
 			prep2.setInt(1, id);
 			prep2.executeUpdate();
