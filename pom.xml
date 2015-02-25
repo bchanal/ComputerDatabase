@@ -10,7 +10,6 @@
 	<artifactId>computer-database</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
-
 	<properties>
 		<junit-version>4.11</junit-version>
 		<mysql-connector-version>5.1.6</mysql-connector-version>
@@ -26,11 +25,35 @@
 		<selenium-maven-plugin-version>1.0.1</selenium-maven-plugin-version>
 		<hibernate-validator-version>5.1.3.Final</hibernate-validator-version>
 		<bonecp-version>0.8.0.RELEASE</bonecp-version>
+		<spring-version>4.1.5.RELEASE</spring-version>
 	</properties>
 
-
 	<dependencies>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate-validator-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jolbox</groupId>
+			<artifactId>bonecp</artifactId>
+			<version>${bonecp-version}</version>
+		</dependency>
+
 		<!-- tests -->
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -50,19 +73,6 @@
 			<scope>test</scope>
 		</dependency>
 
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql-connector-version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.jolbox</groupId>
-			<artifactId>bonecp</artifactId>
-			<version>${bonecp-version}</version>
-		</dependency>
-
 		<!-- Logs -->
 
 		<dependency>
@@ -76,16 +86,13 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j-api-version}</version>
 		</dependency>
+
+		<!-- Spring -->
 		
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${jstl-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernate-validator-version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring-version}</version>
 		</dependency>
 
 	</dependencies>
@@ -101,7 +108,6 @@
 					<target>${maven-compiler-target}</target>
 				</configuration>
 			</plugin>
-
 		</plugins>
 		<finalName>computer-database</finalName>
 	</build>
