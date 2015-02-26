@@ -6,32 +6,22 @@ import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
-/**
- * ComputerMapper is a mapper for the display of computers
- * 
- * @author berangere
- *
- */
 @Component
-public class ComputerMapper implements RowMapper<Computer> {
+public class SpringComputerMapper implements RowMapper<Computer> {
+	
+	private final static Logger LOGGER = LoggerFactory.getLogger(SpringComputerMapper.class);
 
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(ComputerMapper.class);
+	public SpringComputerMapper() {
+	}
 
-	/**
-	 * toObject return a computer contained in a ResulSet
-	 * 
-	 * @param result
-	 *            the resultset
-	 * @return comp the Computer in a the ResultSet
-	 */
-	public Computer toObject(ResultSet result) {
-
+	@Override
+	public Computer mapRow(ResultSet result, int arg1) throws SQLException {
 		Computer comp = null;
 		LocalDateTime t1 = null;
 		LocalDateTime t2 = null;
@@ -66,4 +56,5 @@ public class ComputerMapper implements RowMapper<Computer> {
 		}
 		return comp;
 	}
+
 }

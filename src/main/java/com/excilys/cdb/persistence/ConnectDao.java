@@ -8,11 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.exception.ConnectionException;
 import com.excilys.cdb.util.PropertyValue;
-//import com.jolbox.bonecp.BoneCP;
-//import com.jolbox.bonecp.BoneCPConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.stereotype.Component;
 
 /**
  * ConnectDAO : class to have a connection to the DB
@@ -20,17 +19,21 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  * @author berangere
  *
  */
+@Component
 public class ConnectDao {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(ConnectDao.class);
-
-	private static final String URL = PropertyValue.instance.getUrl();
-	private static final String USER = PropertyValue.instance.getUser();
-	private static final String PASSWD = PropertyValue.instance.getPasswd();
-//	private static final int MINCONNECTIONS = PropertyValue.instance.getMin();
-//	private static final int MAXCONNECTIONS = PropertyValue.instance.getMax();
-//	private static final int PARTITIONCOUNT = PropertyValue.instance.getPartitionCount();
-//	private static BoneCP CONNECTIONPOOL;
+	
+	@Autowired
+	private static PropertyValue pv;
+	
+	private static final String URL = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";//pv.getUrl();
+	private static final String USER = "admincdb"; //pv.getUser();
+	private static final String PASSWD = "querty1234"; //pv.getPasswd();
+	// private static final int MINCONNECTIONS = pv.getMin();
+	// private static final int MAXCONNECTIONS = pv.getMax();
+	// private static final int PARTITIONCOUNT = pv.getPartitionCount();
+	// private static BoneCP CONNECTIONPOOL;
 	private static DriverManagerDataSource dataSource;
 	@Autowired
 	private static ThreadLocal<Connection> connectThread = new ThreadLocal<Connection>();
@@ -89,11 +92,15 @@ public class ConnectDao {
 		}
 		return connectThread.get();
 	}
+	
+	public static DriverManagerDataSource getDataSource() {
+			return dataSource;
+	}
 
 	public static void initTransaction() {
 		Connection connect;
 		try {
-//			connect = CONNECTIONPOOL.getConnection();
+			// connect = CONNECTIONPOOL.getConnection();
 			connect = dataSource.getConnection();
 			connect.setAutoCommit(false);
 		} catch (SQLException e) {

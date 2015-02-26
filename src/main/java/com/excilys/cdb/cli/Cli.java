@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
@@ -32,6 +34,7 @@ public class Cli {
 	}
 
 	public static void main(String[] args) throws SQLException {
+		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext("/applicationContextCLI.xml");
 
 		end = false;
 		Scanner sc = new Scanner(System.in);
@@ -131,7 +134,7 @@ public class Cli {
 				System.out.println(compute.toString());
 			}
 
-			ComputerDaoImpl.delete(ide);
+			ctdao.delete(ide);
 			System.out.println("Done !");
 
 			break;

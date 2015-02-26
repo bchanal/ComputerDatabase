@@ -5,31 +5,19 @@ import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Company;
 
-/**
- * CompanyMapper is used to display companies from ResultSets
- * 
- * @author berangere
- *
- *
- */
 @Component
-public class CompanyMapper implements RowMapper<Company> {
-
-	private final static Logger LOGGER = LoggerFactory.getLogger(CompanyMapper.class);
-
+public class SpringCompanyMapper implements RowMapper<Company>{
 	
-	/**
-	 * toObject return an object company from a resultset
-	 * @param rs the resultset
-	 * @return company the company
-	 */
+	private final static Logger LOGGER = LoggerFactory.getLogger(SpringCompanyMapper.class);
+
 
 	@Override
-	public Company toObject(ResultSet rs) {
+	public Company mapRow(ResultSet rs, int arg1) throws SQLException {
 		Company company = null;
 
 		try {
@@ -40,7 +28,6 @@ public class CompanyMapper implements RowMapper<Company> {
 			throw new RuntimeException();		}
 		
 		return company;
-
 	}
 
 }

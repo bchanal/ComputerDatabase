@@ -51,7 +51,7 @@ public class ComputerDaoImplTest {
 	 */
 	@Test
 	public void testgetAll() {
-		List<Computer> listComputer = ComputerDaoImpl.getAll();
+		List<Computer> listComputer = ctdao.getAll();
 		assertNotNull(listComputer);
 
 		Computer comp = ctdao.getById(1);
@@ -98,7 +98,7 @@ public class ComputerDaoImplTest {
 		Computer comp = ctdao.getById(2);
 		assertNotNull(comp);
 
-		ComputerDaoImpl.delete(2);
+		ctdao.delete(2);
 		comp = ctdao.getById(2);
 
 		assertNull(comp);
@@ -111,7 +111,7 @@ public class ComputerDaoImplTest {
 	@Test(expected = SQLException.class)
 	public void testDeleteInvalid() {
 
-		ComputerDaoImpl.delete(-1);
+		ctdao.delete(-1);
 
 	}
 
@@ -122,7 +122,7 @@ public class ComputerDaoImplTest {
 	@Test
 	public void testCreate() {
 
-		List<Computer> listComputer = ComputerDaoImpl.getAll();
+		List<Computer> listComputer = ctdao.getAll();
 		int sizeMax = listComputer.size();
 
 		Computer comp = ctdao.getById(sizeMax + 1);
@@ -152,7 +152,7 @@ public class ComputerDaoImplTest {
 	// */
 	// @Test(expected = RuntimeException.class)
 	// public void testCreateInvalid() {
-	// ComputerDaoImpl.instance.create("fail", null, null, -1);
+	// ctdao.create("fail", null, null, -1);
 	//
 	// }
 	/**
@@ -202,7 +202,7 @@ public class ComputerDaoImplTest {
 	//
 	// Company company = null;
 	// Computer comp2 = new Computer(-7, "computerTest", null, null, company);
-	// ComputerDaoImpl.instance.update(comp2);
+	// ctdao.update(comp2);
 	//
 	// }
 

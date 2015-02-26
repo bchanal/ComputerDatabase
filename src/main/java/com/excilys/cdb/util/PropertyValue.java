@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public enum PropertyValue {
+import org.springframework.stereotype.Component;
 
-	instance;
+
+@Component
+public class PropertyValue {
 
 	private String url;
 	private String user;
@@ -16,7 +18,7 @@ public enum PropertyValue {
 	private int max;
 	private int partitionCount;
 
-	private PropertyValue() {
+	public PropertyValue() {
 		Properties prop = new Properties();
 		String propFileName = "db.properties";
 		InputStream inputStream = getClass().getClassLoader()

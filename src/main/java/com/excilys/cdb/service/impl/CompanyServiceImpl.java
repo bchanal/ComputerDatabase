@@ -41,7 +41,7 @@ public class CompanyServiceImpl implements CompanyService {
 		try {
 			connect = ConnectDao.getConnection();
 			ConnectDao.initTransaction();
-			CompanyDaoImpl.delete(connect, id);
+			cdao.delete(connect, id);
 			connect.commit();
 		} catch (SQLException e) {
 			if (connect != null) {

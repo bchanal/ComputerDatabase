@@ -1,9 +1,11 @@
 package com.excilys.cdb.service.impl;
 
-import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,11 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
 import com.excilys.cdb.service.ComputerService;
-import com.excilys.cdb.persistence.ConnectDao;
+
 @Service
 public class ComputerServiceImpl implements ComputerService {
+
+//	private final static Logger LOGGER = LoggerFactory.getLogger(ComputerServiceImpl.class);
 
 	@Autowired
 	private ComputerDaoImpl cdao; 
@@ -29,36 +33,31 @@ public class ComputerServiceImpl implements ComputerService {
 
 	@Override
 	public List<Computer> getAll() {
-		return ComputerDaoImpl.getAll();
+		return cdao.getAll();
 	}
 
 	@Override
 	public Page getAPage(int index, int nb, String name) {
 
-		Connection connect = null;
+//		Connection connect = null;
 		Page p=null;
 
-		try {
 //			connect = ConnectDao.getConnection();
-			ConnectDao.initTransaction();
+//			ConnectDao.initTransaction();
 			p = cdao.getAPage(index, nb, name);
 			int nbTotal = cdao.getNbComputers(name);
 			p.setNbTotalComputer(nbTotal);
-			connect = ConnectDao.getConnection();
-			connect.commit();
+//			connect = ConnectDao.getConnection();
+//			connect.commit();
 
-		} catch (Exception e) {
-
-		} finally {
-			ConnectDao.closeTransaction();
-		}
+//			ConnectDao.closeTransaction();
 
 		return p;
 	}
 
 	@Override
 	public void delete(int computerId) {
-		ComputerDaoImpl.delete(computerId);
+		cdao.delete(computerId);
 	}
 
 	@Override

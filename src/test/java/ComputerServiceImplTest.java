@@ -49,7 +49,7 @@ public class ComputerServiceImplTest extends TestCase {
 	public void setUp(){
 		
 	page = ctdao.getAPage(1,20, "");
-	//page2 = ComputerDaoImpl.instance.getAPage(1,20, "test");
+	//page2 = ctdao.getAPage(1,20, "test");
 	listDto = page.getList();
 	list = new ArrayList<Computer>();
 	
@@ -58,7 +58,7 @@ public class ComputerServiceImplTest extends TestCase {
 		list.add(c);
 	}
 
-	when(ComputerDaoImpl.getAll()).thenReturn(list);
+	when(computerDao.getAll()).thenReturn(list);
 	when(computerDao.getById(3)).thenReturn(list.get(3));
 	when(computerDao.getAPage(1,20,"test")).thenReturn(page);
 	when(computerDao.getNbComputers("test")).thenReturn(10);
@@ -124,7 +124,7 @@ public class ComputerServiceImplTest extends TestCase {
 		Computer comp = ctdao.getById(2);
 		assertNotNull(comp);
 
-		ComputerDaoImpl.delete(2);
+		computerDao.delete(2);
 		comp = ctdao.getById(2);
 
 		assertNull(comp);
