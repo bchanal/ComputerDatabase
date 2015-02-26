@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
@@ -21,6 +22,9 @@ public class CompanyDaoImplTest extends TestCase {
 	/**
 	 * @throws java.lang.Exception
 	 */
+	
+	@Autowired
+	CompanyDaoImpl cndao;
 
 	@Before
 	public void setUp() throws Exception {
@@ -41,13 +45,13 @@ public class CompanyDaoImplTest extends TestCase {
 	public void testgetAll() {
 		List<Company> listCompany;
 		try {
-			listCompany = CompanyDaoImpl.instance.getAll();
+			listCompany = cndao.getAll();
 			assertNotNull(listCompany);
 
-			Company comp = CompanyDaoImpl.instance.getById(1);
+			Company comp = cndao.getById(1);
 			assertEquals(listCompany.get(0), comp);
 
-			assertNull(CompanyDaoImpl.instance.getById(1000));
+			assertNull(cndao.getById(1000));
 			assertTrue(listCompany.size() == 42);
 		} catch (SQLException e) {
 			throw new RuntimeException();
@@ -61,13 +65,13 @@ public class CompanyDaoImplTest extends TestCase {
 
 		Company comp;
 		try {
-			comp = CompanyDaoImpl.instance.getById(12);
+			comp = cndao.getById(12);
 			assertNotNull(comp);
 
-			Company comp2 = CompanyDaoImpl.instance.getById(12);
+			Company comp2 = cndao.getById(12);
 			assertEquals(comp, comp2);
 
-			comp = CompanyDaoImpl.instance.getById(100);
+			comp = cndao.getById(100);
 			assertNull(comp);
 
 		} catch (SQLException e) {
@@ -83,7 +87,7 @@ public class CompanyDaoImplTest extends TestCase {
  */
 	@Test(expected = SQLException.class)
 	public void testgetByIdInvalid() throws SQLException {
-		assertNull(CompanyDaoImpl.instance.getById(-1));
+		assertNull(cndao.getById(-1));
 
 	}
 }

@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
@@ -20,6 +22,11 @@ import com.excilys.cdb.util.Util;
  */
 public class Cli {
 	private static boolean end;
+	
+	@Autowired
+	static ComputerServiceImpl ctdao;
+	@Autowired
+	static	CompanyServiceImpl cndao;
 
 	public Cli() {
 	}
@@ -73,14 +80,14 @@ public class Cli {
 		case "1":
 			System.out.println("List computers : ");
 			int index = 0;
-			Page page = ComputerServiceImpl.instance.getAPage(index, 20, "");
+			Page page = ctdao.getAPage(index, 20, "");
 			page.display();
 
 			break;
 
 		case "2":
 			System.out.println("List companies : ");
-			List<Company> res = CompanyServiceImpl.instance.getAll();
+			List<Company> res = cndao.getAll();
 			for (Company entr : res) {
 				System.out.println(entr.toString());
 
@@ -92,7 +99,7 @@ public class Cli {
 			System.out.println("Id to display : ");
 			String idStr = scan.nextLine();
 			int id = Util.checkId(idStr);
-			Computer computer = ComputerServiceImpl.instance.getById(id);
+			Computer computer = ctdao.getById(id);
 			if (computer != null) {
 				System.out.println(computer.toString());
 			} else {
@@ -119,7 +126,7 @@ public class Cli {
 			String ideStr = scan.nextLine();
 			int ide = Integer.parseInt(ideStr);
 
-			Computer compute = ComputerServiceImpl.instance.getById(ide);
+			Computer compute = ctdao.getById(ide);
 			if (compute != null) {
 				System.out.println(compute.toString());
 			}
@@ -135,12 +142,12 @@ public class Cli {
 			idStr = scan.nextLine();
 			id = Integer.parseInt(idStr);
 			
-			Company c = CompanyServiceImpl.instance.getById(id);
+			Company c = cndao.getById(id);
 			if (c != null) {
 				System.out.println(c.toString());
 			}
 
-			CompanyServiceImpl.instance.delete(id);
+			cndao.delete(id);
 			System.out.println("Done !");
 			break;
 
@@ -184,7 +191,7 @@ public class Cli {
 			dateTimeFin = Util.checkDate(dateFin);
 		}
 
-		ComputerServiceImpl.instance.create(nom, dateTime, dateTimeFin, comp);
+		ctdao.create(nom, dateTime, dateTimeFin, comp);
 		scan.close();
 	}
 
@@ -194,7 +201,7 @@ public class Cli {
 		String idUpStr = scan.nextLine();
 		int idUp = Integer.parseInt(idUpStr);
 
-		Computer comput = ComputerServiceImpl.instance.getById(idUp);
+		Computer comput = ctdao.getById(idUp);
 		System.out.println(comput.toString());
 		System.out.println("------------------");
 
@@ -247,8 +254,7 @@ public class Cli {
 			String compUpIdStr = scan.nextLine();
 			compUpId = Util.checkId(compUpIdStr);
 
-			CompanyServiceImpl cdao = CompanyServiceImpl.instance;
-			compUp = cdao.getById(compUpId);
+			compUp = cndao.getById(compUpId);
 
 		} else {
 			compUp = comput.getManufacturer();
@@ -256,7 +262,7 @@ public class Cli {
 
 		Computer nouveau = new Computer(idUp, nomUp, dateTimeUp, dateTimeFinUp,
 				compUp);
-		ComputerServiceImpl.instance.update(nouveau);
+		ctdao.update(nouveau);
 		scan.close();
 	}
 

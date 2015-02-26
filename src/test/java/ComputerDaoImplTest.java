@@ -8,11 +8,13 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
 import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
+
 
 public class ComputerDaoImplTest {
 
@@ -26,6 +28,11 @@ public class ComputerDaoImplTest {
 	 * @author berangere
 	 *
 	 */
+	
+	@Autowired
+	ComputerDaoImpl ctdao;
+	@Autowired
+	CompanyDaoImpl cndao;
 
 	@Before
 	public void setUp() throws Exception {
@@ -47,10 +54,10 @@ public class ComputerDaoImplTest {
 		List<Computer> listComputer = ComputerDaoImpl.getAll();
 		assertNotNull(listComputer);
 
-		Computer comp = ComputerDaoImpl.instance.getById(1);
+		Computer comp = ctdao.getById(1);
 		assertEquals(listComputer.get(0), comp);
 
-		int sizeDB = ComputerDaoImpl.instance.getNbComputers("");
+		int sizeDB = ctdao.getNbComputers("");
 		assertEquals(listComputer.size(), sizeDB);
 	}
 
@@ -61,13 +68,13 @@ public class ComputerDaoImplTest {
 	@Test
 	public void testgetById() {
 
-		Computer comp = ComputerDaoImpl.instance.getById(14);
+		Computer comp = ctdao.getById(14);
 		assertNotNull(comp);
 
-		Computer comp2 = ComputerDaoImpl.instance.getById(14);
+		Computer comp2 = ctdao.getById(14);
 		assertEquals(comp, comp2);
 
-		comp = ComputerDaoImpl.instance.getById(7000);
+		comp = ctdao.getById(7000);
 		assertNull(comp);
 
 	}
@@ -78,7 +85,7 @@ public class ComputerDaoImplTest {
 	@Test(expected = SQLException.class)
 	public void testgetByIdInvalid() {
 
-		Computer comp = ComputerDaoImpl.instance.getById(-1);
+		Computer comp = ctdao.getById(-1);
 		assertNotNull(comp);
 
 	}
@@ -88,11 +95,11 @@ public class ComputerDaoImplTest {
 	 */
 	@Test
 	public void testDelete() {
-		Computer comp = ComputerDaoImpl.instance.getById(2);
+		Computer comp = ctdao.getById(2);
 		assertNotNull(comp);
 
 		ComputerDaoImpl.delete(2);
-		comp = ComputerDaoImpl.instance.getById(2);
+		comp = ctdao.getById(2);
 
 		assertNull(comp);
 
@@ -118,13 +125,13 @@ public class ComputerDaoImplTest {
 		List<Computer> listComputer = ComputerDaoImpl.getAll();
 		int sizeMax = listComputer.size();
 
-		Computer comp = ComputerDaoImpl.instance.getById(sizeMax + 1);
+		Computer comp = ctdao.getById(sizeMax + 1);
 		assertNull(comp);
 
-		ComputerDaoImpl.instance.create("ordiTest", null, null, 35);
+		ctdao.create("ordiTest", null, null, 35);
 		// check success
 
-		comp = ComputerDaoImpl.instance.getById(sizeMax + 1);
+		comp = ctdao.getById(sizeMax + 1);
 		assertNotNull(comp);
 
 		DateTimeFormatter formatter = DateTimeFormatter
@@ -133,9 +140,9 @@ public class ComputerDaoImplTest {
 		LocalDateTime ldt = LocalDateTime.parse("2015-12-12 12:12", formatter);
 		LocalDateTime ldt2 = LocalDateTime.parse("2016-12-12 12:12", formatter);
 
-		ComputerDaoImpl.instance.create("ordiTest", ldt, null, 25);
+		ctdao.create("ordiTest", ldt, null, 25);
 		// check success : size de la liste ?
-		ComputerDaoImpl.instance.create("ordiTest", ldt, ldt2, 25);
+		ctdao.create("ordiTest", ldt, ldt2, 25);
 		// check success
 
 	}
@@ -158,7 +165,7 @@ public class ComputerDaoImplTest {
 		LocalDateTime ldt = LocalDateTime.parse("2016-12-12 12:12:12",
 				formatter);
 
-		ComputerDaoImpl.instance.create("fail", null, ldt, 1);
+		ctdao.create("fail", null, ldt, 1);
 
 	}
 
@@ -174,18 +181,18 @@ public class ComputerDaoImplTest {
 
 		Company company = null;
 		try {
-			company = CompanyDaoImpl.instance.getById(7);
+			company = cndao.getById(7);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
-		Computer comp = ComputerDaoImpl.instance.getById(14);
+		Computer comp = ctdao.getById(14);
 		Computer comp2 = new Computer(14, "computerTest", ldt, null, company);
 
 		assertFalse(comp.equals(comp2));
-		ComputerDaoImpl.instance.update(comp2);
+		ctdao.update(comp2);
 
-		comp = ComputerDaoImpl.instance.getById(14);
+		comp = ctdao.getById(14);
 		assertEquals(comp, comp2);
 
 	}

@@ -4,17 +4,19 @@ import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
 import com.excilys.cdb.service.ComputerService;
 import com.excilys.cdb.persistence.ConnectDao;
+@Service
+public class ComputerServiceImpl implements ComputerService {
 
-public enum ComputerServiceImpl implements ComputerService {
-
-	instance;
-
-	private ComputerDaoImpl cdao = ComputerDaoImpl.instance;
+	@Autowired
+	private ComputerDaoImpl cdao; 
 
 	private ComputerServiceImpl() {
 	}

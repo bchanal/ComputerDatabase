@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
 
@@ -29,6 +31,10 @@ public class Page {
 	private int nbTotalPages;
 	private int index;
 	private int[] range = new int[2];
+	
+	@Autowired
+	ComputerServiceImpl ctdao;
+
 
 //	public Page() {
 //		this.list = new ArrayList<ComputerDto>();
@@ -109,7 +115,7 @@ public class Page {
 
 		boolean fini = false;
 		Scanner scanner = new Scanner(System.in);
-		Page p = ComputerServiceImpl.instance.getAPage(index, 20, " ");
+		Page p = ctdao.getAPage(index, 20, " ");
 		this.nbTotalComputer = p.getNbTotalComputer();
 
 		while (!fini) {

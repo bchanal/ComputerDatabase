@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.mockito.Mockito.when;
 
@@ -20,8 +21,8 @@ import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
 import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
+import com.excilys.cdb.service.impl.CompanyServiceImpl;
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
 
 /**
@@ -33,6 +34,11 @@ import com.excilys.cdb.service.impl.ComputerServiceImpl;
 @RunWith(MockitoJUnitRunner.class)
 public class ComputerServiceImplTest extends TestCase {
 	
+	@Autowired
+	ComputerServiceImpl ctdao;
+	@Autowired
+	CompanyServiceImpl cndao;
+	
 	@Mock private ComputerDaoImpl computerDao;
 	private Page page;
 	//private Page page2;
@@ -42,7 +48,7 @@ public class ComputerServiceImplTest extends TestCase {
 	@Before
 	public void setUp(){
 		
-	page = ComputerDaoImpl.instance.getAPage(1,20, "");
+	page = ctdao.getAPage(1,20, "");
 	//page2 = ComputerDaoImpl.instance.getAPage(1,20, "test");
 	listDto = page.getList();
 	list = new ArrayList<Computer>();
@@ -69,13 +75,13 @@ public class ComputerServiceImplTest extends TestCase {
  */
 	@Test
 	public void testgetAll() {
-		List<Computer> listComputer = ComputerServiceImpl.instance.getAll();
+		List<Computer> listComputer = ctdao.getAll();
 		assertNotNull(listComputer);
 
-		Computer comp = ComputerServiceImpl.instance.getById(1);
+		Computer comp = ctdao.getById(1);
 		assertEquals(listComputer.get(0), comp);
 
-		int sizeDB = ComputerServiceImpl.instance.getAPage(1, 50, "").getNbTotalComputer();
+		int sizeDB = ctdao.getAPage(1, 50, "").getNbTotalComputer();
 		assertEquals(listComputer.size(), sizeDB);
 	}
 /**
@@ -85,13 +91,13 @@ public class ComputerServiceImplTest extends TestCase {
 	@Test
 	public void testgetById() {
 
-		Computer comp = ComputerServiceImpl.instance.getById(14);
+		Computer comp = ctdao.getById(14);
 		assertNotNull(comp);
 
-		Computer comp2 = ComputerServiceImpl.instance.getById(14);
+		Computer comp2 = ctdao.getById(14);
 		assertEquals(comp, comp2);
 
-		comp = ComputerServiceImpl.instance.getById(7000);
+		comp = ctdao.getById(7000);
 		assertNull(comp);
 
 	}
@@ -106,7 +112,7 @@ public class ComputerServiceImplTest extends TestCase {
 	@Test(expected = SQLException.class)
 	public void testgetByIdInvalid() {
 
-		Computer comp = ComputerServiceImpl.instance.getById(-1);
+		Computer comp = ctdao.getById(-1);
 		assertNotNull(comp);
 
 	}
@@ -115,11 +121,11 @@ public class ComputerServiceImplTest extends TestCase {
  */
 	@Test
 	public void testDelete() {
-		Computer comp = ComputerServiceImpl.instance.getById(2);
+		Computer comp = ctdao.getById(2);
 		assertNotNull(comp);
 
 		ComputerDaoImpl.delete(2);
-		comp = ComputerServiceImpl.instance.getById(2);
+		comp = ctdao.getById(2);
 
 		assertNull(comp);
 
@@ -130,7 +136,7 @@ public class ComputerServiceImplTest extends TestCase {
 	@Test(expected = SQLException.class)
 	public void testDeleteInvalid(){
 
-		ComputerServiceImpl.instance.delete(-1);
+		ctdao.delete(-1);
 
 	}
 /**
@@ -140,16 +146,16 @@ public class ComputerServiceImplTest extends TestCase {
 	@Test
 	public void testCreate() {
 
-		List<Computer> listComputer = ComputerServiceImpl.instance.getAll();
+		List<Computer> listComputer = ctdao.getAll();
 		int sizeMax = listComputer.size();
 
-		Computer comp = ComputerServiceImpl.instance.getById(sizeMax + 1);
+		Computer comp = ctdao.getById(sizeMax + 1);
 		assertNull(comp);
 
-		ComputerDaoImpl.instance.create("ordiTest", null, null, 35);
+		ctdao.create("ordiTest", null, null, 35);
 		// check success
 
-		comp = ComputerDaoImpl.instance.getById(sizeMax + 1);
+		comp = ctdao.getById(sizeMax + 1);
 		assertNotNull(comp);
 
 		DateTimeFormatter formatter = DateTimeFormatter
@@ -158,9 +164,9 @@ public class ComputerServiceImplTest extends TestCase {
 		LocalDateTime ldt = LocalDateTime.parse("2015-12-12 12:12", formatter);
 		LocalDateTime ldt2 = LocalDateTime.parse("2016-12-12 12:12", formatter);
 
-		ComputerServiceImpl.instance.create("ordiTest", ldt, null, 25);
+		ctdao.create("ordiTest", ldt, null, 25);
 		// check success : size de la liste ?
-		ComputerServiceImpl.instance.create("ordiTest", ldt, ldt2, 25);
+		ctdao.create("ordiTest", ldt, ldt2, 25);
 		// check success
 
 
@@ -174,7 +180,7 @@ public class ComputerServiceImplTest extends TestCase {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime ldt = LocalDateTime.parse("2016-12-12 12:12:12", formatter);
 
-		ComputerServiceImpl.instance.create("fail", null, ldt, 1);
+		ctdao.create("fail", null, ldt, 1);
 
 	}
 /**
@@ -188,18 +194,18 @@ public class ComputerServiceImplTest extends TestCase {
 
 		Company company = null;
 		try {
-			company = CompanyDaoImpl.instance.getById(7);
+			company = cndao.getById(7);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
-		Computer comp = ComputerDaoImpl.instance.getById(14);
+		Computer comp = ctdao.getById(14);
 		Computer comp2 = new Computer(14, "computerTest", ldt, null, company);
 
 		assertFalse(comp.equals(comp2));
-		ComputerServiceImpl.instance.update(comp2);
+		ctdao.update(comp2);
 
-		comp = ComputerServiceImpl.instance.getById(14);
+		comp = ctdao.getById(14);
 		assertEquals(comp, comp2);
 
 	}

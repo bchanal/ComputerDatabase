@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
 
@@ -16,13 +18,16 @@ import com.excilys.cdb.service.impl.ComputerServiceImpl;
  * Servlet implementation class Dashboard
  */
 @WebServlet("/dashboard")
-public class Dashboard extends HttpServlet {
+public class Dashboard extends AbstractSpringHttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final String ATT_SEARCH = "search";
 	private static final String ATT_NUMPAGE = "numPage";
 	private static final String ATT_PAGE = "page";
 	private static final String VUE = "/static/views/dashboard.jsp";
+	
+	@Autowired
+	ComputerServiceImpl ctdao;
 
 	public Dashboard() {
 		super();
@@ -64,7 +69,7 @@ public class Dashboard extends HttpServlet {
 	protected Page getAPage(int numPage, int nbPP, String search) {
 		
 		int index = (numPage - 1) * nbPP;
-		Page page = ComputerServiceImpl.instance.getAPage(index, nbPP, search);
+		Page page = ctdao.getAPage(index, nbPP, search);
 
 		return page;
 	}

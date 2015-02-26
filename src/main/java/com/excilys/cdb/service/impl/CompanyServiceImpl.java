@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Company;
@@ -13,12 +15,12 @@ import com.excilys.cdb.persistence.ConnectDao;
 import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
 import com.excilys.cdb.service.CompanyService;
 
-public enum CompanyServiceImpl implements CompanyService {
-
-	instance;
+@Service
+public class CompanyServiceImpl implements CompanyService {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(CompanyServiceImpl.class);
-	private CompanyDaoImpl cdao = CompanyDaoImpl.instance;
+	@Autowired
+	private CompanyDaoImpl cdao;
 
 	private CompanyServiceImpl() {
 	}

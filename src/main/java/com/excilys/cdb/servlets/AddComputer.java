@@ -7,12 +7,12 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
@@ -23,13 +23,17 @@ import com.excilys.cdb.service.impl.ComputerServiceImpl;
 import com.excilys.cdb.validation.DtoValidation;
 
 @WebServlet("/add-computer")
-public class AddComputer extends HttpServlet {
+public class AddComputer extends AbstractSpringHttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VUE = "/static/views/addComputer.jsp";
 	private static final String ATT_LISTCOMPANIES = "listCompanies";
 
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(AddComputer.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(AddComputer.class);
+	
+	@Autowired
+	ComputerServiceImpl ctdao;
+	@Autowired
+	CompanyServiceImpl cndao;
 
 	public AddComputer() {
 		super();
@@ -40,8 +44,7 @@ public class AddComputer extends HttpServlet {
 		List<Company> listCompanies = getCompanies(request);
 		request.setAttribute(ATT_LISTCOMPANIES, listCompanies);
 
-		this.getServletContext().getRequestDispatcher(VUE)
-				.forward(request, response);
+		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 
 	}
 
@@ -64,7 +67,7 @@ public class AddComputer extends HttpServlet {
 
 		Company comp = null;
 		try {
-			comp = CompanyServiceImpl.instance.getById(companyId);
+			comp = cndao.getById(companyId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());
@@ -78,7 +81,7 @@ public class AddComputer extends HttpServlet {
 
 		if (validationErrors.size() == 0) {
 			Computer c = DtoMapper.dtoToComputer(cdto);
-			ComputerServiceImpl.instance.create(c.getName(), c.getDateIntro(), c.getDateDiscontinued(), c.getManufacturer().getId());
+			ctdao.create(c.getName(), c.getDateIntro(), c.getDateDiscontinued(), c.getManufacturer().getId());
 			LOGGER.info("Computer added with success, redirecting to the Dashboard");
 			response.sendRedirect(request.getContextPath() + "/dashboard");
 		} else {
@@ -90,14 +93,13 @@ public class AddComputer extends HttpServlet {
 	}
 
 	private List<Company> getCompanies(HttpServletRequest request) {
-		try {
-			return CompanyServiceImpl.instance.getAll();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.error(e.getMessage());
-			throw new RuntimeException();
-		}
-		
+			try {
+				return cndao.getAll();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				LOGGER.error(e.getMessage());
+				throw new RuntimeException();
+			}	
 
 	}
 }

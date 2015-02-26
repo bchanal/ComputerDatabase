@@ -8,14 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
 
 /**
  * Servlet implementation class DeleteCommputer
  */
 @WebServlet("/delete-computer")
-public class DeleteComputer extends HttpServlet {
+public class DeleteComputer extends AbstractSpringHttpServlet {
 	private static final long serialVersionUID = 1L;
+	@Autowired
+	ComputerServiceImpl ctdao;
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -34,7 +39,7 @@ public class DeleteComputer extends HttpServlet {
 
 		for (String idStr : tabId) {
 			id = Integer.parseInt(idStr);
-			ComputerServiceImpl.instance.delete(id);
+			ctdao.delete(id);
 		}
 		response.sendRedirect("dashboard");
 	}
