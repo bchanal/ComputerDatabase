@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
@@ -25,9 +26,8 @@ import com.excilys.cdb.persistence.mapper.ComputerMapper;
  * @author berangere
  * 
  */
-public enum ComputerDaoImpl {
-
-	instance;
+@Repository
+public class ComputerDaoImpl {
 
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(ComputerDaoImpl.class);
@@ -199,7 +199,7 @@ public enum ComputerDaoImpl {
 		ResultSet result = null;
 		Connection connect = null;
 		PreparedStatement prep1 = null;
-		String query = "SELECT * FROM computer WHERE id= ?";
+		String query = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.id= ?";
 		try {
 			connect = ConnectDao.getConnection();
 			prep1 = connect.prepareStatement(query);

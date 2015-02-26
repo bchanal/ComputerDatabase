@@ -52,7 +52,7 @@ public enum ComputerMapper implements RowMapper<Computer> {
 
 				if (result.getInt("company_id") != 0) {
 					
-					int coId = result.getInt("company.id");
+					int coId = result.getInt("company_id");
 					String coName = result.getString("company.name");
 					co = new Company(coId, coName);
 					

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
@@ -26,7 +27,7 @@ import com.excilys.cdb.validation.DtoValidation;
  * Servlet implementation class editComputer
  */
 @WebServlet("/edit-computer")
-public class EditComputer extends HttpServlet {
+public class EditComputer extends AbstractSpringHttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VUE = "/static/views/editComputer.jsp";
 	private static final String ATT_LISTCOMPANIES = "listCompanies";
@@ -37,6 +38,10 @@ public class EditComputer extends HttpServlet {
 			.getLogger(EditComputer.class);
 
 	private int idEdit;
+	@Autowired
+	ComputerServiceImpl ctdao;
+	@Autowired
+	CompanyServiceImpl cndao;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -58,7 +63,7 @@ public class EditComputer extends HttpServlet {
 		this.idEdit = Integer.parseInt(request.getParameter("id"));
 		request.setAttribute(ATT_IDEDIT, idEdit);
 
-		Computer computer = ComputerServiceImpl.instance.getById(idEdit);
+		Computer computer = ctdao.getById(idEdit);
 		ComputerDto cdto = DtoMapper.computerToDto(computer);
 
 		request.setAttribute(ATT_COMPUTER, cdto);
@@ -79,13 +84,11 @@ public class EditComputer extends HttpServlet {
 
 		updateComputer(request, response);
 
-		this.getServletContext().getRequestDispatcher(VUE)
-				.forward(request, response);
 	}
 
 	private List<Company> getCompanies(HttpServletRequest request) {
 		try {
-			return CompanyServiceImpl.instance.getAll();
+			return cndao.getAll();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());
@@ -96,30 +99,31 @@ public class EditComputer extends HttpServlet {
 	private void updateComputer(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
+		System.out.println(idEdit);
 		final String name = request.getParameter("computerName");
 		final String introduced = request.getParameter("introduced");
 		final String discontinued = request.getParameter("discontinued");
-		final int companyId = Integer.parseInt(request
-				.getParameter("companyId"));
+		final int companyId = Integer.parseInt(request.getParameter("companyId"));
 
 		Company comp = null;
 		try {
-			comp = CompanyServiceImpl.instance.getById(companyId);
+			comp = cndao.getById(companyId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOGGER.error(e.getMessage());
 			throw new RuntimeException();
 		}
 
-		ComputerDto cdto = new ComputerDto(0, name, introduced, discontinued,
-				comp);
+		ComputerDto cdto = new ComputerDto(idEdit, name, introduced,
+				discontinued, comp);
+		System.out.println(cdto.toString());
 
 		List<String> validationErrors = new ArrayList<>();
 		validationErrors = DtoValidation.validate(cdto);
 
 		if (validationErrors.size() == 0) {
 			Computer c = DtoMapper.dtoToComputer(cdto);
-			ComputerServiceImpl.instance.update(c);
+			ctdao.update(c);
 			LOGGER.info("Computer added with success, redirecting to the Dashboard");
 			response.sendRedirect(request.getContextPath() + "/dashboard");
 		} else {
