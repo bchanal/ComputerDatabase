@@ -8,8 +8,11 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.exception.ConnectionException;
 import com.excilys.cdb.util.PropertyValue;
-import com.jolbox.bonecp.BoneCP;
-import com.jolbox.bonecp.BoneCPConfig;
+//import com.jolbox.bonecp.BoneCP;
+//import com.jolbox.bonecp.BoneCPConfig;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /**
  * ConnectDAO : class to have a connection to the DB
@@ -24,39 +27,46 @@ public class ConnectDao {
 	private static final String URL = PropertyValue.instance.getUrl();
 	private static final String USER = PropertyValue.instance.getUser();
 	private static final String PASSWD = PropertyValue.instance.getPasswd();
-	private static final int MINCONNECTIONS = PropertyValue.instance.getMin();
-	private static final int MAXCONNECTIONS = PropertyValue.instance.getMax();
-	private static final int PARTITIONCOUNT = PropertyValue.instance.getPartitionCount();
-	private static BoneCP CONNECTIONPOOL;
-
+//	private static final int MINCONNECTIONS = PropertyValue.instance.getMin();
+//	private static final int MAXCONNECTIONS = PropertyValue.instance.getMax();
+//	private static final int PARTITIONCOUNT = PropertyValue.instance.getPartitionCount();
+//	private static BoneCP CONNECTIONPOOL;
+	private static DriverManagerDataSource dataSource;
+	@Autowired
 	private static ThreadLocal<Connection> connectThread = new ThreadLocal<Connection>();
 
 	/**
 	 * initialize connection
 	 */
 	static {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			throw new ConnectionException();
-		}
+		dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl(URL);
+		dataSource.setUsername(USER);
+		dataSource.setPassword(PASSWD);
 
-		BoneCPConfig config = new BoneCPConfig();
-		config.setJdbcUrl(URL);
-		config.setUsername(USER);
-		config.setPassword(PASSWD);
-		config.setMinConnectionsPerPartition(MINCONNECTIONS);
-		config.setMaxConnectionsPerPartition(MAXCONNECTIONS);
-		config.setPartitionCount(PARTITIONCOUNT);
+		// try {
+		// Class.forName("com.mysql.jdbc.Driver");
+		// } catch (ClassNotFoundException e) {
+		// e.printStackTrace();
+		// throw new ConnectionException();
+		// }
 
-		try {
-			CONNECTIONPOOL = new BoneCP(config);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.error(e.getMessage());
-			throw new ConnectionException();
-		}
+		// BoneCPConfig config = new BoneCPConfig();
+		// config.setJdbcUrl(URL);
+		// config.setUsername(USER);
+		// config.setPassword(PASSWD);
+		// config.setMinConnectionsPerPartition(MINCONNECTIONS);
+		// config.setMaxConnectionsPerPartition(MAXCONNECTIONS);
+		// config.setPartitionCount(PARTITIONCOUNT);
+
+		// try {
+		// CONNECTIONPOOL = new BoneCP(config);
+		// } catch (SQLException e) {
+		// e.printStackTrace();
+		// LOGGER.error(e.getMessage());
+		// throw new ConnectionException();
+		// }
 	}
 
 	/**
@@ -68,7 +78,8 @@ public class ConnectDao {
 	public static Connection getConnection() throws SQLException {
 
 		if (connectThread.get() == null) {
-			connectThread.set(CONNECTIONPOOL.getConnection());
+			// connectThread.set(CONNECTIONPOOL.getConnection());
+			connectThread.set(dataSource.getConnection());
 		}
 
 		if (connectThread.get() != null) {
@@ -82,7 +93,8 @@ public class ConnectDao {
 	public static void initTransaction() {
 		Connection connect;
 		try {
-			connect = CONNECTIONPOOL.getConnection();
+//			connect = CONNECTIONPOOL.getConnection();
+			connect = dataSource.getConnection();
 			connect.setAutoCommit(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -99,7 +111,7 @@ public class ConnectDao {
 	public static void close() {
 		try {
 			Connection connect = connectThread.get();
-			if (connect.getAutoCommit()){
+			if (connect.getAutoCommit()) {
 				connect.close();
 				connectThread.remove();
 			}
