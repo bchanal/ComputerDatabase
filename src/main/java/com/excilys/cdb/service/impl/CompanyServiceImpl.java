@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.cdb.exception.ConnectionException;
+import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.ConnectDao;
 import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
@@ -42,7 +43,11 @@ public class CompanyServiceImpl implements CompanyService {
 //		try {
 			// connect = codao.getConnection();
 //			codao.initTransaction();
+		try{
 			cdao.delete(connect, id);
+		} catch (ConnectionException e) {
+			throw new ServiceException(e);
+		}
 //			connect.commit();
 //		} catch (SQLException e) {
 //			if (connect != null) {

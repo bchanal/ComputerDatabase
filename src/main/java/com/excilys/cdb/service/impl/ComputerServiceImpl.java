@@ -3,13 +3,14 @@ package com.excilys.cdb.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.excilys.cdb.exception.ConnectionException;
+import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
@@ -36,21 +37,30 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	@Transactional(rollbackFor=Exception.class)
+	@Transactional(rollbackFor = ConnectionException.class)
 	public Page getAPage(int index, int nb, String name) {
 
 		Page p = null;
-
-		p = cdao.getAPage(index, nb, name);
-		int nbTotal = cdao.getNbComputers(name);
+		int nbTotal=0;
+		try {
+			p = cdao.getAPage(index, nb, name);
+			nbTotal = cdao.getNbComputers(name);
+		} catch (ConnectionException e) {
+			throw new ServiceException(e);
+		}
 		p.setNbTotalComputer(nbTotal);
 
 		return p;
+
 	}
 
 	@Override
 	public void delete(int computerId) {
-		cdao.delete(computerId);
+		try {
+			cdao.delete(computerId);
+		} catch (ConnectionException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override

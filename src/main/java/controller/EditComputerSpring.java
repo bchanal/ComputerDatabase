@@ -1,4 +1,4 @@
-package com.excilys.cdb.servlets;
+package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,6 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
@@ -21,13 +28,16 @@ import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.impl.CompanyServiceImpl;
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
+import com.excilys.cdb.servlets.AbstractSpringHttpServlet;
+import com.excilys.cdb.servlets.EditComputer;
 import com.excilys.cdb.validation.DtoValidation;
 
 /**
  * Servlet implementation class editComputer
  */
-@WebServlet("/edit-computer")
-public class EditComputer extends AbstractSpringHttpServlet {
+//@WebServlet("/edit-computer")
+@Controller
+public class EditComputerSpring extends AbstractSpringHttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VUE = "/static/views/editComputer.jsp";
 	private static final String ATT_LISTCOMPANIES = "listCompanies";
@@ -42,20 +52,32 @@ public class EditComputer extends AbstractSpringHttpServlet {
 	private ComputerServiceImpl ctdao;
 	@Autowired
 	private CompanyServiceImpl cndao;
+	
+	@Autowired 
+	@Qualifier("DtoValidator")
+	private Validator validator;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public EditComputer() {
+	public EditComputerSpring() {
 		super();
 	}
+	
+	   @InitBinder
+	    private void initBinder(WebDataBinder binder) {
+	        binder.setValidator(validator);
+	    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	@RequestMapping(value="edit-computer", method = RequestMethod.GET)
+//	protected void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+protected void setEditInformations(Computer computer){
+		
+		LOGGER.info("Returning jsp page");
 
 		List<Company> listCompanies = getCompanies(request);
 		request.setAttribute(ATT_LISTCOMPANIES, listCompanies);
@@ -99,8 +121,6 @@ public class EditComputer extends AbstractSpringHttpServlet {
 	private void updateComputer(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-		
-		DtoValidation <ComputerDto>dtoval = new DtoValidation<ComputerDto>();
 		System.out.println(idEdit);
 		final String name = request.getParameter("computerName");
 		final String introduced = request.getParameter("introduced");
@@ -121,7 +141,7 @@ public class EditComputer extends AbstractSpringHttpServlet {
 		System.out.println(cdto.toString());
 
 		List<String> validationErrors = new ArrayList<>();
-		validationErrors = dtoval.validate(cdto);
+		validationErrors = DtoValidation.validate(cdto);
 
 		if (validationErrors.size() == 0) {
 			Computer c = DtoMapper.dtoToComputer(cdto);

@@ -11,15 +11,18 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-import org.springframework.test.context.ContextConfiguration;
+//import org.springframework.test.context.ContextConfiguration;
 import org.junit.Assert;
+import org.junit.runner.RunWith;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
 import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
 
-@ContextConfiguration(locations = { "classpath:application-context.xml" })
+
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = { "classpath:application-context.xml" })
 
 public class ComputerDaoImplTest {
 

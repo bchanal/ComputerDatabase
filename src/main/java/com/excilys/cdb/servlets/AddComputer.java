@@ -30,6 +30,7 @@ public class AddComputer extends AbstractSpringHttpServlet {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(AddComputer.class);
 	
+	private DtoValidation<ComputerDto> dtovalid = new DtoValidation<ComputerDto>();
 	@Autowired
 	private ComputerServiceImpl ctdao;
 	@Autowired
@@ -77,7 +78,7 @@ public class AddComputer extends AbstractSpringHttpServlet {
 		ComputerDto cdto = new ComputerDto(0, name, introduced, discontinued,comp);
 
 		List<String> validationErrors = new ArrayList<String>();
-		validationErrors = DtoValidation.validate(cdto);
+		validationErrors = dtovalid.validate(cdto);
 
 		if (validationErrors.size() == 0) {
 			Computer c = DtoMapper.dtoToComputer(cdto);

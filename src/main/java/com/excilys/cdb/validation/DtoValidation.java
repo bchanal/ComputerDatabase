@@ -10,8 +10,8 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 public class DtoValidation<T> {
-
-	public static <T> List<String> validate(T t) {
+	
+	public List<String> validate(T t) {
 
 		List<String> errors = new ArrayList<String>();
 
@@ -29,7 +29,6 @@ public class DtoValidation<T> {
 				errors.add(error);
 			}
 		}
-
 		return errors;
 
 	}
