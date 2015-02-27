@@ -39,9 +39,9 @@ public class EditComputer extends AbstractSpringHttpServlet {
 
 	private int idEdit;
 	@Autowired
-	ComputerServiceImpl ctdao;
+	private ComputerServiceImpl ctdao;
 	@Autowired
-	CompanyServiceImpl cndao;
+	private CompanyServiceImpl cndao;
 
 	/**
 	 * @see HttpServlet#HttpServlet()

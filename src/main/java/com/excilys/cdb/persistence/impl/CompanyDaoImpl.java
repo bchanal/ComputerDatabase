@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,14 +22,15 @@ import com.excilys.cdb.persistence.mapper.SpringCompanyMapper;
  */
 @Repository
 public class CompanyDaoImpl implements CompanyDao {
-
-	private JdbcTemplate jdbcTemplate;
-	
 	@Autowired
-	private SpringCompanyMapper cmap; 
+	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	private SpringCompanyMapper cmap;
+	@Autowired
+	private ConnectDao codao;
 
 	private CompanyDaoImpl() {
-		this.jdbcTemplate = new JdbcTemplate(ConnectDao.getDataSource());
 	}
 
 	/**
@@ -40,34 +40,10 @@ public class CompanyDaoImpl implements CompanyDao {
 	 */
 	public List<Company> getAll() {
 		List<Company> listCompany = new ArrayList<Company>();
-//		Connection connect = null;
-//		PreparedStatement prep1 = null;
-//		ResultSet result = null;
 		String query = "SELECT * FROM company";
 		listCompany = jdbcTemplate.query(query, cmap);
 
-//		try {
-//			connect = ConnectDao.getConnection();
-//			prep1 = connect.prepareStatement(query);
-//			result = prep1.executeQuery();
-//			listCompany = cmap.toList(result);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			LOGGER.error(e.getMessage());
-//			throw new RuntimeException();
-//		} finally {
-//			try {
-//				result.close();
-//				prep1.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//				LOGGER.error(e.getMessage());
-//				throw new ConnectionException();
-//			}
-//			ConnectDao.close();
-//		}
 		return listCompany;
-
 	}
 
 	/**
@@ -80,34 +56,10 @@ public class CompanyDaoImpl implements CompanyDao {
 	 */
 	public Company getById(int id) throws SQLException {
 		Company comp = null;
-//		Connection connect = null;
-//		ResultSet result = null;
-//		PreparedStatement prep1 = null;
-//		try {
 
-			String query = "SELECT * FROM company WHERE id= ?";
-			comp = jdbcTemplate.queryForObject(query, new Object[]{id}, cmap);
-//			connect = ConnectDao.getConnection();
-//			prep1 = connect.prepareStatement(query);
-//
-//			prep1.setInt(1, id);
-//			result = prep1.executeQuery();
-//
-//			if (result.next()) {
-//				comp = new Company(result.getInt("id"),
-//						result.getString("name")); // mettre dans mapper
-//			}
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			LOGGER.error(e.getMessage());
-//			throw new RuntimeException();
-//
-//		} finally {
-//			result.close();
-//			prep1.close();
-//			ConnectDao.close();
-//		}
+
+		String query = "SELECT * FROM company WHERE id= ?";
+		comp = jdbcTemplate.queryForObject(query, new Object[] { id }, cmap);
 
 		return comp;
 	}
@@ -121,38 +73,14 @@ public class CompanyDaoImpl implements CompanyDao {
 	 *            the id of the computer to delete
 	 */
 	public synchronized void delete(Connection connect, int id) {
-//		PreparedStatement prep1 = null;
-//		PreparedStatement prep2 = null;
-//		try {
-			String query = "DELETE FROM computer WHERE company_id= ?";
-			String query2 = "DELETE FROM company WHERE id= ?";
-			jdbcTemplate.update(query, id);
-			jdbcTemplate.update(query2, id);
-			
-			System.out.println(id);
 
-//			prep1 = connect.prepareStatement(query);
-//			prep1.setInt(1, id);
-//			prep1.executeUpdate();
-//
-//			prep2 = connect.prepareStatement(query2);
-//			prep2.setInt(1, id);
-//			prep2.executeUpdate();
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			LOGGER.error(e.getMessage());
-//			throw new RuntimeException();
-//
-//		} finally {
-//			try {
-//				prep1.close();
-//				prep2.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//				LOGGER.error(e.getMessage());
-//			}
-//		}
+		String query = "DELETE FROM computer WHERE company_id= ?";
+		String query2 = "DELETE FROM company WHERE id= ?";
+		jdbcTemplate.update(query, id);
+		jdbcTemplate.update(query2, id);
+
+		System.out.println(id);
+
 	}
 
 }

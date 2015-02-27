@@ -31,9 +31,9 @@ public class AddComputer extends AbstractSpringHttpServlet {
 	private final static Logger LOGGER = LoggerFactory.getLogger(AddComputer.class);
 	
 	@Autowired
-	ComputerServiceImpl ctdao;
+	private ComputerServiceImpl ctdao;
 	@Autowired
-	CompanyServiceImpl cndao;
+	private CompanyServiceImpl cndao;
 
 	public AddComputer() {
 		super();

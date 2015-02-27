@@ -21,6 +21,8 @@ public class CompanyServiceImpl implements CompanyService {
 	private final static Logger LOGGER = LoggerFactory.getLogger(CompanyServiceImpl.class);
 	@Autowired
 	private CompanyDaoImpl cdao;
+	@Autowired
+	private ConnectDao codao;
 
 	private CompanyServiceImpl() {
 	}
@@ -39,8 +41,8 @@ public class CompanyServiceImpl implements CompanyService {
 	public void delete(int id) {
 		Connection connect = null;
 		try {
-			connect = ConnectDao.getConnection();
-			ConnectDao.initTransaction();
+			connect = codao.getConnection();
+			codao.initTransaction();
 			cdao.delete(connect, id);
 			connect.commit();
 		} catch (SQLException e) {
@@ -59,7 +61,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 		} finally {
 
-			ConnectDao.closeTransaction();
+			codao.closeTransaction();
 		}
 	}
 

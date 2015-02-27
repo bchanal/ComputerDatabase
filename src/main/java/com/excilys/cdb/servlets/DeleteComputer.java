@@ -19,7 +19,7 @@ import com.excilys.cdb.service.impl.ComputerServiceImpl;
 public class DeleteComputer extends AbstractSpringHttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Autowired
-	ComputerServiceImpl ctdao;
+	private ComputerServiceImpl ctdao;
 
        
     /**

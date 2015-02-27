@@ -27,7 +27,7 @@ public class Dashboard extends AbstractSpringHttpServlet {
 	private static final String VUE = "/static/views/dashboard.jsp";
 	
 	@Autowired
-	ComputerServiceImpl ctdao;
+	private ComputerServiceImpl ctdao;
 
 	public Dashboard() {
 		super();

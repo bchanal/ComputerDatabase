@@ -5,13 +5,10 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
 import com.excilys.cdb.service.impl.CompanyServiceImpl;
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
 import com.excilys.cdb.util.Util;
@@ -33,9 +30,7 @@ public class Cli {
 	public Cli() {
 	}
 
-	public static void main(String[] args) throws SQLException {
-		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext("/applicationContextCLI.xml");
-
+	public void run(String[] args) throws SQLException {
 		end = false;
 		Scanner sc = new Scanner(System.in);
 		while (!end) {

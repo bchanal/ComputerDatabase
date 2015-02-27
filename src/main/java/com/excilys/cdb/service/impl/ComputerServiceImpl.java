@@ -3,7 +3,6 @@ package com.excilys.cdb.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +16,8 @@ import com.excilys.cdb.service.ComputerService;
 @Service
 public class ComputerServiceImpl implements ComputerService {
 
-//	private final static Logger LOGGER = LoggerFactory.getLogger(ComputerServiceImpl.class);
-
 	@Autowired
-	private ComputerDaoImpl cdao; 
+	private ComputerDaoImpl cdao;
 
 	private ComputerServiceImpl() {
 	}
@@ -39,18 +36,11 @@ public class ComputerServiceImpl implements ComputerService {
 	@Override
 	public Page getAPage(int index, int nb, String name) {
 
-//		Connection connect = null;
-		Page p=null;
+		Page p = null;
 
-//			connect = ConnectDao.getConnection();
-//			ConnectDao.initTransaction();
-			p = cdao.getAPage(index, nb, name);
-			int nbTotal = cdao.getNbComputers(name);
-			p.setNbTotalComputer(nbTotal);
-//			connect = ConnectDao.getConnection();
-//			connect.commit();
-
-//			ConnectDao.closeTransaction();
+		p = cdao.getAPage(index, nb, name);
+		int nbTotal = cdao.getNbComputers(name);
+		p.setNbTotalComputer(nbTotal);
 
 		return p;
 	}

@@ -25,16 +25,15 @@ import com.excilys.cdb.persistence.mapper.SpringComputerMapper;
  */
 @Repository
 public class ComputerDaoImpl {
-
+@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	private static SpringComputerMapper cmap;
+	private SpringComputerMapper cmap;
 	@Autowired
-	private static ConnectDao codao;
+	private ConnectDao codao;
 
 	public ComputerDaoImpl() {
-		this.jdbcTemplate = new JdbcTemplate(ConnectDao.getDataSource());
 	}
 
 	/**
@@ -90,9 +89,10 @@ public class ComputerDaoImpl {
 		String query = "SELECT COUNT(*) " + "FROM computer "
 				+ "LEFT JOIN company ON computer.company_id = company.id "
 				+ "WHERE computer.name LIKE ? OR company.name LIKE ?;";
+		
+		String nameC= "%"+name+"%";
 
-		int size = jdbcTemplate.queryForObject(query, new Object[] { name },
-				Integer.class);
+		int size = jdbcTemplate.queryForObject(query, new Object[] {nameC, nameC},Integer.class);
 
 		return size;
 	}

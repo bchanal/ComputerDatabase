@@ -30,9 +30,9 @@ public class ComputerDaoImplTest {
 	 */
 	
 	@Autowired
-	ComputerDaoImpl ctdao;
+	private ComputerDaoImpl ctdao;
 	@Autowired
-	CompanyDaoImpl cndao;
+	private CompanyDaoImpl cndao;
 
 	@Before
 	public void setUp() throws Exception {
