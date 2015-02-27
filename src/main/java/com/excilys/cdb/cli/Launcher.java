@@ -9,7 +9,7 @@ public class Launcher {
 
 	public static void main(String[] args) throws SQLException {
 		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(
-				"/applicationContextCLI.xml");
+				"/applicationContext.xml");
 		Cli cli = ctx.getBean(Cli.class);
 		cli.run(args);
 		

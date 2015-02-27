@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
@@ -19,13 +20,14 @@ import com.excilys.cdb.util.Util;
  * @author berangere
  *
  */
+@Component
 public class Cli {
-	private static boolean end;
+	private boolean end;
 	
 	@Autowired
-	static ComputerServiceImpl ctdao;
+	private ComputerServiceImpl ctdao;
 	@Autowired
-	static	CompanyServiceImpl cndao;
+	private	CompanyServiceImpl cndao;
 
 	public Cli() {
 	}
@@ -43,7 +45,7 @@ public class Cli {
 	/**
 	 * display the menu
 	 */
-	private static void displayMenu() {
+	private void displayMenu() {
 
 		System.out.println("\n \n Please enter (1 to 7)");
 		System.out.println("\n----------------");
@@ -66,7 +68,7 @@ public class Cli {
 	 *            the menu entry choosen by the user
 	 * @throws SQLException
 	 */
-	private static void process() throws SQLException {
+	private void process() throws SQLException {
 		Scanner scan = new Scanner(System.in);
 		String str="8";
 		if(scan.hasNext()){
@@ -163,7 +165,7 @@ public class Cli {
 
 	}
 
-	private static void caseCreate() {
+	private void caseCreate() {
 		Scanner scan = new Scanner(System.in);
 
 		System.out.println("Name : "); // unicité
@@ -193,7 +195,7 @@ public class Cli {
 		scan.close();
 	}
 
-	private static void caseUpdate() throws SQLException {
+	private void caseUpdate() throws SQLException {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Id : ");
 		String idUpStr = scan.nextLine();

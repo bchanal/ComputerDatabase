@@ -18,7 +18,8 @@ import com.excilys.cdb.service.CompanyService;
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(CompanyServiceImpl.class);
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(CompanyServiceImpl.class);
 	@Autowired
 	private CompanyDaoImpl cdao;
 	@Autowired
@@ -40,29 +41,28 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public void delete(int id) {
 		Connection connect = null;
-		try {
-			connect = codao.getConnection();
-			codao.initTransaction();
+//		try {
+			// connect = codao.getConnection();
+//			codao.initTransaction();
 			cdao.delete(connect, id);
-			connect.commit();
-		} catch (SQLException e) {
-			if (connect != null) {
-				try {
-					connect.rollback();
-				} catch (SQLException e1) {
-					e.printStackTrace();
-					LOGGER.error(e.getMessage());
-					throw new ServiceException();
-				}
-			}
-			e.printStackTrace();
-			LOGGER.error(e.getMessage());
-			throw new RuntimeException();
-
-		} finally {
-
-			codao.closeTransaction();
-		}
+//			connect.commit();
+//		} catch (SQLException e) {
+//			if (connect != null) {
+//				try {
+//					connect.rollback();
+//				} catch (SQLException e1) {
+//					e.printStackTrace();
+//					LOGGER.error(e.getMessage());
+//					throw new ServiceException();
+//				}
+//			}
+//			e.printStackTrace();
+//			LOGGER.error(e.getMessage());
+//			throw new RuntimeException();
+//
+//		} finally {
+//			codao.closeTransaction();
+//		}
 	}
 
 }
