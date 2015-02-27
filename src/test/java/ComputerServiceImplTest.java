@@ -35,9 +35,9 @@ import com.excilys.cdb.service.impl.ComputerServiceImpl;
 public class ComputerServiceImplTest extends TestCase {
 	
 	@Autowired
-	ComputerServiceImpl ctdao;
+	private ComputerServiceImpl ctdao;
 	@Autowired
-	CompanyServiceImpl cndao;
+	private CompanyServiceImpl cndao;
 	
 	@Mock private ComputerDaoImpl computerDao;
 	private Page page;

@@ -1,6 +1,5 @@
 package com.excilys.cdb.persistence.impl;
 
-
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,6 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
@@ -25,9 +26,9 @@ import com.excilys.cdb.persistence.mapper.SpringComputerMapper;
  */
 @Repository
 public class ComputerDaoImpl {
-@Autowired
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+
 	@Autowired
 	private SpringComputerMapper cmap;
 	@Autowired
@@ -61,13 +62,15 @@ public class ComputerDaoImpl {
 	 *            the name searched
 	 * @return list the list of computers
 	 */
+	@Transactional(propagation = Propagation.MANDATORY)
 	public Page getAPage(int index, int nb, String name) {
 
 		String query = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY computer.id LIMIT ? , ?;";
 		String nameSearch = "%" + name + "%";
 
-		List<Computer> list = this.jdbcTemplate.query(query, new Object[]{nameSearch, nameSearch, index, nb }, cmap);
-		
+		List<Computer> list = this.jdbcTemplate.query(query, new Object[] {
+				nameSearch, nameSearch, index, nb }, cmap);
+
 		List<ComputerDto> listdto = new ArrayList<ComputerDto>();
 		for (Computer c : list) {
 			listdto.add(DtoMapper.computerToDto(c));
@@ -89,10 +92,11 @@ public class ComputerDaoImpl {
 		String query = "SELECT COUNT(*) " + "FROM computer "
 				+ "LEFT JOIN company ON computer.company_id = company.id "
 				+ "WHERE computer.name LIKE ? OR company.name LIKE ?;";
-		
-		String nameC= "%"+name+"%";
 
-		int size = jdbcTemplate.queryForObject(query, new Object[] {nameC, nameC},Integer.class);
+		String nameC = "%" + name + "%";
+
+		int size = jdbcTemplate.queryForObject(query, new Object[] { nameC,
+				nameC }, Integer.class);
 
 		return size;
 	}

@@ -3,10 +3,12 @@ package com.excilys.cdb.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
@@ -19,7 +21,7 @@ public class ComputerServiceImpl implements ComputerService {
 	@Autowired
 	private ComputerDaoImpl cdao;
 
-	private ComputerServiceImpl() {
+	public ComputerServiceImpl() {
 	}
 
 	@Override
@@ -34,6 +36,7 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
+	@Transactional(rollbackFor=Exception.class)
 	public Page getAPage(int index, int nb, String name) {
 
 		Page p = null;

@@ -9,12 +9,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.test.context.ContextConfiguration;
+import org.junit.Assert;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
 import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
 
+@ContextConfiguration(locations = { "classpath:application-context.xml" })
 
 public class ComputerDaoImplTest {
 
@@ -28,7 +33,7 @@ public class ComputerDaoImplTest {
 	 * @author berangere
 	 *
 	 */
-	
+
 	@Autowired
 	private ComputerDaoImpl ctdao;
 	@Autowired
@@ -82,7 +87,7 @@ public class ComputerDaoImplTest {
 	/**
 	 * test fot illegal call of getById
 	 */
-	@Test(expected = SQLException.class)
+	@Test(expected = NullPointerException.class)
 	public void testgetByIdInvalid() {
 
 		Computer comp = ctdao.getById(-1);
@@ -108,7 +113,7 @@ public class ComputerDaoImplTest {
 	/**
 	 * test for illegal call of delete method
 	 */
-	@Test(expected = SQLException.class)
+	@Test(expected = NullPointerException.class)
 	public void testDeleteInvalid() {
 
 		ctdao.delete(-1);
@@ -197,13 +202,5 @@ public class ComputerDaoImplTest {
 
 	}
 
-	// @Test(expected = NullPointerException.class)
-	// public void testUpdateInvalid() {
-	//
-	// Company company = null;
-	// Computer comp2 = new Computer(-7, "computerTest", null, null, company);
-	// ctdao.update(comp2);
-	//
-	// }
 
 }
