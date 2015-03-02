@@ -3,13 +3,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 
-<body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application -	<spring:message code="title" /></a>
-		</div>
-	</header>
-
 	<section id="main">
 		<div class="container">
 			<div class="row">

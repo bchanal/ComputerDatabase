@@ -1,24 +1,17 @@
-<%@ include file="header.jsp" %>
+<%@ include file="header.jsp"%>
 
-<body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+<section id="main">
+	<div class="container">
+		<div class="alert alert-danger">
+			<spring:message code="500" />
+			<br />
+			<!-- stacktrace -->
 		</div>
-	</header>
+	</div>
+</section>
 
-	<section id="main">
-		<div class="container">	
-			<div class="alert alert-danger">
-				Error 500: An error has occured!
-				<br/>
-				<!-- stacktrace -->
-			</div>
-		</div>
-	</section>
-
-	<script src="<c:url value="/static/js/jquery.min.js"/>"></script>
-	<script src="<c:url value="/static/js/bootstrap.min.js"/>"></script>
-	<script src="<c:url value="/static/js/dashboard.js"/>"></script>
+<script src="<c:url value="/static/js/jquery.min.js"/>"></script>
+<script src="<c:url value="/static/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/static/js/dashboard.js"/>"></script>
 </body>
 </html>

@@ -9,7 +9,7 @@ $(document).ready(
 			if (ValidateDate(dtValIn)) {
 				$('.errorintroduced').hide();
 			} else {
-				alert('Wrong date format');
+				alert(strings['errorFormat']);
 				$('.errorintroduced').show();
 				event.preventDefault();
 			}
@@ -17,7 +17,7 @@ $(document).ready(
 			if (ValidateDate(dtValDis)) {
 				$('.errordiscontinued').hide();
 			} else {
-				alert('Wrong date format');
+				alert(strings['errorFormat']);
 				$('.errordiscontinued').show();
 				event.preventDefault();
 			}

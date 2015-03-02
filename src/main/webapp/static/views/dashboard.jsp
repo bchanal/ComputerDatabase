@@ -1,13 +1,6 @@
 <%@ include file="header.jsp"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tag" %>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-
-<body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application <spring:message code="title" /></a>
-		</div>
-	</header>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 	<section id="main">
 		<div class="container">
@@ -84,6 +77,13 @@
 			
 		</div>
 
+
+<script type="text/javascript">
+	var strings = new Array();
+	strings['suredelete'] = "<spring:message code='suredelete' javaScriptEscape='true' />";
+	strings['view_button'] = "<spring:message code='button.view' javaScriptEscape='true' />";
+	strings['edit_button'] = "<spring:message code='button.edit' javaScriptEscape='true' />";
+</script>
 	</footer>
 	<%@ include file="footer.jsp"%>
 </body>
