@@ -8,8 +8,8 @@
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
-						<spring:message code="search" var="search"></spring:message>
-						<input type="search" id="searchbox" name="search" class="form-control" placeholder="${search}" /> 
+						<spring:message code="search" var="searchfield"></spring:message>
+						<input type="search" id="searchbox" name="search" class="form-control" placeholder="${searchfield}" /> 
 						<spring:message code="button.filter" var="filter"></spring:message>	
 						<input type="submit" id="searchsubmit" value="${filter}" class="btn btn-primary" />
 					</form>
