@@ -17,7 +17,7 @@ import com.excilys.cdb.service.impl.ComputerServiceImpl;
 /**
  * Servlet implementation class Dashboard
  */
-@WebServlet("/dashboard")
+@WebServlet("/dashboard2")
 public class Dashboard extends AbstractSpringHttpServlet {
 
 	private static final long serialVersionUID = 1L;

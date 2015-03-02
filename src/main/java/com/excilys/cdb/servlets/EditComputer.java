@@ -26,7 +26,7 @@ import com.excilys.cdb.validation.DtoValidation;
 /**
  * Servlet implementation class editComputer
  */
-@WebServlet("/edit-computer")
+@WebServlet("/edit-computer2")
 public class EditComputer extends AbstractSpringHttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VUE = "/static/views/editComputer.jsp";

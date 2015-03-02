@@ -22,7 +22,7 @@ import com.excilys.cdb.service.impl.CompanyServiceImpl;
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
 import com.excilys.cdb.validation.DtoValidation;
 
-@WebServlet("/add-computer")
+@WebServlet("/add-computer2")
 public class AddComputer extends AbstractSpringHttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VUE = "/static/views/addComputer.jsp";

@@ -15,7 +15,7 @@ import com.excilys.cdb.service.impl.ComputerServiceImpl;
 /**
  * Servlet implementation class DeleteCommputer
  */
-@WebServlet("/delete-computer")
+@WebServlet("/delete-computer2")
 public class DeleteComputer extends AbstractSpringHttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Autowired
