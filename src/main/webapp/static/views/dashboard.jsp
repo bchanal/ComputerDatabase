@@ -1,31 +1,29 @@
 <%@ include file="header.jsp"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tag" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application - Computer
-				Database </a>
+			<a class="navbar-brand" href="dashboard"> Application <spring:message code="title" /></a>
 		</div>
 	</header>
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${ page.nbTotalComputer} Computers found </h1>
+			<h1 id="homeTitle">${ page.nbTotalComputer} <spring:message code="nbComputers" /></h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
-
-						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
-							class="btn btn-primary" />
+						<spring:message code="search" var="search"></spring:message>
+						<input type="search" id="searchbox" name="search" class="form-control" placeholder="${search}" /> 
+						<spring:message code="button.filter" var="filter"></spring:message>	
+						<input type="submit" id="searchsubmit" value="${filter}" class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="add-computer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-						onclick="$.fn.toggleEditMode();">Edit</a>
+					<a class="btn btn-success" id="addComputer" href="add-computer"><spring:message code="button.add" /></a> 
+					<a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="button.edit" /></a>
 				</div>
 			</div>
 		</div>
@@ -48,12 +46,12 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th>Computer name</th>
-						<th>Introduced date</th>
+						<th><spring:message code="tab.name" /></th>
+						<th><spring:message code="tab.introduced" /></th>
 						<!-- Table header for Discontinued Date -->
-						<th>Discontinued date</th>
+						<th><spring:message code="tab.discontinued" /></th>
 						<!-- Table header for Company -->
-						<th>Company</th>
+						<th><spring:message code="tab.company" /></th>
 
 					</tr>
 				</thead>
