@@ -38,6 +38,8 @@ public class ComputerServiceImplTest extends TestCase {
 	private ComputerServiceImpl ctdao;
 	@Autowired
 	private CompanyServiceImpl cndao;
+	@Autowired
+	private DtoMapper dtoMap;
 	
 	@Mock private ComputerDaoImpl computerDao;
 	private Page page;
@@ -48,19 +50,19 @@ public class ComputerServiceImplTest extends TestCase {
 	@Before
 	public void setUp(){
 		
-	page = ctdao.getAPage(1,20, "");
+	page = ctdao.getAPage(1,20, "", 1);
 	//page2 = ctdao.getAPage(1,20, "test");
 	listDto = page.getList();
 	list = new ArrayList<Computer>();
 	
 	for (ComputerDto cdto : listDto){
-		Computer c = DtoMapper.dtoToComputer(cdto);
+		Computer c = dtoMap.dtoToComputer(cdto);
 		list.add(c);
 	}
 
 	when(computerDao.getAll()).thenReturn(list);
 	when(computerDao.getById(3)).thenReturn(list.get(3));
-	when(computerDao.getAPage(1,20,"test")).thenReturn(page);
+	when(computerDao.getAPage(1,20,"test", 1)).thenReturn(page);
 	when(computerDao.getNbComputers("test")).thenReturn(10);
 	}
 
@@ -81,7 +83,7 @@ public class ComputerServiceImplTest extends TestCase {
 		Computer comp = ctdao.getById(1);
 		assertEquals(listComputer.get(0), comp);
 
-		int sizeDB = ctdao.getAPage(1, 50, "").getNbTotalComputer();
+		int sizeDB = ctdao.getAPage(1, 50, "", 1).getNbTotalComputer();
 		assertEquals(listComputer.size(), sizeDB);
 	}
 /**
