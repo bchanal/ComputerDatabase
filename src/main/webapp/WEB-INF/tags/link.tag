@@ -4,5 +4,7 @@
 <%@ attribute name="page" required="true"%>
 <%@ attribute name="nbPerPage" required="true"%>
 <%@ attribute name="search" required="true"%>
+<%@ attribute name="order" required="true"%>
 
-<c:url value="${target}?page=${page}&nbPerPage=${nbPerPage}&search=${search}" />
+
+<c:url value="${target}?page=${page}&nbPerPage=${nbPerPage}&search=${search}&order=${order}" />
