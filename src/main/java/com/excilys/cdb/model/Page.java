@@ -115,7 +115,7 @@ public class Page {
 
 		boolean fini = false;
 		Scanner scanner = new Scanner(System.in);
-		Page p = ctdao.getAPage(index, 20, " ");
+		Page p = ctdao.getAPage(index, 20, " ", 1);
 		this.nbTotalComputer = p.getNbTotalComputer();
 
 		while (!fini) {

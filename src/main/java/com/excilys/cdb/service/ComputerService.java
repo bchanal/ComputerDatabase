@@ -13,7 +13,7 @@ public interface ComputerService {
 
 	public List<Computer> getAll();
 
-	public Page getAPage(int index, int nbEntityByPage, String name);
+	public Page getAPage(int index, int nbEntityByPage, String name, int column);
 
 	public void delete(int computerId);
 

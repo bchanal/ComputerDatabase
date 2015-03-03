@@ -69,7 +69,7 @@ public class Dashboard extends AbstractSpringHttpServlet {
 	protected Page getAPage(int numPage, int nbPP, String search) {
 		
 		int index = (numPage - 1) * nbPP;
-		Page page = ctdao.getAPage(index, nbPP, search);
+		Page page = ctdao.getAPage(index, nbPP, search, 1);
 
 		return page;
 	}

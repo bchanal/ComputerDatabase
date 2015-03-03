@@ -30,29 +30,56 @@ public class ComputerServiceImpl implements ComputerService {
 			LocalDateTime dateTimeFin, int comp) {
 		cdao.create(name, dateTime, dateTimeFin, comp);
 	}
+	
+	public void create(Computer c) {
+	  System.out.println(c.toString());
+	  int idcompany;
+	  if(c.getManufacturer()==null)
+	    idcompany=0;
+	  else
+	    idcompany=c.getManufacturer().getId();
+		cdao.create(c.getName(), c.getDateIntro(), c.getDateDiscontinued(), idcompany );
+	}
 
 	@Override
 	public List<Computer> getAll() {
 		return cdao.getAll();
 	}
 
-	@Override
-	@Transactional(rollbackFor = ConnectionException.class)
-	public Page getAPage(int index, int nb, String name) {
+//	@Override
+//	@Transactional(rollbackFor = ConnectionException.class)
+//	public Page getAPage(int index, int nb, String name) {
+//
+//		Page p = null;
+//		int nbTotal=0;
+//		try {
+//			p = cdao.getAPage(index, nb, name);
+//			nbTotal = cdao.getNbComputers(name);
+//		} catch (ConnectionException e) {
+//			throw new ServiceException(e);
+//		}
+//		p.setNbTotalComputer(nbTotal);
+//
+//		return p;
+//
+//	}
+	
+	    @Transactional(rollbackFor = ConnectionException.class)
+	    public Page getAPage(int index, int nb, String name, int column) {
 
-		Page p = null;
-		int nbTotal=0;
-		try {
-			p = cdao.getAPage(index, nb, name);
-			nbTotal = cdao.getNbComputers(name);
-		} catch (ConnectionException e) {
-			throw new ServiceException(e);
-		}
-		p.setNbTotalComputer(nbTotal);
+	        Page p = null;
+	        int nbTotal=0;
+	        try {
+	            p = cdao.getAPage(index, nb, name, column);
+	            nbTotal = cdao.getNbComputers(name);
+	        } catch (ConnectionException e) {
+	            throw new ServiceException(e);
+	        }
+	        p.setNbTotalComputer(nbTotal);
 
-		return p;
+	        return p;
 
-	}
+	    }
 
 	@Override
 	public void delete(int computerId) {
@@ -77,5 +104,7 @@ public class ComputerServiceImpl implements ComputerService {
 	public List<Computer> getByName(String name) {
 		return cdao.getByName(name);
 	}
+
+
 
 }

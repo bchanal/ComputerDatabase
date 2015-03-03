@@ -39,24 +39,50 @@ public class DashboardController {
 	protected String doGet(	ModelMap map,
 			@RequestParam(value = "page", required = false, defaultValue = "1") int index,
 			@RequestParam(value = "nbPerPage", required = false, defaultValue = "50") int nbPP,
-			@RequestParam(value = "search", required = false, defaultValue = "") String search) {
+			@RequestParam(value = "search", required = false, defaultValue = "") String search, 
+			@RequestParam(value = "order", required = false, defaultValue = "id") String order) {
 		{
 
-			Page page = getAPage(index, nbPP, search);
+		  int column = defineOrder(order);
+			Page page = getAPage(index, nbPP, search, column);
 			
 			map.addAttribute("page", page);
 			map.addAttribute("search", search);
 			map.addAttribute("numPage", index);
-			
+	        map.addAttribute("order", order);
+
 			return "dashboard";
 		}
 		
 	}
 
-	protected Page getAPage(int numPage, int nbPP, String search) {
+	
+	protected int defineOrder(String order){
+	  
+
+	  switch (order) {
+
+	      case "name":
+	        return 2;
+	        
+	      case "intro":
+	        return 3;
+	        
+	      case "disc":
+	        return 4;
+	        
+	      case "company":
+	        return 7;
+	        
+	        default:
+	          return 1;
+	  }	          
+	        
+	}
+	protected Page getAPage(int numPage, int nbPP, String search, int order) {
 
 		int index = (numPage - 1) * nbPP;
-		Page page = ctdao.getAPage(index, nbPP, search);
+		Page page = ctdao.getAPage(index, nbPP, search, order);
 
 		return page;
 	}

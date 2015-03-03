@@ -35,6 +35,8 @@ public class AddComputer extends AbstractSpringHttpServlet {
 	private ComputerServiceImpl ctdao;
 	@Autowired
 	private CompanyServiceImpl cndao;
+	@Autowired
+	private DtoMapper dtoMap;
 
 	public AddComputer() {
 		super();
@@ -81,7 +83,7 @@ public class AddComputer extends AbstractSpringHttpServlet {
 		validationErrors = dtovalid.validate(cdto);
 
 		if (validationErrors.size() == 0) {
-			Computer c = DtoMapper.dtoToComputer(cdto);
+			Computer c = dtoMap.dtoToComputer(cdto);
 			ctdao.create(c.getName(), c.getDateIntro(), c.getDateDiscontinued(), c.getManufacturer().getId());
 			LOGGER.info("Computer added with success, redirecting to the Dashboard");
 			response.sendRedirect(request.getContextPath() + "/dashboard");
