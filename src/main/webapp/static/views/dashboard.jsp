@@ -39,12 +39,13 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th><spring:message code="tab.name" /></th>
-						<th><spring:message code="tab.introduced" /></th>
+						
+						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage+1}" nbPerPage="${page.nbPerPage}" search="${search}"  order="name" />"><spring:message code="tab.name" /></a></th>
+						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage+1}" nbPerPage="${page.nbPerPage}" search="${search}"  order="intro" />""><spring:message code="tab.introduced" /></a></th>
 						<!-- Table header for Discontinued Date -->
-						<th><spring:message code="tab.discontinued" /></th>
+						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage+1}" nbPerPage="${page.nbPerPage}" search="${search}"  order="disc" />""><spring:message code="tab.discontinued" /></a></th>
 						<!-- Table header for Company -->
-						<th><spring:message code="tab.company" /></th>
+						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage+1}" nbPerPage="${page.nbPerPage}" search="${search}"  order="company" />""><spring:message code="tab.company" /></a></th>
 
 					</tr>
 				</thead>
@@ -72,9 +73,7 @@
 
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
-		
-			<tag:pages page="${page}" numPage="${numPage}" search="${search}"></tag:pages>
-			
+			<tag:pages page="${page}" numPage="${numPage}" search="${search}" order="${order}"></tag:pages>	
 		</div>
 
 

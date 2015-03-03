@@ -1,6 +1,7 @@
 
 <%@ include file="header.jsp"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 
 	<section id="main">
@@ -10,29 +11,32 @@
 					<div class="label label-default pull-right">id: ${ idEdit }</div>
 					<h1><spring:message code="edit.title" /></h1>
 
-					<form action="edit-computer" method="POST">
+					<form:form modelAttribute="computer" action="edit-computer" method="POST">
 						<input type="hidden" value="0" />
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName"><spring:message code="tab.name" /></label> 
 								<spring:message code="tab.name" var="name"></spring:message>
-								<input required	type="text" class="form-control" id="computerName"
-									name="computerName" placeholder="${name }"	value="${ computer.name }">
+								<form:input type="text" class="form-control" id="computerName"
+									name="computerName" placeholder="${name }"	path="name" value="${ computer.name }"></form:input>
+									<form:errors path="name" cssClass="error"></form:errors>
 							</div>
 							<div class="form-group">
 								<label for="introduced"><spring:message code="tab.introduced" /></label> 
 								<spring:message code="tab.introduced" var="introduced"></spring:message>
-								<input type="datetime-local" class="form-control" id="introduced"
-									name="introduced" placeholder="${introduced }"	value=${ computer.introduced }> 
+								<form:input type="datetime-local" class="form-control" id="introduced"
+									name="introduced" placeholder="${introduced }"	path="introduced" value="${ computer.introduced }"></form:input> 
 								<span class="errorintroduced"><spring:message code="errorFormat" /></span>
+								<form:errors path="introduced" cssClass="error"></form:errors>
 
 							</div>
 							<div class="form-group">
 								<label for="discontinued"><spring:message code="tab.discontinued" /></label> 
 								<spring:message code="tab.discontinued" var="discontinued"></spring:message>
-								<input	type="datetime-local" class="form-control" id="discontinued"
-									name="discontinued" placeholder="${discontinued }"	value=${ computer.discontinued }>
+								<form:input	type="datetime-local" class="form-control" id="discontinued"
+									name="discontinued" placeholder="${discontinued }"	path="discontinued" value="${ computer.discontinued }"></form:input>
 								<span class="errordiscontinued"><spring:message code="errorFormat" /></span>
+								<form:errors path="discontinued" cssClass="error"></form:errors>
 
 							</div>
 							<div class="form-group">
@@ -50,7 +54,7 @@
 							 or 
 							 <a href="dashboard"	class="btn btn-default">Cancel</a>
 						</div>
-					</form>
+					</form:form>
 				</div>
 			</div>
 		</div>
