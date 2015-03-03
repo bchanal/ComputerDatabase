@@ -15,7 +15,7 @@ import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.*;
 import com.excilys.cdb.persistence.ConnectDao;
-import com.excilys.cdb.persistence.util;
+import com.excilys.cdb.persistence.Util;
 import com.excilys.cdb.persistence.mapper.SpringComputerMapper;
 
 /**
@@ -26,192 +26,193 @@ import com.excilys.cdb.persistence.mapper.SpringComputerMapper;
  */
 @Repository
 public class ComputerDaoImpl {
-  @Autowired
-  private JdbcTemplate         jdbcTemplate;
+    @Autowired
+    private JdbcTemplate         jdbcTemplate;
 
-  @Autowired
-  private SpringComputerMapper cmap;
-  @Autowired
-  private ConnectDao           codao;
-  @Autowired
-  private DtoMapper dtoMap;
+    @Autowired
+    private SpringComputerMapper cmap;
+    @Autowired
+    private ConnectDao           codao;
+    @Autowired
+    private DtoMapper            dtoMap;
 
-  public ComputerDaoImpl() {}
+    public ComputerDaoImpl() {}
 
-  /**
-   * get All computers and return them in a list
-   * 
-   * @return list the list of all computers
-   */
-  public List<Computer> getAll() {
+    /**
+     * get All computers and return them in a list
+     * 
+     * @return list the list of all computers
+     */
+    public List<Computer> getAll() {
 
-    List<Computer> list = null;
-    String query = "SELECT * FROM computer";
-    list = jdbcTemplate.query(query, cmap);
+        List<Computer> list = null;
+        String query = "SELECT * FROM computer";
+        list = jdbcTemplate.query(query, cmap);
 
-    return list;
-  }
-
-  /**
-   * get All computers and return them in a list
-   * 
-   * @param index
-   *            the first id requested
-   * @param nb
-   *            the number of computers we want
-   * @param name
-   *            the name searched
-   * @return list the list of computers
-   */
-  @Transactional(propagation = Propagation.MANDATORY)
-  public Page getAPage(int index, int nb, String name, int column) {
-
-//    String query = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY computer.id LIMIT ? , ?;";
-    String query = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY ? LIMIT ? , ?;";
-
-    String nameSearch = "%" + name + "%";
-
-    List<Computer> list = this.jdbcTemplate.query(query, new Object[] { nameSearch, nameSearch, column, 
-        index, nb }, cmap);
-
-    List<ComputerDto> listdto = new ArrayList<ComputerDto>();
-    for (Computer c : list) {
-      listdto.add(dtoMap.computerToDto(c));
+        return list;
     }
 
-    Page page = new Page(index, nb, listdto, 1000);
-    return page;
-  }
+    /**
+     * get All computers and return them in a list
+     * 
+     * @param index
+     *            the first id requested
+     * @param nb
+     *            the number of computers we want
+     * @param name
+     *            the name searched
+     * @return list the list of computers
+     */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public Page getAPage(int index, int nb, String name, int column) {
 
-  /**
-   * get the number of computers for a request
-   * 
-   * @param name
-   *            the name searched
-   * @return size the number of results
-   */
-  public int getNbComputers(String name) {
+        //    String query = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY computer.id LIMIT ? , ?;";
+        String query = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY ? LIMIT ? , ?;";
 
-    String query = "SELECT COUNT(*) " + "FROM computer "
-        + "LEFT JOIN company ON computer.company_id = company.id "
-        + "WHERE computer.name LIKE ? OR company.name LIKE ?;";
+        String nameSearch = "%" + name + "%";
 
-    String nameC = "%" + name + "%";
+        List<Computer> list = this.jdbcTemplate.query(query, new Object[] { nameSearch, nameSearch,
+                column, index, nb }, cmap);
 
-    int size = jdbcTemplate.queryForObject(query, new Object[] { nameC, nameC }, Integer.class);
+        List<ComputerDto> listdto = new ArrayList<ComputerDto>();
+        for (Computer c : list) {
+            listdto.add(dtoMap.computerToDto(c));
+        }
 
-    return size;
-  }
-
-  /**
-   * get a computer by id
-   * 
-   * @param id
-   *            the id to get
-   * @return comp the Computer requested
-   */
-  public Computer getById(int id) {
-
-    String query = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.id= ?";
-    Computer comp = jdbcTemplate.queryForObject(query, new Object[] { id }, cmap);
-
-    return comp;
-  }
-
-  /**
-   * get a computer by name
-   * 
-   * @param name
-   *            the name searched
-   * @return comp the Computer requested
-   */
-  public List<Computer> getByName(String name) {
-
-    String query = "SELECT * " + "FROM computer "
-        + "LEFT JOIN company ON computer.company_id = company.id "
-        + "WHERE computer.name LIKE ? OR company.name LIKE ?;";
-    String nameSearch = "%" + name + "%";
-
-    List<Computer> comp = jdbcTemplate.query(query, new Object[] { nameSearch, nameSearch }, cmap);
-
-    return comp;
-
-  }
-
-  /**
-   * create a computer in the db
-   * 
-   * @param name
-   *            the name of the computer
-   * @param dateTime
-   *            the date it was introduced (if exists, null otherwise)
-   * @param dateTimeFin
-   *            the date it was discontinued (if exists, null otherwise)
-   * @param comp
-   *            the id of the computer's company (if exists, 0 otherwise)
-   */
-  public void create(String name, LocalDateTime dateTime, LocalDateTime dateTimeFin, int comp) {
-    Timestamp date = null;
-    Timestamp date2 = null;
-    int company = 0;
-    String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
-
-    if (dateTime != null) {
-      date = util.getTimestamp(dateTime);
+        Page page = new Page(index, nb, listdto, 1000);
+        return page;
     }
 
-    if (dateTimeFin != null) {
-      date2 = util.getTimestamp(dateTimeFin);
+    /**
+     * get the number of computers for a request
+     * 
+     * @param name
+     *            the name searched
+     * @return size the number of results
+     */
+    public int getNbComputers(String name) {
+
+        String query = "SELECT COUNT(*) " + "FROM computer "
+                + "LEFT JOIN company ON computer.company_id = company.id "
+                + "WHERE computer.name LIKE ? OR company.name LIKE ?;";
+
+        String nameC = "%" + name + "%";
+
+        int size = jdbcTemplate.queryForObject(query, new Object[] { nameC, nameC }, Integer.class);
+
+        return size;
     }
 
-    if (comp != 0) {
-      company = comp;
+    /**
+     * get a computer by id
+     * 
+     * @param id
+     *            the id to get
+     * @return comp the Computer requested
+     */
+    public Computer getById(int id) {
+
+        String query = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.id= ?";
+        Computer comp = jdbcTemplate.queryForObject(query, new Object[] { id }, cmap);
+
+        return comp;
     }
-    jdbcTemplate.update(query, name, date, date2, company);
 
-  }
+    /**
+     * get a computer by name
+     * 
+     * @param name
+     *            the name searched
+     * @return comp the Computer requested
+     */
+    public List<Computer> getByName(String name) {
 
-  /**
-   * delete a computer in the DB
-   * 
-   * @param id
-   *            the id of the computer to delete
-   */
-  public synchronized void delete(int id) {
+        String query = "SELECT * " + "FROM computer "
+                + "LEFT JOIN company ON computer.company_id = company.id "
+                + "WHERE computer.name LIKE ? OR company.name LIKE ?;";
+        String nameSearch = "%" + name + "%";
 
-    String query = "DELETE FROM computer WHERE id= ?";
-    jdbcTemplate.update(query, id);
+        List<Computer> comp = jdbcTemplate.query(query, new Object[] { nameSearch, nameSearch },
+                cmap);
 
-  }
+        return comp;
 
-  /**
-   * update a computer in the DB
-   * 
-   * @param computer
-   *            the computer to update
-   */
-  public synchronized void update(Computer computer) {
-
-    String query = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
-
-    String name = computer.getName();
-    Timestamp date1 = null;
-    Timestamp date2 = null;
-    int company = 0;
-
-    if (computer.getDateIntro() != null) {
-      date1 = util.getTimestamp(computer.getDateIntro());
     }
-    if (computer.getDateDiscontinued() != null) {
-      date2 = util.getTimestamp(computer.getDateDiscontinued());
-    }
-    if (computer.getManufacturer().getId() != 0) {
-      company = computer.getManufacturer().getId();
-    }
-    int id = computer.getId();
 
-    jdbcTemplate.update(query, name, date1, date2, company, id);
+    /**
+     * create a computer in the db
+     * 
+     * @param name
+     *            the name of the computer
+     * @param dateTime
+     *            the date it was introduced (if exists, null otherwise)
+     * @param dateTimeFin
+     *            the date it was discontinued (if exists, null otherwise)
+     * @param comp
+     *            the id of the computer's company (if exists, 0 otherwise)
+     */
+    public void create(String name, LocalDateTime dateTime, LocalDateTime dateTimeFin, int comp) {
+        Timestamp date = null;
+        Timestamp date2 = null;
+        int company = 0;
+        String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 
-  }
+        if (dateTime != null) {
+            date = Util.getTimestamp(dateTime);
+        }
+
+        if (dateTimeFin != null) {
+            date2 = Util.getTimestamp(dateTimeFin);
+        }
+
+        if (comp != 0) {
+            company = comp;
+        }
+        jdbcTemplate.update(query, name, date, date2, company);
+
+    }
+
+    /**
+     * delete a computer in the DB
+     * 
+     * @param id
+     *            the id of the computer to delete
+     */
+    public synchronized void delete(int id) {
+
+        String query = "DELETE FROM computer WHERE id= ?";
+        jdbcTemplate.update(query, id);
+
+    }
+
+    /**
+     * update a computer in the DB
+     * 
+     * @param computer
+     *            the computer to update
+     */
+    public synchronized void update(Computer computer) {
+
+        String query = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
+
+        String name = computer.getName();
+        Timestamp date1 = null;
+        Timestamp date2 = null;
+        int company = 0;
+
+        if (computer.getDateIntro() != null) {
+            date1 = Util.getTimestamp(computer.getDateIntro());
+        }
+        if (computer.getDateDiscontinued() != null) {
+            date2 = Util.getTimestamp(computer.getDateDiscontinued());
+        }
+        if (computer.getManufacturer().getId() != 0) {
+            company = computer.getManufacturer().getId();
+        }
+        int id = computer.getId();
+
+        jdbcTemplate.update(query, name, date1, date2, company, id);
+
+    }
 
 }

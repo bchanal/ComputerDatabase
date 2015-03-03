@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
-
+import com.excilys.cdb.model.Language;
 import com.excilys.cdb.service.impl.CompanyServiceImpl;
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
 import com.excilys.cdb.servlets.AddComputer;
@@ -28,46 +28,54 @@ import com.excilys.cdb.servlets.AddComputer;
 @RequestMapping("/add-computer")
 public class AddComputerController {
 
-  private final static Logger        LOGGER   = LoggerFactory.getLogger(AddComputer.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(AddComputer.class);
 
-  @Autowired
-  private ComputerServiceImpl        ctdao;
-  @Autowired
-  private CompanyServiceImpl         cndao;
-  @Autowired
-  private DtoMapper                  dtoMap;
+    @Autowired
+    private ComputerServiceImpl ctdao;
+    @Autowired
+    private CompanyServiceImpl  cndao;
+    @Autowired
+    private DtoMapper           dtoMap;
 
-  @RequestMapping(method = RequestMethod.GET)
-  protected String doGet(ModelMap map) throws SQLException {
+    @RequestMapping(method = RequestMethod.GET)
+    protected String doGet(ModelMap map) throws SQLException {
 
-    List<Company> listCompanies = cndao.getAll();
+        List<Company> listCompanies = cndao.getAll();
 
-    ComputerDto computerDto = new ComputerDto();
-    map.addAttribute("computer", computerDto);
-    map.addAttribute("listCompanies", listCompanies);
+        ComputerDto computerDto = new ComputerDto();
+        map.addAttribute("computer", computerDto);
+        map.addAttribute("listCompanies", listCompanies);
 
-    return "addComputer";
-  }
-
-  @RequestMapping(method = RequestMethod.POST)
-  protected String doPost(@ModelAttribute("computer") @Valid ComputerDto compDto,
-      BindingResult res, ModelMap map, @RequestParam("companyId") int companyId)
-      throws SQLException {
-
-    if (res.hasErrors()) {
-      List<Company> listcompanies = cndao.getAll();
-      map.addAttribute("listcompanies", listcompanies);
-      LOGGER.info("error, computer not added");
-      return "addComputer";
+        return "addComputer";
     }
-    Company company = cndao.getById(companyId);
-    compDto.setCompany(company);
-    
-    System.out.println(compDto.toString());
-    ctdao.create(dtoMap.dtoToComputer(compDto));
-    LOGGER.info("add the computer");
 
-    return "redirect:/dashboard";
-  }
+    @RequestMapping(method = RequestMethod.POST)
+    protected String doPost(@ModelAttribute("computer") @Valid ComputerDto compDto,
+            BindingResult res, ModelMap map, @RequestParam("companyId") int companyId,
+            @RequestParam("lang") String lang) throws SQLException {
+
+        Language language;
+
+        if (res.hasErrors()) {
+            List<Company> listcompanies = cndao.getAll();
+            map.addAttribute("listcompanies", listcompanies);
+            LOGGER.info("error, computer not added");
+            return "addComputer";
+        }
+        Company company = cndao.getById(companyId);
+        compDto.setCompany(company);
+
+        if (lang == "french") {
+            language = Language.FRENCH;
+        } else {
+            language = Language.ENGLISH;
+        }
+
+        System.out.println(compDto.toString());
+        ctdao.create(dtoMap.dtoToComputer(compDto, language));
+        LOGGER.info("add the computer");
+
+        return "redirect:/dashboard";
+    }
 
 }

@@ -4,7 +4,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
-
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
@@ -12,16 +11,16 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
  */
 @WebServlet("/AbstractSpringHttpServlet")
 public abstract class AbstractSpringHttpServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
 
-	@Override
-	public void init() throws ServletException {
-		super.init();
-		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-	}
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    }
 
 }

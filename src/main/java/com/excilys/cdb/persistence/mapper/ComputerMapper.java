@@ -20,50 +20,49 @@ import com.excilys.cdb.model.Computer;
 @Component
 public class ComputerMapper implements RowMapper<Computer> {
 
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(ComputerMapper.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ComputerMapper.class);
 
-	/**
-	 * toObject return a computer contained in a ResulSet
-	 * 
-	 * @param result
-	 *            the resultset
-	 * @return comp the Computer in a the ResultSet
-	 */
-	public Computer toObject(ResultSet result) {
+    /**
+     * toObject return a computer contained in a ResulSet
+     * 
+     * @param result
+     *            the resultset
+     * @return comp the Computer in a the ResultSet
+     */
+    public Computer toObject(ResultSet result) {
 
-		Computer comp = null;
-		LocalDateTime t1 = null;
-		LocalDateTime t2 = null;
-		Company co = null;
+        Computer comp = null;
+        LocalDateTime t1 = null;
+        LocalDateTime t2 = null;
+        Company co = null;
 
-		if (result == null) {
-			return null;
-		}
+        if (result == null) {
+            return null;
+        }
 
-		try {
-			if (result.getTimestamp("introduced") != null) {
-				t1 = result.getTimestamp("introduced").toLocalDateTime();
-			}
+        try {
+            if (result.getTimestamp("introduced") != null) {
+                t1 = result.getTimestamp("introduced").toLocalDateTime();
+            }
 
-			if (result.getTimestamp("discontinued") != null) {
-				t2 = result.getTimestamp("discontinued").toLocalDateTime();
-			}
+            if (result.getTimestamp("discontinued") != null) {
+                t2 = result.getTimestamp("discontinued").toLocalDateTime();
+            }
 
-			if (result.getInt("company_id") != 0) {
+            if (result.getInt("company_id") != 0) {
 
-				int coId = result.getInt("company_id");
-				String coName = result.getString("company.name");
-				co = new Company(coId, coName);
-			}
+                int coId = result.getInt("company_id");
+                String coName = result.getString("company.name");
+                co = new Company(coId, coName);
+            }
 
-			comp = new Computer(result.getInt("computer.id"),
-					result.getString("computer.name"), t1, t2, co);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.error(e.getMessage());
-			throw new RuntimeException();
-		}
-		return comp;
-	}
+            comp = new Computer(result.getInt("computer.id"), result.getString("computer.name"),
+                    t1, t2, co);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException();
+        }
+        return comp;
+    }
 }

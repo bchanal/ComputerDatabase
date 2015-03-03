@@ -7,8 +7,8 @@ import com.excilys.cdb.model.Company;
 
 public interface CompanyDao {
 
-	public List<Company> getAll() throws SQLException;
+    public List<Company> getAll() throws SQLException;
 
-	public Company getById(int id) throws SQLException;
+    public Company getById(int id) throws SQLException;
 
 }

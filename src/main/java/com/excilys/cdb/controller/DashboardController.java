@@ -22,69 +22,68 @@ import com.excilys.cdb.service.impl.ComputerServiceImpl;
 @RequestMapping("/dashboard")
 public class DashboardController {
 
-	@Autowired
-	private ComputerServiceImpl ctdao;
-	@Autowired
-	private CompanyServiceImpl cndao;
+    @Autowired
+    private ComputerServiceImpl ctdao;
+    @Autowired
+    private CompanyServiceImpl  cndao;
 
-	public DashboardController() {
-		super();
-	}
+    public DashboardController() {
+        super();
+    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	@RequestMapping(method=RequestMethod.GET)
-	protected String doGet(	ModelMap map,
-			@RequestParam(value = "page", required = false, defaultValue = "1") int index,
-			@RequestParam(value = "nbPerPage", required = false, defaultValue = "50") int nbPP,
-			@RequestParam(value = "search", required = false, defaultValue = "") String search, 
-			@RequestParam(value = "order", required = false, defaultValue = "id") String order) {
-		{
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    protected String doGet(ModelMap map,
+            @RequestParam(value = "page", required = false, defaultValue = "1") int index,
+            @RequestParam(value = "nbPerPage", required = false, defaultValue = "50") int nbPP,
+            @RequestParam(value = "search", required = false, defaultValue = "") String search,
+            @RequestParam(value = "order", required = false, defaultValue = "id") String order) {
+        {
 
-		  int column = defineOrder(order);
-			Page page = getAPage(index, nbPP, search, column);
-			
-			map.addAttribute("page", page);
-			map.addAttribute("search", search);
-			map.addAttribute("numPage", index);
-	        map.addAttribute("order", order);
+            int column = defineOrder(order);
+            Page page = getAPage(index, nbPP, search, column);
 
-			return "dashboard";
-		}
-		
-	}
+            map.addAttribute("page", page);
+            map.addAttribute("search", search);
+            map.addAttribute("numPage", index);
+            map.addAttribute("order", order);
 
-	
-	protected int defineOrder(String order){
-	  
+            return "dashboard";
+        }
 
-	  switch (order) {
+    }
 
-	      case "name":
-	        return 2;
-	        
-	      case "intro":
-	        return 3;
-	        
-	      case "disc":
-	        return 4;
-	        
-	      case "company":
-	        return 7;
-	        
-	        default:
-	          return 1;
-	  }	          
-	        
-	}
-	protected Page getAPage(int numPage, int nbPP, String search, int order) {
+    protected int defineOrder(String order) {
 
-		int index = (numPage - 1) * nbPP;
-		Page page = ctdao.getAPage(index, nbPP, search, order);
+        switch (order) {
 
-		return page;
-	}
+            case "name":
+                return 2;
+
+            case "intro":
+                return 3;
+
+            case "disc":
+                return 4;
+
+            case "company":
+                return 7;
+
+            default:
+                return 1;
+        }
+
+    }
+
+    protected Page getAPage(int numPage, int nbPP, String search, int order) {
+
+        int index = (numPage - 1) * nbPP;
+        Page page = ctdao.getAPage(index, nbPP, search, order);
+
+        return page;
+    }
 
 }

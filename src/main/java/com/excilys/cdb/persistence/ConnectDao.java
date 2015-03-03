@@ -22,81 +22,78 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConnectDao {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(ConnectDao.class);
-	
-	@Autowired
-	private  PropertyValue pv;
-	private  DataSource dataSource;
-	
-	private  ThreadLocal<Connection> connectThread = new ThreadLocal<Connection>();
+    private final static Logger     LOGGER        = LoggerFactory.getLogger(ConnectDao.class);
 
-	/**
-	 * create a new connection to the DB when the function is requested
-	 * 
-	 * @return connect the connection to the DB.
-	 * @throws SQLException
-	 */
-	public Connection getConnection() throws SQLException {
+    @Autowired
+    private PropertyValue           pv;
+    private DataSource              dataSource;
+    private ThreadLocal<Connection> connectThread = new ThreadLocal<Connection>();
 
-		if (connectThread.get() == null) {
-			connectThread.set(dataSource.getConnection());
-		}
+    /**
+     * create a new connection to the DB when the function is requested
+     * 
+     * @return connect the connection to the DB.
+     * @throws SQLException
+     */
+    public Connection getConnection() throws SQLException {
 
-		if (connectThread.get() != null) {
-			LOGGER.debug("get a connection from the threadlocal "
-					+ connectThread.get().hashCode());
-			return connectThread.get();
-		}
-		return connectThread.get();
-	}
-	
-	
-	public DataSource getDataSource() {
-			return dataSource;
-	}
+        if (connectThread.get() == null) {
+            connectThread.set(dataSource.getConnection());
+        }
 
-	public void initTransaction() {
-		Connection connect;
-		try {
-			connect = dataSource.getConnection();
-			connect.setAutoCommit(false);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.error(e.getMessage());
-			throw new ConnectionException();
-		}
-		connectThread.set(connect);
-	}
+        if (connectThread.get() != null) {
+            LOGGER.debug("get a connection from the threadlocal " + connectThread.get().hashCode());
+            return connectThread.get();
+        }
+        return connectThread.get();
+    }
 
-	/**
-	 * close connection
-	 * 
-	 */
-	public void close() {
-		try {
-			Connection connect = connectThread.get();
-			if (connect.getAutoCommit()) {
-				connect.close();
-				connectThread.remove();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.error(e.getMessage());
-			throw new ConnectionException();
+    public DataSource getDataSource() {
+        return dataSource;
+    }
 
-		}
-	}
+    public void initTransaction() {
+        Connection connect;
+        try {
+            connect = dataSource.getConnection();
+            connect.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            throw new ConnectionException();
+        }
+        connectThread.set(connect);
+    }
 
-	public void closeTransaction() {
-		try {
-			Connection connect = connectThread.get();
-			connect.close();
-			connectThread.remove();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.error(e.getMessage());
-			throw new ConnectionException();
+    /**
+     * close connection
+     * 
+     */
+    public void close() {
+        try {
+            Connection connect = connectThread.get();
+            if (connect.getAutoCommit()) {
+                connect.close();
+                connectThread.remove();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            throw new ConnectionException();
 
-		}
-	}
+        }
+    }
+
+    public void closeTransaction() {
+        try {
+            Connection connect = connectThread.get();
+            connect.close();
+            connectThread.remove();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            throw new ConnectionException();
+
+        }
+    }
 }

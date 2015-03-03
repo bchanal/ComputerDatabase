@@ -8,17 +8,16 @@ import com.excilys.cdb.model.Page;
 
 public interface ComputerDao {
 
-	public List<Computer> getAll();
+    public List<Computer> getAll();
 
-	public Page getByPage();
+    public Page getByPage();
 
-	public Computer getById(int id);
+    public Computer getById(int id);
 
-	public void create(String name, LocalDateTime dateTime,
-			LocalDateTime dateTimeFin, int comp);
+    public void create(String name, LocalDateTime dateTime, LocalDateTime dateTimeFin, int comp);
 
-	public void delete(int id);
+    public void delete(int id);
 
-	public void update(Computer computer);
+    public void update(Computer computer);
 
 }

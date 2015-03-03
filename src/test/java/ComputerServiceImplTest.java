@@ -20,6 +20,7 @@ import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.model.Language;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
 import com.excilys.cdb.service.impl.CompanyServiceImpl;
@@ -56,7 +57,7 @@ public class ComputerServiceImplTest extends TestCase {
 	list = new ArrayList<Computer>();
 	
 	for (ComputerDto cdto : listDto){
-		Computer c = dtoMap.dtoToComputer(cdto);
+		Computer c = dtoMap.dtoToComputer(cdto, Language.ENGLISH);
 		list.add(c);
 	}
 

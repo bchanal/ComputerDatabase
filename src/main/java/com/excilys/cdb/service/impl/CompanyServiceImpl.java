@@ -18,54 +18,33 @@ import com.excilys.cdb.service.CompanyService;
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
-	@Autowired
-	private CompanyDaoImpl cdao;
-	@Autowired
-	private ConnectDao codao;
+    @Autowired
+    private CompanyDaoImpl cdao;
+    @Autowired
+    private ConnectDao     codao;
 
-	public CompanyServiceImpl() {
-	}
+    public CompanyServiceImpl() {}
 
-	@Override
-	public List<Company> getAll() throws SQLException {
-		return cdao.getAll();
-	}
+    @Override
+    public List<Company> getAll() throws SQLException {
+        return cdao.getAll();
+    }
 
-	@Override
-	public Company getById(int id) throws SQLException {
-		return cdao.getById(id);
-	}
+    @Override
+    public Company getById(int id) throws SQLException {
+        return cdao.getById(id);
+    }
 
-	@Override
-	@Transactional(rollbackFor=ConnectionException.class)
-	public void delete(int id) {
-		Connection connect = null;
-//		try {
-			// connect = codao.getConnection();
-//			codao.initTransaction();
-		try{
-			cdao.delete(connect, id);
-		} catch (ConnectionException e) {
-			throw new ServiceException(e);
-		}
-//			connect.commit();
-//		} catch (SQLException e) {
-//			if (connect != null) {
-//				try {
-//					connect.rollback();
-//				} catch (SQLException e1) {
-//					e.printStackTrace();
-//					LOGGER.error(e.getMessage());
-//					throw new ServiceException();
-//				}
-//			}
-//			e.printStackTrace();
-//			LOGGER.error(e.getMessage());
-//			throw new RuntimeException();
-//
-//		} finally {
-//			codao.closeTransaction();
-//		}
-	}
+    @Override
+    @Transactional(rollbackFor = ConnectionException.class)
+    public void delete(int id) {
+        Connection connect = null;
+
+        try {
+            cdao.delete(connect, id);
+        } catch (ConnectionException e) {
+            throw new ServiceException(e);
+        }
+    }
 
 }

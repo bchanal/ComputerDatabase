@@ -8,19 +8,18 @@ import com.excilys.cdb.model.Page;
 
 public interface ComputerService {
 
-	public void create(String name, LocalDateTime dateTime,
-			LocalDateTime dateTimeFin, int comp);
+    public void create(String name, LocalDateTime dateTime, LocalDateTime dateTimeFin, int comp);
 
-	public List<Computer> getAll();
+    public List<Computer> getAll();
 
-	public Page getAPage(int index, int nbEntityByPage, String name, int column);
+    public Page getAPage(int index, int nbEntityByPage, String name, int column);
 
-	public void delete(int computerId);
+    public void delete(int computerId);
 
-	public void update(Computer computer);
-	
-	public Computer getById(int computerId);
+    public void update(Computer computer);
 
-	public List<Computer> getByName(String name);
+    public Computer getById(int computerId);
+
+    public List<Computer> getByName(String name);
 
 }

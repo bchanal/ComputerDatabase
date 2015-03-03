@@ -18,91 +18,93 @@ import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.model.Language;
 import com.excilys.cdb.service.impl.CompanyServiceImpl;
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
 import com.excilys.cdb.validation.DtoValidation;
 
 @WebServlet("/add-computer2")
 public class AddComputer extends AbstractSpringHttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final String VUE = "/static/views/addComputer.jsp";
-	private static final String ATT_LISTCOMPANIES = "listCompanies";
+    private static final long          serialVersionUID  = 1L;
+    private static final String        VUE               = "/static/views/addComputer.jsp";
+    private static final String        ATT_LISTCOMPANIES = "listCompanies";
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(AddComputer.class);
-	
-	private DtoValidation<ComputerDto> dtovalid = new DtoValidation<ComputerDto>();
-	@Autowired
-	private ComputerServiceImpl ctdao;
-	@Autowired
-	private CompanyServiceImpl cndao;
-	@Autowired
-	private DtoMapper dtoMap;
+    private final static Logger        LOGGER            = LoggerFactory.getLogger(AddComputer.class);
 
-	public AddComputer() {
-		super();
-	}
+    private DtoValidation<ComputerDto> dtovalid          = new DtoValidation<ComputerDto>();
+    @Autowired
+    private ComputerServiceImpl        ctdao;
+    @Autowired
+    private CompanyServiceImpl         cndao;
+    @Autowired
+    private DtoMapper                  dtoMap;
 
-	protected void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+    public AddComputer() {
+        super();
+    }
 
-		List<Company> listCompanies = getCompanies(request);
-		request.setAttribute(ATT_LISTCOMPANIES, listCompanies);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+        List<Company> listCompanies = getCompanies(request);
+        request.setAttribute(ATT_LISTCOMPANIES, listCompanies);
 
-	}
+        this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+    }
 
-		createComputer(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-//		this.getServletContext().getRequestDispatcher("/static/views/dashboard.jsp").forward(request, response);
+        createComputer(request, response);
 
-	}
+        //		this.getServletContext().getRequestDispatcher("/static/views/dashboard.jsp").forward(request, response);
 
-	private void createComputer(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException{
-		
-		final String name = request.getParameter("computerName");
-		final String introduced = request.getParameter("introduced");
-		final String discontinued = request.getParameter("discontinued");
-		final int companyId = Integer.parseInt(request.getParameter("companyId"));
+    }
 
-		Company comp = null;
-		try {
-			comp = cndao.getById(companyId);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.error(e.getMessage());
-			throw new RuntimeException();
-		}
+    private void createComputer(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
 
-		ComputerDto cdto = new ComputerDto(0, name, introduced, discontinued,comp);
+        final String name = request.getParameter("computerName");
+        final String introduced = request.getParameter("introduced");
+        final String discontinued = request.getParameter("discontinued");
+        final int companyId = Integer.parseInt(request.getParameter("companyId"));
 
-		List<String> validationErrors = new ArrayList<String>();
-		validationErrors = dtovalid.validate(cdto);
+        Company comp = null;
+        try {
+            comp = cndao.getById(companyId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException();
+        }
 
-		if (validationErrors.size() == 0) {
-			Computer c = dtoMap.dtoToComputer(cdto);
-			ctdao.create(c.getName(), c.getDateIntro(), c.getDateDiscontinued(), c.getManufacturer().getId());
-			LOGGER.info("Computer added with success, redirecting to the Dashboard");
-			response.sendRedirect(request.getContextPath() + "/dashboard");
-		} else {
-			LOGGER.info("Wrong input, redirecting to the view");
-			request.setAttribute("validationErrors", validationErrors);
-			doGet(request, response);
-		}
+        ComputerDto cdto = new ComputerDto(0, name, introduced, discontinued, comp);
 
-	}
+        List<String> validationErrors = new ArrayList<String>();
+        validationErrors = dtovalid.validate(cdto);
 
-	private List<Company> getCompanies(HttpServletRequest request) {
-			try {
-				return cndao.getAll();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				LOGGER.error(e.getMessage());
-				throw new RuntimeException();
-			}	
+        if (validationErrors.size() == 0) {
+            Computer c = dtoMap.dtoToComputer(cdto, Language.ENGLISH);
+            ctdao.create(c.getName(), c.getDateIntro(), c.getDateDiscontinued(), c.getManufacturer().getId());
+            LOGGER.info("Computer added with success, redirecting to the Dashboard");
+            response.sendRedirect(request.getContextPath() + "/dashboard");
+        } else {
+            LOGGER.info("Wrong input, redirecting to the view");
+            request.setAttribute("validationErrors", validationErrors);
+            doGet(request, response);
+        }
 
-	}
+    }
+
+    private List<Company> getCompanies(HttpServletRequest request) {
+        try {
+            return cndao.getAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException();
+        }
+
+    }
 }

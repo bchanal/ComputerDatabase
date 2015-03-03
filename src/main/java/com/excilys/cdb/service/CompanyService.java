@@ -7,10 +7,10 @@ import com.excilys.cdb.model.Company;
 
 public interface CompanyService {
 
-	public List<Company> getAll() throws SQLException;
+    public List<Company> getAll() throws SQLException;
 
-	public Company getById(int id) throws SQLException;
-	
-	public void delete(int id);
+    public Company getById(int id) throws SQLException;
+
+    public void delete(int id);
 
 }

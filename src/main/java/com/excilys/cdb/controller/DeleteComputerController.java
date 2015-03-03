@@ -14,19 +14,19 @@ import com.excilys.cdb.service.impl.ComputerServiceImpl;
 @Controller
 @RequestMapping("/delete-computer")
 public class DeleteComputerController {
-	@Autowired
-	private ComputerServiceImpl ctdao;
+    @Autowired
+    private ComputerServiceImpl ctdao;
 
-	@RequestMapping(method = RequestMethod.POST)
-	protected String doPost(@RequestParam("selection") String ids) {
-		String[] tabId = ids.split(",");
-		int id;
+    @RequestMapping(method = RequestMethod.POST)
+    protected String doPost(@RequestParam("selection") String ids) {
+        String[] tabId = ids.split(",");
+        int id;
 
-		for (String idStr : tabId) {
-			id = Integer.parseInt(idStr);
-			ctdao.delete(id);
-		}
-		return "redirect:/dashboard";
-	}
+        for (String idStr : tabId) {
+            id = Integer.parseInt(idStr);
+            ctdao.delete(id);
+        }
+        return "redirect:/dashboard";
+    }
 
 }

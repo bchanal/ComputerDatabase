@@ -14,15 +14,15 @@ import java.util.List;
  */
 public interface RowMapper<T> {
 
-	public default List<T> toList(ResultSet rs) throws SQLException{
-		
-		List<T> listT = new ArrayList<T>();
-		while (rs.next()) {
-			listT.add(toObject(rs));
-		}
-		return listT;
-	}
+    public default List<T> toList(ResultSet rs) throws SQLException {
 
-	T toObject(ResultSet rs);
+        List<T> listT = new ArrayList<T>();
+        while (rs.next()) {
+            listT.add(toObject(rs));
+        }
+        return listT;
+    }
+
+    T toObject(ResultSet rs);
 
 }

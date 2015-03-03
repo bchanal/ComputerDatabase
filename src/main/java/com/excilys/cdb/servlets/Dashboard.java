@@ -13,65 +13,64 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
 
-
 /**
  * Servlet implementation class Dashboard
  */
 @WebServlet("/dashboard2")
 public class Dashboard extends AbstractSpringHttpServlet {
 
-	private static final long serialVersionUID = 1L;
-	private static final String ATT_SEARCH = "search";
-	private static final String ATT_NUMPAGE = "numPage";
-	private static final String ATT_PAGE = "page";
-	private static final String VUE = "/static/views/dashboard.jsp";
-	
-	@Autowired
-	private ComputerServiceImpl ctdao;
+    private static final long   serialVersionUID = 1L;
+    private static final String ATT_SEARCH       = "search";
+    private static final String ATT_NUMPAGE      = "numPage";
+    private static final String ATT_PAGE         = "page";
+    private static final String VUE              = "/static/views/dashboard.jsp";
 
-	public Dashboard() {
-		super();
-	}
+    @Autowired
+    private ComputerServiceImpl ctdao;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+    public Dashboard() {
+        super();
+    }
 
-		String nameSearched = "";
-		int nbPP = 50; // a definir par défaut dans la page
-		int numPage = 1;
-		//TODO mettre dans static final
-		if (request.getParameter("nbPerPage") != null) {
-			nbPP = Integer.parseInt(request.getParameter("nbPerPage"));
-		}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		if (request.getParameter("page") != null) {
-			numPage = Integer.parseInt(request.getParameter("page"));
-		}
+        String nameSearched = "";
+        int nbPP = 50; // a definir par défaut dans la page
+        int numPage = 1;
+        //TODO mettre dans static final
+        if (request.getParameter("nbPerPage") != null) {
+            nbPP = Integer.parseInt(request.getParameter("nbPerPage"));
+        }
 
-		if (request.getParameter("search") != null) {
-			nameSearched = request.getParameter("search");
-		}
+        if (request.getParameter("page") != null) {
+            numPage = Integer.parseInt(request.getParameter("page"));
+        }
 
-		Page page = getAPage(numPage, nbPP, nameSearched);
+        if (request.getParameter("search") != null) {
+            nameSearched = request.getParameter("search");
+        }
 
-		request.setAttribute(ATT_NUMPAGE, numPage);
-		request.setAttribute(ATT_SEARCH, nameSearched);
-		request.setAttribute(ATT_PAGE, page);
+        Page page = getAPage(numPage, nbPP, nameSearched);
 
-		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+        request.setAttribute(ATT_NUMPAGE, numPage);
+        request.setAttribute(ATT_SEARCH, nameSearched);
+        request.setAttribute(ATT_PAGE, page);
 
-	}
-	
-	protected Page getAPage(int numPage, int nbPP, String search) {
-		
-		int index = (numPage - 1) * nbPP;
-		Page page = ctdao.getAPage(index, nbPP, search, 1);
+        this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 
-		return page;
-	}
+    }
+
+    protected Page getAPage(int numPage, int nbPP, String search) {
+
+        int index = (numPage - 1) * nbPP;
+        Page page = ctdao.getAPage(index, nbPP, search, 1);
+
+        return page;
+    }
 
 }

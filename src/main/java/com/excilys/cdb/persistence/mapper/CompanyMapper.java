@@ -19,28 +19,28 @@ import com.excilys.cdb.model.Company;
 @Component
 public class CompanyMapper implements RowMapper<Company> {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(CompanyMapper.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(CompanyMapper.class);
 
-	
-	/**
-	 * toObject return an object company from a resultset
-	 * @param rs the resultset
-	 * @return company the company
-	 */
+    /**
+     * toObject return an object company from a resultset
+     * @param rs the resultset
+     * @return company the company
+     */
 
-	@Override
-	public Company toObject(ResultSet rs) {
-		Company company = null;
+    @Override
+    public Company toObject(ResultSet rs) {
+        Company company = null;
 
-		try {
-			company = new Company(rs.getInt("id"), rs.getString("name"));
-		} catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.error(e.getMessage());
-			throw new RuntimeException();		}
-		
-		return company;
+        try {
+            company = new Company(rs.getInt("id"), rs.getString("name"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException();
+        }
 
-	}
+        return company;
+
+    }
 
 }
