@@ -1,5 +1,5 @@
 
-<%@ include file="header.jsp"%>
+<%@ include file="./templates/header.jsp"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
@@ -57,7 +57,7 @@
 			</div>
 		</div>
 	</section>
-	<%@ include file="footer.jsp"%>
+	<%@ include file="./templates/footer.jsp"%>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-<%@ include file="header.jsp"%>
+<%@ include file="./templates/header.jsp"%>
 
 <section id="main">
 	<div class="container">

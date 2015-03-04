@@ -1,4 +1,4 @@
-<%@ include file="header.jsp"%>
+<%@ include file="./templates/header.jsp"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tag" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
@@ -84,7 +84,7 @@
 	strings['edit_button'] = "<spring:message code='button.edit' javaScriptEscape='true' />";
 </script>
 	</footer>
-	<%@ include file="footer.jsp"%>
+	<%@ include file="./templates/footer.jsp"%>
 </body>
 </html>
 

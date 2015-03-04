@@ -17,8 +17,27 @@
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/static/views/" />
+		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- <bean id="messageSource" -->
+	<!-- class="org.springframework.context.support.ReloadableResourceBundleMessageSource"> -->
+	<!-- <property name="basename" value="classpath:messages" /> -->
+	<!-- <property name="defaultEncoding" value="UTF-8" /> -->
+	<!-- </bean> -->
+
+	<mvc:annotation-driven validator="validator" />
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale" value="fr" />
+		<property name="cookieName" value="lang"></property>
+	</bean>
+
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource" />
 	</bean>
 
 	<mvc:interceptors>
