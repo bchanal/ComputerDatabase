@@ -70,9 +70,9 @@ public class DtoMapper {
         LocalDateTime introduced;
         LocalDateTime discontinued;
         String name = computerd.getName();
-        introduced = Util.checkDate(computerd.getIntroduced());
+        introduced = Util.checkDate(computerd.getIntroduced(), dateUtil.getDatePattern(), dateUtil.getDateRegex());
 
-        discontinued = Util.checkDate(computerd.getDiscontinued());
+        discontinued = Util.checkDate(computerd.getDiscontinued(), dateUtil.getDatePattern(), dateUtil.getDateRegex());
 
         Company company = computerd.getCompany();
 

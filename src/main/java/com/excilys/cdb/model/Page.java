@@ -7,7 +7,7 @@ import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.dto.ComputerDto;
-import com.excilys.cdb.service.impl.ComputerServiceImpl;
+import com.excilys.cdb.service.ComputerService;
 
 /**
  * Page can be used to make a pagination system for the results display
@@ -32,7 +32,7 @@ public class Page {
     private int[]             range = new int[2];
 
     @Autowired
-    ComputerServiceImpl       ctdao;
+    ComputerService       ctdao;
 
     public Page(int index, int nb, List<ComputerDto> list, int nbTotal) {
         this.index = index;

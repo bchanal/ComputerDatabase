@@ -24,8 +24,9 @@ import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.service.impl.CompanyServiceImpl;
-import com.excilys.cdb.service.impl.ComputerServiceImpl;
+import com.excilys.cdb.service.CompanyService;
+import com.excilys.cdb.service.ComputerService;
+
 
 @Controller
 @RequestMapping("/")
@@ -33,11 +34,10 @@ public class ComputerController {
     
     private final static Logger LOGGER = LoggerFactory.getLogger(ComputerController.class);
 
-    
     @Autowired
-    private ComputerServiceImpl ctdao;
+    private ComputerService ctdao;
     @Autowired
-    private CompanyServiceImpl  cndao;
+    private CompanyService  cndao;
     @Autowired
     private DtoMapper           dtoMap;
     public final static String PARAM_PAGE = "page";

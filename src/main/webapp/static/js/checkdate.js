@@ -9,7 +9,7 @@ $(document).ready(
 			if (ValidateDate(dtValIn)) {
 				$('.errorintroduced').hide();
 			} else {
-				alert(strings['errorFormat']);
+				alert(strings['errorFormatIntro']);
 				$('.errorintroduced').show();
 				event.preventDefault();
 			}
@@ -17,7 +17,7 @@ $(document).ready(
 			if (ValidateDate(dtValDis)) {
 				$('.errordiscontinued').hide();
 			} else {
-				alert(strings['errorFormat']);
+				alert(strings['errorFormatDisc']);
 				$('.errordiscontinued').show();
 				event.preventDefault();
 			}
@@ -27,7 +27,7 @@ $(document).ready(
 		if (dtValue == "") {
 			return true;
 		}
-		var dtRegex = new RegExp("^(19|20)[0-9][0-9](-)((0[1-9])|(1[0-2]))(-)((0[1-9])|([1-2][0-9])|(3[0-1]))(T|\\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9])");
+		var dtRegex = new RegExp(strings['regex']);
 		return dtRegex.test(dtValue);
 	}
 });

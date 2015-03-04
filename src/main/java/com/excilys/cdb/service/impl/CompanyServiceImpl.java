@@ -11,15 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.excilys.cdb.exception.ConnectionException;
 import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.persistence.CompanyDao;
 import com.excilys.cdb.persistence.ConnectDao;
-import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
 import com.excilys.cdb.service.CompanyService;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
-    private CompanyDaoImpl cdao;
+    private CompanyDao cdao;
     @Autowired
     private ConnectDao     codao;
 

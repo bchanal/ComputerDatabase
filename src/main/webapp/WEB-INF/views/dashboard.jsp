@@ -40,12 +40,12 @@
 							</a>
 						</span></th>
 						
-						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage+1}" nbPerPage="${page.nbPerPage}" search="${search}"  order="name" />"><spring:message code="tab.name" /></a></th>
-						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage+1}" nbPerPage="${page.nbPerPage}" search="${search}"  order="intro" />""><spring:message code="tab.introduced" /></a></th>
+						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage}" nbPerPage="${page.nbPerPage}" search="${search}"  order="name" />"><spring:message code="tab.name" /></a></th>
+						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage}" nbPerPage="${page.nbPerPage}" search="${search}"  order="intro" />"><spring:message code="tab.introduced" /></a></th>
 						<!-- Table header for Discontinued Date -->
-						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage+1}" nbPerPage="${page.nbPerPage}" search="${search}"  order="disc" />""><spring:message code="tab.discontinued" /></a></th>
+						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage}" nbPerPage="${page.nbPerPage}" search="${search}"  order="disc" />"><spring:message code="tab.discontinued" /></a></th>
 						<!-- Table header for Company -->
-						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage+1}" nbPerPage="${page.nbPerPage}" search="${search}"  order="company" />""><spring:message code="tab.company" /></a></th>
+						<th><a class="navbar-brand" href="<tag:link target="dashboard" page="${numPage}" nbPerPage="${page.nbPerPage}" search="${search}"  order="company" />"><spring:message code="tab.company" /></a></th>
 
 					</tr>
 				</thead>

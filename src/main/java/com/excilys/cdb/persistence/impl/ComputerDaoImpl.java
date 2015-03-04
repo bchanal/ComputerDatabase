@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.*;
+import com.excilys.cdb.persistence.ComputerDao;
 import com.excilys.cdb.persistence.ConnectDao;
 import com.excilys.cdb.persistence.Util;
 import com.excilys.cdb.persistence.mapper.SpringComputerMapper;
@@ -25,7 +26,7 @@ import com.excilys.cdb.persistence.mapper.SpringComputerMapper;
  * 
  */
 @Repository
-public class ComputerDaoImpl {
+public class ComputerDaoImpl implements ComputerDao{
     @Autowired
     private JdbcTemplate         jdbcTemplate;
 

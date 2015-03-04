@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.service.impl.CompanyServiceImpl;
-import com.excilys.cdb.service.impl.ComputerServiceImpl;
+import com.excilys.cdb.service.CompanyService;
+import com.excilys.cdb.service.ComputerService;
 import com.excilys.cdb.util.Util;
 
 /**
@@ -25,9 +25,9 @@ public class Cli {
     private boolean             end;
 
     @Autowired
-    private ComputerServiceImpl ctdao;
+    private ComputerService ctdao;
     @Autowired
-    private CompanyServiceImpl  cndao;
+    private CompanyService  cndao;
 
     public Cli() {}
 

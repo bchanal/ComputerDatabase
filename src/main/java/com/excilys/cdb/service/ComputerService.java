@@ -21,5 +21,8 @@ public interface ComputerService {
     public Computer getById(int computerId);
 
     public List<Computer> getByName(String name);
+    
+    public void create(Computer c);
+
 
 }

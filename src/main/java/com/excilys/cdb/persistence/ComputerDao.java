@@ -10,14 +10,19 @@ public interface ComputerDao {
 
     public List<Computer> getAll();
 
-    public Page getByPage();
-
     public Computer getById(int id);
 
     public void create(String name, LocalDateTime dateTime, LocalDateTime dateTimeFin, int comp);
-
+    
+    public Page getAPage(int index, int nb, String name, int column);
+    
+    public int getNbComputers(String name);
+    
+    public List<Computer> getByName(String name);
+    
     public void delete(int id);
-
+    
     public void update(Computer computer);
 
 }
+

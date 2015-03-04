@@ -13,18 +13,19 @@ import com.excilys.cdb.validation.*;
  */
 @Component
 public class ComputerDto {
+        
     private int     id;
-    @NotBlank(message = "name mandatory")
+    @NotBlank
     private String  name;
-    @Date(message = "wrong date format : introduced")
+    @Date
     private String  introduced;
-    @Date(message = "wrong date format : introduced")
+    @Date
     private String  discontinued;
     private Company company;
 
     public ComputerDto() {
         this.id = 0;
-        this.name = "noName";
+        this.name = "";
         this.introduced = null;
         this.discontinued = null;
         this.company = null;
@@ -36,7 +37,7 @@ public class ComputerDto {
      * @param id the id
      * @param name the name of the computerdto
      * @param date1 the date it was introduced
-     * @param date2 thedate it was discontinued
+     * @param date2 the date it was discontinued
      * @param company the company which made the computer(dto)
      */
     public ComputerDto(int id, String name, String date1, String date2, Company company) {

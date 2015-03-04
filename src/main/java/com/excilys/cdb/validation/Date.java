@@ -11,7 +11,7 @@ import javax.validation.Payload;
 @Target(value = ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Date {
-    String message() default "Wrong Date format ";
+    String message() default "Wrong Date format, bitch ";
 
     Class<?>[] groups() default {};
 

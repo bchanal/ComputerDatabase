@@ -26,7 +26,7 @@
 								<spring:message code="tab.introduced" var="introduced"></spring:message>
 								<form:input type="datetime-local" class="form-control" id="introduced"
 									name="introduced" placeholder="${introduced }"	path="introduced" value="${ computer.introduced }"></form:input> 
-								<span class="errorintroduced"><spring:message code="errorFormat" /></span>
+								<span class="errorintroduced"><spring:message code="errorFormatIntro" /></span>
 								<form:errors path="introduced" cssClass="error"></form:errors>
 
 							</div>
@@ -35,7 +35,7 @@
 								<spring:message code="tab.discontinued" var="discontinued"></spring:message>
 								<form:input	type="datetime-local" class="form-control" id="discontinued"
 									name="discontinued" placeholder="${discontinued }"	path="discontinued" value="${ computer.discontinued }"></form:input>
-								<span class="errordiscontinued"><spring:message code="errorFormat" /></span>
+								<span class="errordiscontinued"><spring:message code="errorFormatDisc" /></span>
 								<form:errors path="discontinued" cssClass="error"></form:errors>
 
 							</div>
