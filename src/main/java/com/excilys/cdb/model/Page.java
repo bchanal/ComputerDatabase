@@ -34,18 +34,6 @@ public class Page {
     @Autowired
     ComputerServiceImpl       ctdao;
 
-    //	public Page() {
-    //		this.list = new ArrayList<ComputerDto>();
-    //		this.nbPerPage = 10;
-    //		this.index = 1;
-    //		this.nbTotalPages=(int) Math.ceil(nbTotalComputer/nbPerPage);
-    //	}
-
-    //	public Page(int index, int nb) {
-    //		this.index = index;
-    //		this.nbPerPage = nb;
-    //	}
-
     public Page(int index, int nb, List<ComputerDto> list, int nbTotal) {
         this.index = index;
         this.nbPerPage = nb;
@@ -87,6 +75,8 @@ public class Page {
 
     public void setNbTotalComputer(int nbTotalComputer) {
         this.nbTotalComputer = nbTotalComputer;
+        this.nbTotalPages = (int) Math.ceil(nbTotalComputer / nbPerPage)+1;
+        this.range[1] = Math.min(nbTotalPages, this.index / this.nbPerPage + 5);
     }
 
     public int getIndex() {
