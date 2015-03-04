@@ -20,7 +20,6 @@ import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.model.Language;
 import com.excilys.cdb.service.impl.CompanyServiceImpl;
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
 
@@ -57,8 +56,6 @@ public class EditComputerController {
             BindingResult res, @RequestParam("companyId") int companyId,
             @RequestParam("lang") String lang) throws SQLException {
 
-        Language language;
-
         if (res.hasErrors()) {
             List<Company> companies = cndao.getAll();
             map.addAttribute("companies", companies);
@@ -68,13 +65,7 @@ public class EditComputerController {
         Company company = cndao.getById(companyId);
         compDto.setCompany(company);
 
-        if (lang == "french") {
-            language = Language.FRENCH;
-        } else {
-            language = Language.ENGLISH;
-        }
-
-        Computer comp = dtoMap.dtoToComputer(compDto, language);
+        Computer comp = dtoMap.dtoToComputer(compDto);
         this.ctdao.update(comp);
         LOGGER.info("computer modified");
         return "redirect:/dashboard";

@@ -3,7 +3,6 @@ package com.excilys.cdb.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.excilys.cdb.model.Language;
 import com.excilys.cdb.util.Util;
 
 public class DateValidation implements ConstraintValidator<Date, String> {
@@ -19,18 +18,10 @@ public class DateValidation implements ConstraintValidator<Date, String> {
         if (value.isEmpty()) {
             return false;
         }
-//TODO double validator !!
-//        if (lang == Language.FRENCH) {
-//            if (Util.checkDateFr(value) == null) {
-//                return false;
-//            }
-//        }
-//        else{
-//            if (Util.checkDateEn(value) == null) {
-//                return false;
-//            }
-//            
-//        }
+        if (Util.checkDate(value) == null) {
+            return false;
+        }
+
         return true;
     }
 

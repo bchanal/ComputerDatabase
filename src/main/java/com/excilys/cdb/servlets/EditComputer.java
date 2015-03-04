@@ -19,7 +19,6 @@ import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.dto.DtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.model.Language;
 import com.excilys.cdb.service.impl.CompanyServiceImpl;
 import com.excilys.cdb.service.impl.ComputerServiceImpl;
 import com.excilys.cdb.validation.DtoValidation;
@@ -123,7 +122,7 @@ public class EditComputer extends AbstractSpringHttpServlet {
         validationErrors = dtoval.validate(cdto);
 
         if (validationErrors.size() == 0) {
-            Computer c = dtoMap.dtoToComputer(cdto, Language.ENGLISH);
+            Computer c = dtoMap.dtoToComputer(cdto);
             ctdao.update(c);
             LOGGER.info("Computer added with success, redirecting to the Dashboard");
             response.sendRedirect(request.getContextPath() + "/dashboard");
