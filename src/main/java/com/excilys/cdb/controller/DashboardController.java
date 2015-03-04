@@ -26,6 +26,11 @@ public class DashboardController {
     private ComputerServiceImpl ctdao;
     @Autowired
     private CompanyServiceImpl  cndao;
+    
+    public final static String PARAM_PAGE = "page";
+    public final static String PARAM_SEARCH = "search";
+    public final static String PARAM_ORDER = "order";
+
 
     public DashboardController() {
         super();
@@ -37,19 +42,19 @@ public class DashboardController {
      */
     @RequestMapping(method = RequestMethod.GET)
     protected String doGet(ModelMap map,
-            @RequestParam(value = "page", required = false, defaultValue = "1") int index,
+            @RequestParam(value = PARAM_PAGE, required = false, defaultValue = "1") int index,
             @RequestParam(value = "nbPerPage", required = false, defaultValue = "50") int nbPP,
-            @RequestParam(value = "search", required = false, defaultValue = "") String search,
-            @RequestParam(value = "order", required = false, defaultValue = "id") String order) {
+            @RequestParam(value = PARAM_SEARCH, required = false, defaultValue = "") String search,
+            @RequestParam(value = PARAM_ORDER, required = false, defaultValue = "id") String order) {
         {
 
             int column = defineOrder(order);
             Page page = getAPage(index, nbPP, search, column);
 
-            map.addAttribute("page", page);
-            map.addAttribute("search", search);
+            map.addAttribute(PARAM_PAGE, page);
+            map.addAttribute(PARAM_SEARCH, search);
             map.addAttribute("numPage", index);
-            map.addAttribute("order", order);
+            map.addAttribute(PARAM_ORDER, order);
 
             return "dashboard";
         }

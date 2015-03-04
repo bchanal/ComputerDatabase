@@ -1,12 +1,18 @@
 package com.excilys.cdb.dto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Language;
+import com.excilys.cdb.util.DateUtil;
 import com.excilys.cdb.util.Util;
 
 /**
@@ -16,6 +22,9 @@ import com.excilys.cdb.util.Util;
  */
 @Component
 public class DtoMapper {
+    
+    @Autowired
+    DateUtil dateUtil;
 
     public DtoMapper() {
 
@@ -26,7 +35,10 @@ public class DtoMapper {
      * @param computer the computer
      * @return computerDto : the computer with the dates in String format
      */
+
     public ComputerDto computerToDto(Computer computer) {
+
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(dateUtil.getDatePattern());
 
         String introduced = "";
         String discontinued = "";
@@ -35,11 +47,11 @@ public class DtoMapper {
         int id = computer.getId();
         String name = computer.getName();
         if (computer.getDateIntro() != null) {
-            introduced = computer.getDateIntro().toString();
+            introduced = df.format(computer.getDateIntro());
         }
 
         if (computer.getDateDiscontinued() != null) {
-            discontinued = computer.getDateDiscontinued().toString();
+            discontinued = df.format(computer.getDateDiscontinued());
         }
         if (computer.getManufacturer() != null) {
             company = computer.getManufacturer();
@@ -62,17 +74,10 @@ public class DtoMapper {
         LocalDateTime introduced;
         LocalDateTime discontinued;
         String name = computerd.getName();
-        if (lang == Language.FRENCH) {
-            introduced = Util.checkDateFr(computerd.getIntroduced());
-        } else {
-            introduced = Util.checkDateEn(computerd.getIntroduced());
-        }
+        introduced = Util.checkDate(computerd.getIntroduced());
 
-        if (lang == Language.FRENCH) {
-            discontinued = Util.checkDateFr(computerd.getDiscontinued());
-        } else {
-            discontinued = Util.checkDateEn(computerd.getIntroduced());
-        }
+        discontinued = Util.checkDate(computerd.getDiscontinued());
+
         Company company = computerd.getCompany();
 
         Computer c = new Computer(id, name, introduced, discontinued, company);

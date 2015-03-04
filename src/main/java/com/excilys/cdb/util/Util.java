@@ -7,51 +7,41 @@ import java.util.regex.Pattern;
 
 public class Util {
 
-	private static final String DATE_REGEX_EN = "(19|20)[0-9][0-9]/((0[1-9])|([1-2][0-9])|(3[0-1]))/((0[1-9])|(1[0-2]))(T|\\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9])";
-	private static final String DATE_REGEX_FR = "(19|20)[0-9][0-9]-((0[1-9])|(1[0-2]))-((0[1-9])|([1-2][0-9])|(3[0-1]))(T|\\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9])";
+    //    private static final String DATE_REGEX_EN = "(19|20)[0-9][0-9]/((0[1-9])|([1-2][0-9])|(3[0-1]))/((0[1-9])|(1[0-2]))(T|\\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9])";
+    //    private static final String DATE_REGEX_FR = "(19|20)[0-9][0-9]-((0[1-9])|(1[0-2]))-((0[1-9])|([1-2][0-9])|(3[0-1]))(T|\\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9])";
 
-	private static final String INT_REGEX = "^[0-9]*$";
+    private static final String INT_REGEX     = "^[0-9]*$";
 
-	public static int checkId(String str) {
-		int id=0;
-		
-		Pattern p = Pattern.compile(INT_REGEX);
-		Matcher m = p.matcher(str);
-		if (m.find()) {
-			id = Integer.parseInt(str);
-		}
+    public static int checkId(String str) {
+        int id = 0;
 
-		return id;
+        Pattern p = Pattern.compile(INT_REGEX);
+        Matcher m = p.matcher(str);
+        if (m.find()) {
+            id = Integer.parseInt(str);
+        }
 
-	}
+        return id;
 
-	public static LocalDateTime checkDateFr(String str) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		
-		LocalDateTime ldt = null;
+    }
 
-		Pattern p = Pattern.compile(DATE_REGEX_FR);
-		Matcher m = p.matcher(str);
-		if (m.find()) {
-			ldt = LocalDateTime.parse(str, formatter);
-		}
+    public static LocalDateTime checkDate(String str) {
+        DateUtil dateUtil = new DateUtil();
 
-		return ldt;
+        String pattern = dateUtil.getDatePattern();
+        String regex = dateUtil.getDateRegex();
 
-	}
-	
-	   public static LocalDateTime checkDateEn(String str) {
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/dd/MM HH:mm");
-	        
-	        LocalDateTime ldt = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 
-	        Pattern p = Pattern.compile(DATE_REGEX_EN);
-	        Matcher m = p.matcher(str);
-	        if (m.find()) {
-	            ldt = LocalDateTime.parse(str, formatter);
-	        }
+        LocalDateTime ldt = null;
 
-	        return ldt;
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(str);
+        if (m.find()) {
+            ldt = LocalDateTime.parse(str, formatter);
+        }
 
-	    }
+        return ldt;
+
+    }
 }

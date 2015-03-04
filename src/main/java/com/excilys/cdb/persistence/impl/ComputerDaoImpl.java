@@ -154,7 +154,7 @@ public class ComputerDaoImpl {
     public void create(String name, LocalDateTime dateTime, LocalDateTime dateTimeFin, int comp) {
         Timestamp date = null;
         Timestamp date2 = null;
-        int company = 0;
+        Integer company = null;
         String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 
         if (dateTime != null) {
@@ -198,7 +198,7 @@ public class ComputerDaoImpl {
         String name = computer.getName();
         Timestamp date1 = null;
         Timestamp date2 = null;
-        int company = 0;
+        Integer company = null;
 
         if (computer.getDateIntro() != null) {
             date1 = Util.getTimestamp(computer.getDateIntro());

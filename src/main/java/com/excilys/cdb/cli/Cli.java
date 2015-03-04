@@ -182,11 +182,11 @@ public class Cli {
         LocalDateTime dateTimeFin = null;
 
         if (!date.equals("null")) {
-            dateTime = Util.checkDateFr(date);
+            dateTime = Util.checkDate(date);
         }
 
         if (!dateFin.equals("null")) {
-            dateTimeFin = Util.checkDateFr(dateFin);
+            dateTimeFin = Util.checkDate(dateFin);
         }
 
         ctdao.create(nom, dateTime, dateTimeFin, comp);
@@ -222,7 +222,7 @@ public class Cli {
             String dateUp = scan.nextLine();
 
             if (!dateUp.equals("null")) {
-                dateTimeUp = Util.checkDateFr(dateUp);
+                dateTimeUp = Util.checkDate(dateUp);
             }
         } else {
             dateTimeUp = comput.getDateIntro();
@@ -237,7 +237,7 @@ public class Cli {
             String dateFinUp = scan.nextLine();
 
             if (!dateFinUp.equals("null")) {
-                dateTimeFinUp = Util.checkDateFr(dateFinUp);
+                dateTimeFinUp = Util.checkDate(dateFinUp);
             }
         } else {
             dateTimeFinUp = comput.getDateDiscontinued();

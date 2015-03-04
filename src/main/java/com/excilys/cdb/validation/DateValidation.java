@@ -12,25 +12,25 @@ public class DateValidation implements ConstraintValidator<Date, String> {
     public void initialize(Date constraintAnnotation) {}
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context, Language lang) {
+    public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null) {
             return false;
         }
         if (value.isEmpty()) {
             return false;
         }
-
-        if (lang == Language.FRENCH) {
-            if (Util.checkDateFr(value) == null) {
-                return false;
-            }
-        }
-        else{
-            if (Util.checkDateEn(value) == null) {
-                return false;
-            }
-            
-        }
+//TODO double validator !!
+//        if (lang == Language.FRENCH) {
+//            if (Util.checkDateFr(value) == null) {
+//                return false;
+//            }
+//        }
+//        else{
+//            if (Util.checkDateEn(value) == null) {
+//                return false;
+//            }
+//            
+//        }
         return true;
     }
 
