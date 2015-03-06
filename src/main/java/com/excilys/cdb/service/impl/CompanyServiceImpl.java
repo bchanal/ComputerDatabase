@@ -1,6 +1,5 @@
 package com.excilys.cdb.service.impl;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -9,42 +8,39 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.cdb.exception.ConnectionException;
-import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Company;
-import com.excilys.cdb.persistence.CompanyDao;
-import com.excilys.cdb.persistence.ConnectDao;
+import com.excilys.cdb.persistence.repository.CompanyRepository;
+import com.excilys.cdb.persistence.repository.ComputerRepository;
 import com.excilys.cdb.service.CompanyService;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
-    private CompanyDao cdao;
+    private CompanyRepository companyrep;
+    
     @Autowired
-    private ConnectDao     codao;
+    private ComputerRepository computerrep;
 
     public CompanyServiceImpl() {}
 
     @Override
     public List<Company> getAll() throws SQLException {
-        return cdao.getAll();
+        return (List<Company>) companyrep.findAll();
     }
 
     @Override
     public Company getById(int id) throws SQLException {
-        return cdao.getById(id);
+        return companyrep.findOne(id);
     }
 
     @Override
     @Transactional(rollbackFor = ConnectionException.class)
     public void delete(int id) {
-        Connection connect = null;
 
-        try {
-            cdao.delete(connect, id);
-        } catch (ConnectionException e) {
-            throw new ServiceException(e);
-        }
+        //computerrep.deleteByCompanyId(id);
+        companyrep.delete(id);
+        
     }
 
 }

@@ -1,46 +1,32 @@
 package com.excilys.cdb.model;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
- * 
  * @author berangere
  *
  */
-public class Company {
+@Entity
+@Table(name = "company")
+public class Company implements Serializable{
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Company other = (Company) obj;
-        if (id != other.id)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
-    }
-
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int    id;
+    @Column(name = "name")
     private String name;
 
-    public Company() {
-
-    }
+    public Company() {}
 
     public Company(int id, String nom) {
         this.id = id;
@@ -59,10 +45,6 @@ public class Company {
         return this.id;
     }
 
-    public static void main(String[] args) {
-
-    }
-
     /**
      * toString returns a String containing a company's informations
      * 
@@ -70,6 +52,38 @@ public class Company {
      */
     public String toString() {
         return ("id : " + id + " name : " + name);
+    }
+
+    public static class Builder {
+        Company company;
+
+        private Builder() {
+            company = new Company();
+        }
+
+        public Builder id(int id) {
+            if (id != 0)
+                this.company.id = id;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.company.name = name;
+            return this;
+        }
+
+        public Company build() {
+            return this.company;
+        }
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }
