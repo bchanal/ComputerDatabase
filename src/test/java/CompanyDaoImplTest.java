@@ -1,15 +1,15 @@
-import java.sql.SQLException;
-import java.util.List;
+//import java.sql.SQLException;
+//import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.excilys.cdb.model.Company;
-import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
+//import org.junit.After;
+//import org.junit.Before;
+//import org.junit.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//
+//import com.excilys.cdb.model.Company;
+//import com.excilys.cdb.persistence.impl.CompanyDaoImpl;
 
 /**
  * Test for @linkComputerDAOImpl

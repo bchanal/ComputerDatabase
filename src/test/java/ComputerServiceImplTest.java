@@ -1,29 +1,29 @@
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+//import java.sql.SQLException;
+//import java.time.LocalDateTime;
+//import java.time.format.DateTimeFormatter;
+//import java.util.ArrayList;
+//import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.junit.After;
+//import org.junit.Before;
+//import org.junit.Test;
+//import org.junit.runner.RunWith;
+//import org.mockito.Mock;
+//import org.mockito.runners.MockitoJUnitRunner;
+//import org.springframework.beans.factory.annotation.Autowired;
+//
+//import static org.mockito.Mockito.when;
 
-import static org.mockito.Mockito.when;
-
-import com.excilys.cdb.dto.ComputerDto;
-import com.excilys.cdb.dto.DtoMapper;
-import com.excilys.cdb.model.Company;
-import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.model.Page;
-import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
-import com.excilys.cdb.service.impl.CompanyServiceImpl;
-import com.excilys.cdb.service.impl.ComputerServiceImpl;
+//import com.excilys.cdb.dto.ComputerDto;
+//import com.excilys.cdb.dto.DtoMapper;
+//import com.excilys.cdb.model.Company;
+//import com.excilys.cdb.model.Computer;
+//import com.excilys.cdb.model.Page;
+//import com.excilys.cdb.persistence.impl.ComputerDaoImpl;
+//import com.excilys.cdb.service.impl.CompanyServiceImpl;
+//import com.excilys.cdb.service.impl.ComputerServiceImpl;
 
 /**
  * Test for @linkComputerDerviceImpl

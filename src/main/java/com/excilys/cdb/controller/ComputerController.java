@@ -44,6 +44,8 @@ public class ComputerController {
     public final static String PARAM_SEARCH = "search";
     public final static String PARAM_ORDER = "order";
     
+    public ComputerController(){}
+    
     
     @RequestMapping(value="/add-computer", method = RequestMethod.GET)
     protected String getAddForm(ModelMap map) throws SQLException {

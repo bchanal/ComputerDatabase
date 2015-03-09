@@ -5,12 +5,10 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Column;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -43,9 +41,7 @@ public class Computer implements Serializable {
     @JoinColumn(name = "company_id", referencedColumnName = "id")
     private Company           manufacturer;
 
-    public Computer() {
-
-    }
+    public Computer() { }
 
     /**
      * constructor of Computer with arguments

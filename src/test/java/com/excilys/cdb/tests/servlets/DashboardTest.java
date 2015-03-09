@@ -1,17 +1,17 @@
 package com.excilys.cdb.tests.servlets;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import org.junit.*;
-import org.openqa.selenium.By;
+//import java.io.BufferedReader;
+//import java.io.IOException;
+//import java.io.InputStreamReader;
+//import java.util.List;
+//import java.util.concurrent.TimeUnit;
+//
+//import org.junit.*;
+//import org.openqa.selenium.By;
 //import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+//import org.openqa.selenium.WebDriver;
+//import org.openqa.selenium.WebElement;
+//import org.openqa.selenium.firefox.FirefoxDriver;
 //import org.openqa.selenium.support.ui.ExpectedConditions;
 //import org.openqa.selenium.support.ui.WebDriverWait;
 

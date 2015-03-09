@@ -21,6 +21,8 @@ public class CompanyMapper implements RowMapper<Company> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(CompanyMapper.class);
 
+    
+    public CompanyMapper(){}
     /**
      * toObject return an object company from a resultset
      * @param rs the resultset

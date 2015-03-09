@@ -19,13 +19,13 @@ import com.excilys.cdb.persistence.repository.ComputerRepository;
 import com.excilys.cdb.service.ComputerService;
 
 @Service
+@Transactional
 public class ComputerServiceImpl implements ComputerService {
 
     @Autowired
     public ComputerRepository computerRep;
     @Autowired
-    public CompanyRepository companyRep;
-
+    public CompanyRepository  companyRep;
 
     @Autowired
     public DtoMapper          dtomap;
@@ -41,9 +41,7 @@ public class ComputerServiceImpl implements ComputerService {
 
     @Override
     public void create(Computer c) {
-
         computerRep.save(c);
-
     }
 
     @Override
@@ -89,7 +87,7 @@ public class ComputerServiceImpl implements ComputerService {
 
     @Override
     public List<Computer> getByName(String name) {
-        return computerRep.findByNameContainingOrCompanyNameContaining(name, name);
+        return computerRep.findByName(name, name);
     }
 
 }

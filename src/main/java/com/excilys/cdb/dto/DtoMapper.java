@@ -22,9 +22,7 @@ public class DtoMapper {
     @Autowired
     DateUtil dateUtil;
 
-    public DtoMapper() {
-
-    }
+    public DtoMapper() {}
 
     /**
      * get a Dto from a computer

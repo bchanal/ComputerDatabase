@@ -7,5 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import com.excilys.cdb.model.Company;
 
 public interface CompanyRepository extends CrudRepository<Company, Integer>{
-
+    
+    public List<Company> findAll();
 }

@@ -14,6 +14,7 @@ import com.excilys.cdb.persistence.repository.ComputerRepository;
 import com.excilys.cdb.service.CompanyService;
 
 @Service
+@Transactional
 public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
@@ -38,7 +39,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional(rollbackFor = ConnectionException.class)
     public void delete(int id) {
 
-        //computerrep.deleteByCompanyId(id);
+        computerrep.deleteByCompany(id);
         companyrep.delete(id);
         
     }

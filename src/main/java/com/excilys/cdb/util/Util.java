@@ -26,7 +26,7 @@ public class Util {
         return id;
 
     }
-
+// pour le cli, qui n'est qu'en anglais et qui ne gère PAS les langues, du moins, pour le moment
     public static LocalDateTime checkDate(String str) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN_EN);
