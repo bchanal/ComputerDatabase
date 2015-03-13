@@ -13,6 +13,12 @@ import java.util.List;
  * @param <T> the content to map
  */
 public interface RowMapper<T> {
+    /**
+     * get a list of results from a resultset
+     * @param rs the resultset
+     * @return the list of results
+     * @throws SQLException
+     */
 
     public default List<T> toList(ResultSet rs) throws SQLException {
 

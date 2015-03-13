@@ -17,7 +17,9 @@ public class PropertyValue {
 	private int min;
 	private int max;
 	private int partitionCount;
-
+/**
+ * constructor which get in a file the parameters to use  the database
+ */
 	public PropertyValue() {
 		Properties prop = new Properties();
 		String propFileName = "db.properties";

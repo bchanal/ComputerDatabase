@@ -13,7 +13,11 @@ public class Util {
 //    private static final String DATE_PATTERN_FR = "yyyy-MM-dd HH:mm";
 
     private static final String INT_REGEX       = "^[0-9]*$";
-
+/**
+ * check an id format
+ * @param str the string to check
+ * @return the id, (int format)
+ */
     public static int checkId(String str) {
         int id = 0;
 
@@ -42,7 +46,13 @@ public class Util {
         return ldt;
 
     }
-
+/**
+ * check a date whith a pattern and a regex
+ * @param str the string to check
+ * @param pattern the pattern expected
+ * @param regex the regex
+ * @return the date, in LocalDateTime format
+ */
     public static LocalDateTime checkDate(String str, String pattern, String regex) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);

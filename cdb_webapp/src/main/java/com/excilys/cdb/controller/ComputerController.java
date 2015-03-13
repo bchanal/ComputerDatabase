@@ -3,9 +3,6 @@ package com.excilys.cdb.controller;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -27,27 +24,36 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
 
-
+/**
+ * controllers to add, edit une delete computers.
+ * @author berangere
+ *
+ */
 @Controller
 @RequestMapping("/")
 public class ComputerController {
-    
-    private final static Logger LOGGER = LoggerFactory.getLogger(ComputerController.class);
+
+    private final static Logger LOGGER       = LoggerFactory.getLogger(ComputerController.class);
 
     @Autowired
-    private ComputerService ctdao;
+    private ComputerService     ctdao;
     @Autowired
-    private CompanyService  cndao;
+    private CompanyService      cndao;
     @Autowired
     private DtoMapper           dtoMap;
-    public final static String PARAM_PAGE = "page";
-    public final static String PARAM_SEARCH = "search";
-    public final static String PARAM_ORDER = "order";
-    
-    public ComputerController(){}
-    
-    
-    @RequestMapping(value="/add-computer", method = RequestMethod.GET)
+    public final static String  PARAM_PAGE   = "page";
+    public final static String  PARAM_SEARCH = "search";
+    public final static String  PARAM_ORDER  = "order";
+
+    public ComputerController() {}
+
+    /**
+     * load the companies and the form for adding a computer
+     * @param map the ModelMap which contains the parameters
+     * @return the form to add a computer
+     * @throws SQLException
+     */
+    @RequestMapping(value = "/add-computer", method = RequestMethod.GET)
     protected String getAddForm(ModelMap map) throws SQLException {
 
         List<Company> listCompanies = cndao.getAll();
@@ -59,7 +65,16 @@ public class ComputerController {
         return "addComputer";
     }
 
-    @RequestMapping(value="/add-computer",method = RequestMethod.POST)
+    /**
+     * add the computer from the form
+     * @param compDto the computerDto to add
+     * @param res the Binding Result
+     * @param map the modelMap which contains the parameters
+     * @param companyId the id of the company of the computer to add
+     * @return the form if there is an error, the dashboard else
+     * @throws SQLException
+     */
+    @RequestMapping(value = "/add-computer", method = RequestMethod.POST)
     protected String addComputer(@ModelAttribute("computer") @Valid ComputerDto compDto,
             BindingResult res, ModelMap map, @RequestParam("companyId") int companyId)
             throws SQLException {
@@ -85,10 +100,15 @@ public class ComputerController {
     }
 
     /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     *      response)
+     * display the list of computers
+     * @param map the ModelMap which contains the parameters
+     * @param index the index of the computers (the first id to display)
+     * @param nbPP the number per pages to display
+     * @param search the word searched
+     * @param order the criterion to sort the result = the name of a column
+     * @return the dashboard
      */
-    @RequestMapping(value="/dashboard", method = RequestMethod.GET)
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     protected String displayDashboard(ModelMap map,
             @RequestParam(value = PARAM_PAGE, required = false, defaultValue = "1") int index,
             @RequestParam(value = "nbPerPage", required = false, defaultValue = "50") int nbPP,
@@ -107,8 +127,13 @@ public class ComputerController {
             return "dashboard";
         }
     }
-    
-    @RequestMapping(value="/delete-computer", method = RequestMethod.POST)
+
+    /**
+     * delete some computers (one or more), selected from the dashboard
+     * @param ids the id to delete
+     * @return the dashboard
+     */
+    @RequestMapping(value = "/delete-computer", method = RequestMethod.POST)
     protected String delete(@RequestParam("selection") String ids) {
         String[] tabId = ids.split(",");
         int id;
@@ -120,6 +145,11 @@ public class ComputerController {
         return "redirect:/dashboard";
     }
 
+    /**
+     * transform the name of the column in the number of the column to display
+     * @param order the string
+     * @return the order (int format)
+     */
     protected int defineOrder(String order) {
         switch (order) {
             case "name":
@@ -134,8 +164,15 @@ public class ComputerController {
                 return 1;
         }
     }
-    
-    @RequestMapping(value="/edit-computer", method = RequestMethod.GET)
+
+    /**
+     * get the form to edit a computer
+     * @param idEdit the id of the computer to edit
+     * @param map the ModelMap which contains the parameters
+     * @return the form
+     * @throws SQLException
+     */
+    @RequestMapping(value = "/edit-computer", method = RequestMethod.GET)
     protected String getEditParam(@RequestParam("id") int idEdit, ModelMap map) throws SQLException {
 
         List<Company> listCompanies = cndao.getAll();
@@ -150,7 +187,16 @@ public class ComputerController {
         return "editComputer";
     }
 
-    @RequestMapping(value="/edit-computer", method = RequestMethod.POST)
+    /**
+     * edit a computer
+     * @param map the ModelMap which contains the parameters
+     * @param compDto the new version of the computer
+     * @param res the bindingResult
+     * @param companyId the id of the company of the computer to add
+     * @return the form if there is an error, the dashboard else
+     * @throws SQLException
+     */
+    @RequestMapping(value = "/edit-computer", method = RequestMethod.POST)
     protected String postEdit(ModelMap map, @ModelAttribute("computer") @Valid ComputerDto compDto,
             BindingResult res, @RequestParam("companyId") int companyId) throws SQLException {
 
@@ -164,17 +210,26 @@ public class ComputerController {
         compDto.setCompany(company);
 
         Computer comp = dtoMap.dtoToComputer(compDto);
-        this.ctdao.update(comp);
+        System.out.println(comp.toString());
+        System.out.println(compDto.toString());
+        ctdao.update(comp);
         LOGGER.info("computer modified");
         return "redirect:/dashboard";
     }
 
+    /**
+     * get a page
+     * @param numPage the number of the page
+     * @param nbPP the number of computers to display per pages
+     * @param search the word searched
+     * @param order the criterion to sort the results
+     * @return the page
+     */
     protected PageDto getAPage(int numPage, int nbPP, String search, int order) {
 
         int index = (numPage - 1) * nbPP;
         PageDto page = ctdao.getAPage(index, nbPP, search, order);
         return page;
     }
-
 
 }

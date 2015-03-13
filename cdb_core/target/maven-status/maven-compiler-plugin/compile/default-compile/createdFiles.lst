@@ -1,4 +1,5 @@
 com/excilys/cdb/model/Page.class
+com/excilys/cdb/model/User.class
 com/excilys/cdb/model/Language.class
 com/excilys/cdb/model/Company$Builder.class
 com/excilys/cdb/exception/ConnectionException.class

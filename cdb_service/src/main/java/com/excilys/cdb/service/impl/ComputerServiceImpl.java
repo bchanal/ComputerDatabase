@@ -17,7 +17,11 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.repository.CompanyRepository;
 import com.excilys.cdb.persistence.repository.ComputerRepository;
 import com.excilys.cdb.service.ComputerService;
-
+/**
+ * @see ComputerService
+ * @author berangere
+ *
+ */
 @Service
 @Transactional
 public class ComputerServiceImpl implements ComputerService {
@@ -77,6 +81,7 @@ public class ComputerServiceImpl implements ComputerService {
 
     @Override
     public void update(Computer computer) {
+        System.out.println("carotte"+computer.getId());
         computerRep.save(computer);
     }
 

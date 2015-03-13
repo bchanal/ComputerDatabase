@@ -12,7 +12,11 @@ import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.repository.CompanyRepository;
 import com.excilys.cdb.persistence.repository.ComputerRepository;
 import com.excilys.cdb.service.CompanyService;
-
+/**
+ * @see CompanyService
+ * @author berangere
+ *
+ */
 @Service
 @Transactional
 public class CompanyServiceImpl implements CompanyService {

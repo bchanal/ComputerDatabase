@@ -1,6 +1,7 @@
 /home/berangere/workspace/cdb/cdb_core/src/main/java/com/excilys/cdb/exception/ConnectionException.java
 /home/berangere/workspace/cdb/cdb_core/src/main/java/com/excilys/cdb/model/Company.java
 /home/berangere/workspace/cdb/cdb_core/src/main/java/com/excilys/cdb/model/Language.java
+/home/berangere/workspace/cdb/cdb_core/src/main/java/com/excilys/cdb/model/User.java
 /home/berangere/workspace/cdb/cdb_core/src/main/java/com/excilys/cdb/model/Page.java
 /home/berangere/workspace/cdb/cdb_core/src/main/java/com/excilys/cdb/model/Computer.java
 /home/berangere/workspace/cdb/cdb_core/src/main/java/com/excilys/cdb/exception/ServiceException.java
