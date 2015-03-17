@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
@@ -15,6 +16,7 @@
 		<module>cdb_service</module>
 		<module>cdb_console</module>
 		<module>cdb_webapp</module>
+		<module>cdb_webservices</module>
 	</modules>
 
 	<properties>
@@ -42,6 +44,7 @@
 		<selenium-maven-plugin-version>1.0.1</selenium-maven-plugin-version>
 		<maven-surefire-plugin-version>2.5</maven-surefire-plugin-version>
 		<spring-security-version>3.1.3.RELEASE</spring-security-version>
+		<ws-version>2.2.10</ws-version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -60,9 +63,9 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
-	
-	
+
+
+
 	<repositories>
 		<repository>
 			<id>version99</id>
@@ -70,8 +73,8 @@
 			<url>http://version99.qos.ch/</url>
 		</repository>
 	</repositories>
-	
-	
+
+
 	<!-- runtime librairy -->
 	<dependencies>
 		<dependency>
@@ -111,24 +114,8 @@
 			<version>${selenium-version}</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- spring security -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring-security-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${spring-security-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>${spring-security-version}</version>
-		</dependency>
-
+		
+		
 	</dependencies>
 	<build>
 		<plugins>

@@ -87,38 +87,4 @@ public class Page {
     public void setRange(int[] range) {
         this.range = range;
     }
-
-    /**
-     * display the results by page, with a certain number of results per page
-     * TODO: a supprimer
-     */
-    public void display() {
-        System.out.println("en cours...");
-
-//        boolean fini = false;
-//        Scanner scanner = new Scanner(System.in);
-//        Page p = ctdao.getAPage(index, 20, " ", 1);
-//        this.nbTotalComputer = p.getNbTotalComputer();
-//
-//        while (!fini) {
-//            this.list = p.getList();
-//            for (int i = 1; i < nbPerPage; i++) {
-//                if (this.getList().get(i) != null) {
-//                    System.out.println(index + i + " " + this.list.get(i));
-//                } else
-//                    fini = true;
-//            }
-//            System.out.println("\n enter (p : previous, n : next, q : quit)\n ");
-//            System.out.println("computers " + (index + nbPerPage) + " sur " + nbTotalComputer);
-//            String ok = scanner.nextLine();
-//            if (ok.equals("p")) {
-//                index = index - nbPerPage;
-//            } else if (ok.equals("q")) {
-//                fini = true;
-//            } else {
-//                index = index + nbPerPage;
-//            }
-//        }
-//        scanner.close();
-    }
 }

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.excilys.cdb.model.User;
 import com.excilys.cdb.persistence.repository.UserRepository;
 import com.excilys.cdb.service.UserService;
+
 /**
  * @see UserService
  * @author berangere
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
         return userRep.findOne(login);
     }
 
+    @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 
         User domainUser = getUser(login);
@@ -40,7 +42,6 @@ public class UserServiceImpl implements UserService {
 
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         String role = domainUser.getRole();
-        System.out.println("tomate"+role.toString());
         authorities.add(new SimpleGrantedAuthority(role));
 
         boolean enabled = true;
@@ -48,14 +49,9 @@ public class UserServiceImpl implements UserService {
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
 
-        return new org.springframework.security.core.userdetails.User(
-                domainUser.getLogin(),
-                domainUser.getPassword(), 
-                enabled, 
-                accountNonExpired, 
-                credentialsNonExpired,
-                accountNonLocked, 
-                authorities);
+        return new org.springframework.security.core.userdetails.User(domainUser.getLogin(),
+                domainUser.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
+                accountNonLocked, authorities);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.excilys.cdb.service.impl;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +29,12 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyServiceImpl() {}
 
     @Override
-    public List<Company> getAll() throws SQLException {
+    public List<Company> getAll(){
         return (List<Company>) companyrep.findAll();
     }
 
     @Override
-    public Company getById(int id) throws SQLException {
+    public Company getById(int id){
         return companyrep.findOne(id);
     }
 
