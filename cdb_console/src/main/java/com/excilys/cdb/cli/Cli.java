@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import com.excilys.cdb.dto.PageDto;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.service.CompanyService;
-import com.excilys.cdb.service.ComputerService;
 import com.excilys.cdb.util.Util;
+import com.excilys.cdb.web.impl.CompanyWSImpl;
+import com.excilys.cdb.web.impl.ComputerWSImpl;
 
 /**
  * Cli is a user interface
@@ -22,12 +22,11 @@ import com.excilys.cdb.util.Util;
  */
 @Component
 public class Cli {
-    private boolean             end;
-
+    private boolean        end;
     @Autowired
-    private ComputerService ctdao;
+    private ComputerWSImpl computerWS;
     @Autowired
-    private CompanyService  cndao;
+    private CompanyWSImpl  companyWS;
 
     public Cli() {}
 
@@ -79,15 +78,15 @@ public class Cli {
             case "1":
                 System.out.println("List computers : ");
                 int index = 0;
-                PageDto page = ctdao.getAPage(index, 20, "", 1);
-//                page.display();
+                PageDto page = computerWS.getAPage(index, 20, "", 1);
+                display(page);
                 //TODO : affichage d'une page
 
                 break;
 
             case "2":
                 System.out.println("List companies : ");
-                List<Company> res = cndao.getAll();
+                List<Company> res = companyWS.getAll();
                 for (Company entr : res) {
                     System.out.println(entr.toString());
 
@@ -99,7 +98,7 @@ public class Cli {
                 System.out.println("Id to display : ");
                 String idStr = scan.nextLine();
                 int id = Util.checkId(idStr);
-                Computer computer = ctdao.getById(id);
+                Computer computer = computerWS.getById(id);
                 if (computer != null) {
                     System.out.println(computer.toString());
                 } else {
@@ -125,12 +124,12 @@ public class Cli {
                 String ideStr = scan.nextLine();
                 int ide = Integer.parseInt(ideStr);
 
-                Computer compute = ctdao.getById(ide);
+                Computer compute = computerWS.getById(ide);
                 if (compute != null) {
                     System.out.println(compute.toString());
+                    computerWS.delete(ide);
                 }
 
-                ctdao.delete(ide);
                 System.out.println("Done !");
 
                 break;
@@ -141,12 +140,12 @@ public class Cli {
                 idStr = scan.nextLine();
                 id = Integer.parseInt(idStr);
 
-                Company c = cndao.getById(id);
+                Company c = companyWS.getById(id);
                 if (c != null) {
                     System.out.println(c.toString());
                 }
 
-                cndao.delete(id);
+                companyWS.delete(id);
                 System.out.println("Done !");
                 break;
 
@@ -164,6 +163,34 @@ public class Cli {
 
     }
 
+    private void display(PageDto page) {
+        boolean fini = false;
+        Scanner scanner = new Scanner(System.in);
+        int nbTotalComputer = page.getNbTotalComputer();
+        int index = page.getIndex();
+
+        while (!fini) {
+            for (int i = 1; i < page.getNbPerPage(); i++) {
+                if (page.getList().get(i) != null) {
+                    System.out.println(index + i + " " + page.getList().get(i));
+                } else
+                    fini = true;
+            }
+            System.out.println("\n enter (p : previous, n : next, q : quit)\n ");
+            System.out.println("computers " + index + page.getNbPerPage() + " sur "
+                    + nbTotalComputer);
+            String ok = scanner.nextLine();
+            if (ok.equals("p")) {
+                index = index - page.getNbPerPage();
+            } else if (ok.equals("q")) {
+                fini = true;
+            } else {
+                index = index + page.getNbPerPage();
+            }
+        }
+        scanner.close();
+    }
+
     private void caseCreate() {
         Scanner scan = new Scanner(System.in);
 
@@ -176,7 +203,6 @@ public class Cli {
         String dateFin = scan.nextLine();
         System.out.println("Id of the company");
         String compStr = scan.nextLine();
-        // int comp = Integer.parseInt(compStr);
         int comp = Util.checkId(compStr);
 
         LocalDateTime dateTime = null;
@@ -190,7 +216,7 @@ public class Cli {
             dateTimeFin = Util.checkDate(dateFin);
         }
 
-        ctdao.create(nom, dateTime, dateTimeFin, comp);
+        computerWS.create(nom, dateTime, dateTimeFin, comp);
         scan.close();
     }
 
@@ -200,7 +226,7 @@ public class Cli {
         String idUpStr = scan.nextLine();
         int idUp = Integer.parseInt(idUpStr);
 
-        Computer comput = ctdao.getById(idUp);
+        Computer comput = computerWS.getById(idUp);
         System.out.println(comput.toString());
         System.out.println("------------------");
 
@@ -253,14 +279,14 @@ public class Cli {
             String compUpIdStr = scan.nextLine();
             compUpId = Util.checkId(compUpIdStr);
 
-            compUp = cndao.getById(compUpId);
+            compUp = companyWS.getById(compUpId);
 
         } else {
             compUp = comput.getManufacturer();
         }
 
         Computer nouveau = new Computer(idUp, nomUp, dateTimeUp, dateTimeFinUp, compUp);
-        ctdao.update(nouveau);
+        computerWS.update(nouveau);
         scan.close();
     }
 

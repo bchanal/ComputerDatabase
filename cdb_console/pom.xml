@@ -25,6 +25,17 @@
         <artifactId>cdb_binding</artifactId>
         <version>${project.version}</version>
     </dependency>
+    <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>cdb_webservices</artifactId>
+        <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+ <groupId>com.sun.xml.ws</groupId>
+ <artifactId>jaxws-rt</artifactId>
+ <version>${ws-version}</version>
+ </dependency>
 </dependencies>
 
 </project>
