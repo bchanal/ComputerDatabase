@@ -1,5 +1,6 @@
 package com.excilys.cdb.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,7 +12,9 @@ import com.excilys.cdb.model.Computer;
  * @author berangere
  *
  */
-public class Page {
+public class Page implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     @Override
     public String toString() {
@@ -35,7 +38,6 @@ public class Page {
         this.nbTotalPages = (int) Math.ceil(nbTotalComputer / nbPerPage);
         this.range[0] = Math.max(1, this.index / this.nbPerPage - 5);
         this.range[1] = Math.min(nbTotalPages, this.index / this.nbPerPage + 5);
-
     }
 
     public int getNbPerPage() {

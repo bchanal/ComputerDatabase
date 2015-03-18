@@ -18,10 +18,8 @@ import org.hibernate.usertype.EnhancedUserType;
 public class LocalDateTimeMapper implements EnhancedUserType, Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    public LocalDateTimeMapper(){
-        
-    }
+
+    public LocalDateTimeMapper() {}
 
     @Override
     public Object assemble(Serializable cached, Object obj) throws HibernateException {

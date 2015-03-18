@@ -38,7 +38,6 @@ public class Computer implements Serializable {
     private LocalDateTime     dateDiscontinued;
 
     @ManyToOne
-//    @JoinColumn(name = "company_id", referencedColumnName = "id")
     @JoinColumn(name = "company_id")
 
     private Company           manufacturer;
@@ -66,7 +65,6 @@ public class Computer implements Serializable {
         this.dateIntro = time;
         this.dateDiscontinued = time2;
         this.manufacturer = company;
-
     }
 
     /**
@@ -87,7 +85,6 @@ public class Computer implements Serializable {
         this.dateIntro = time;
         this.dateDiscontinued = time2;
         this.manufacturer = company;
-
     }
 
     /**
@@ -106,9 +103,7 @@ public class Computer implements Serializable {
         if (this.dateDiscontinued != null) {
             result = result + " discontinued on " + this.dateDiscontinued.toString();
         }
-
         return (result);
-
     }
 
     public String getName() {

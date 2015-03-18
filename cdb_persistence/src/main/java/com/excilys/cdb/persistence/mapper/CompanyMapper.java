@@ -40,7 +40,6 @@ public class CompanyMapper implements RowMapper<Company> {
             LOGGER.error(e.getMessage());
             throw new RuntimeException();
         }
-
         return company;
 
     }

@@ -8,7 +8,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
-					<div class="label label-default pull-right">id: ${ idEdit }</div>
+					<div class="label label-default pull-right">id: ${ computer.id }</div>
 					<h1><spring:message code="edit.title" /></h1>
 
 					<form:form modelAttribute="computer" action="edit-computer" method="POST">

@@ -8,9 +8,7 @@ import java.util.regex.Pattern;
 public class Util {
 
     private static final String DATE_REGEX_EN   = "(19|20)[0-9][0-9]/((0[1-9])|([1-2][0-9])|(3[0-1]))/((0[1-9])|(1[0-2]))(T|\\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9])";
-//    private static final String DATE_REGEX_FR   = "(19|20)[0-9][0-9]-((0[1-9])|(1[0-2]))-((0[1-9])|([1-2][0-9])|(3[0-1]))(T|\\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9])";
     private static final String DATE_PATTERN_EN = "yyyy/dd/MM HH:mm";
-//    private static final String DATE_PATTERN_FR = "yyyy-MM-dd HH:mm";
 
     private static final String INT_REGEX       = "^[0-9]*$";
 /**
@@ -30,7 +28,6 @@ public class Util {
         return id;
 
     }
-// pour le cli, qui n'est qu'en anglais et qui ne gère PAS les langues, du moins, pour le moment
     public static LocalDateTime checkDate(String str) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN_EN);

@@ -19,7 +19,6 @@ public interface ComputerRepository extends CrudRepository<Computer, Integer> {
      */
     @Query(value="DELETE FROM computer WHERE company_id= :id", nativeQuery = true)
     public void deleteByCompany(@Param("id") int id);
-//    public void deleteByCompanyId(int id);
 
 /**
  * get a page of computers
@@ -42,7 +41,6 @@ public interface ComputerRepository extends CrudRepository<Computer, Integer> {
     @Query(value= "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id "
                + "WHERE computer.name LIKE %:name% OR company.name LIKE %:companyName%;", nativeQuery=true)
     public List<Computer> findByName(@Param("name") String name, @Param("companyName") String companyName);
-//    public List<Computer> findByNameContainingOrCompany_NameContaining(String name);
 
 /**
  * get the numbers of computers
@@ -52,6 +50,5 @@ public interface ComputerRepository extends CrudRepository<Computer, Integer> {
     @Query(value = "SELECT COUNT(*) FROM computer LEFT JOIN company ON computer.company_id = company.id "
             + "WHERE computer.name LIKE %:search% OR company.name LIKE %:search%", nativeQuery = true)
     public int getCountComputers(@Param("search") String name);
-    // public int CountByNameContainingOrCompany_NameContaining(String Name);
 
 }

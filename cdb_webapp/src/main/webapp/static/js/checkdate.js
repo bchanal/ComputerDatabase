@@ -27,6 +27,9 @@ $(document).ready(
 		if (dtValue == "") {
 			return true;
 		}
+		if (dtValue == null) {
+			return true;
+		}
 		var dtRegex = new RegExp(strings['regex']);
 		return dtRegex.test(dtValue);
 	}

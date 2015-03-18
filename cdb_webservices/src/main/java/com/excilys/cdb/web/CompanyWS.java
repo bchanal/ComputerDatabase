@@ -10,13 +10,16 @@ import javax.jws.soap.SOAPBinding.Style;
 import com.excilys.cdb.model.Company;
 
 @WebService
-@SOAPBinding(style = Style.DOCUMENT)
+@SOAPBinding(style = Style.RPC)
 public interface CompanyWS {
 
-    @WebMethod public List<Company> getAll();
+    @WebMethod 
+    public List<Company> getAll();
 
-    @WebMethod public void delete(int id);
+    @WebMethod 
+    public void delete(int id);
 
-    @WebMethod public Company getById(int computerId);
+    @WebMethod 
+    public Company getById(int computerId);
 
 }

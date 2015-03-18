@@ -210,8 +210,9 @@ public class ComputerController {
         compDto.setCompany(company);
 
         Computer comp = dtoMap.dtoToComputer(compDto);
-        System.out.println(comp.toString());
-        System.out.println(compDto.toString());
+        System.out.println("hoy"+compDto.getId());
+        comp.setId(compDto.getId());
+        System.out.println("hay"+comp.getId());
         ctdao.update(comp);
         LOGGER.info("computer modified");
         return "redirect:/dashboard";
