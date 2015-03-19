@@ -15,8 +15,8 @@ public class SpringCompanyMapper implements RowMapper<Company> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(SpringCompanyMapper.class);
 
-    public SpringCompanyMapper(){}
- 
+    public SpringCompanyMapper() {}
+
     @Override
     public Company mapRow(ResultSet rs, int arg1) throws SQLException {
         Company company = null;

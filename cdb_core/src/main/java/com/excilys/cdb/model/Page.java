@@ -12,7 +12,7 @@ import com.excilys.cdb.model.Computer;
  * @author berangere
  *
  */
-public class Page implements Serializable{
+public class Page implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,11 +24,11 @@ public class Page implements Serializable{
     }
 
     private List<Computer> list;
-    private int               nbPerPage;
-    private int               nbTotalComputer;
-    private int               nbTotalPages;
-    private int               index;
-    private int[]             range = new int[2];
+    private int            nbPerPage;
+    private int            nbTotalComputer;
+    private int            nbTotalPages;
+    private int            index;
+    private int[]          range = new int[2];
 
     public Page(int index, int nb, List<Computer> list, int nbTotal) {
         this.index = index;
@@ -70,7 +70,7 @@ public class Page implements Serializable{
 
     public void setNbTotalComputer(int nbTotalComputer) {
         this.nbTotalComputer = nbTotalComputer;
-        this.nbTotalPages = (int) Math.ceil(nbTotalComputer / nbPerPage)+1;
+        this.nbTotalPages = (int) Math.ceil(nbTotalComputer / nbPerPage) + 1;
         this.range[1] = Math.min(nbTotalPages, this.index / this.nbPerPage + 5);
     }
 

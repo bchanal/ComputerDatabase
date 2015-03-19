@@ -7,66 +7,48 @@ import java.util.Properties;
 
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class PropertyValue {
 
-	private String url;
-	private String user;
-	private String passwd;
-	private int min;
-	private int max;
-	private int partitionCount;
-/**
- * constructor which get in a file the parameters to use  the database
- */
-	public PropertyValue() {
-		Properties prop = new Properties();
-		String propFileName = "db.properties";
-		InputStream inputStream = getClass().getClassLoader()
-				.getResourceAsStream(propFileName);
+    private String url;
+    private String user;
+    private String passwd;
 
-		try {
-			if (inputStream != null) {
-				prop.load(inputStream);
-			} else {
-				throw new FileNotFoundException("property file '"+ propFileName + "' not found in the classpath");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
-		}
-		url = prop.getProperty("URL");
-		user = prop.getProperty("USER");
-		passwd = prop.getProperty("PASSWD");
-		min = Integer.parseInt(prop.getProperty("MINCONNECTIONS"));
-		max = Integer.parseInt(prop.getProperty("MAXCONNECTIONS"));
-		partitionCount = Integer.parseInt(prop.getProperty("PARTITIONCOUNT"));
+    /**
+     * constructor which get in a file the parameters to use  the database
+     */
+    public PropertyValue() {
+        Properties prop = new Properties();
+        String propFileName = "db.properties";
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
-	}
+        try {
+            if (inputStream != null) {
+                prop.load(inputStream);
+            } else {
+                throw new FileNotFoundException("property file '" + propFileName
+                        + "' not found in the classpath");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        url = prop.getProperty("URL");
+        user = prop.getProperty("USER");
+        passwd = prop.getProperty("PASSWD");
 
-	public String getUrl() {
-		return url;
-	}
+    }
 
-	public String getUser() {
-		return user;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public String getPasswd() {
-		return passwd;
-	}
+    public String getUser() {
+        return user;
+    }
 
-	public int getMin() {
-		return min;
-	}
-
-	public int getMax() {
-		return max;
-	}
-
-	public int getPartitionCount() {
-		return partitionCount;
-	}
+    public String getPasswd() {
+        return passwd;
+    }
 
 }

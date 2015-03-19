@@ -11,6 +11,8 @@ import com.excilys.cdb.dto.PageDto;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.util.Util;
+import com.excilys.cdb.web.CompanyWS;
+import com.excilys.cdb.web.ComputerWS;
 import com.excilys.cdb.web.impl.CompanyWSImpl;
 import com.excilys.cdb.web.impl.ComputerWSImpl;
 
@@ -22,11 +24,11 @@ import com.excilys.cdb.web.impl.ComputerWSImpl;
  */
 @Component
 public class Cli {
-    private boolean        end;
+    private boolean    end;
     @Autowired
-    private ComputerWSImpl computerWS;
+    private ComputerWS computerWS;
     @Autowired
-    private CompanyWSImpl  companyWS;
+    private CompanyWS  companyWS;
 
     public Cli() {}
 
@@ -80,7 +82,6 @@ public class Cli {
                 int index = 0;
                 PageDto page = computerWS.getAPage(index, 20, "", 1);
                 display(page);
-                //TODO : affichage d'une page
 
                 break;
 
@@ -288,6 +289,14 @@ public class Cli {
         Computer nouveau = new Computer(idUp, nomUp, dateTimeUp, dateTimeFinUp, compUp);
         computerWS.update(nouveau);
         scan.close();
+    }
+
+    public void setCompanyWSImpl(CompanyWSImpl companyWebService) {
+        this.companyWS = companyWebService;
+    }
+
+    public void setComputerWSImpl(ComputerWSImpl computerWebService) {
+        this.computerWS = computerWebService;
     }
 
 }

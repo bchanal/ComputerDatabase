@@ -85,11 +85,12 @@ public class DtoMapper {
         return c;
 
     }
-/**
- * convert a page in its dto
- * @param page the page to convert
- * @return the pagedto
- */
+
+    /**
+     * convert a page in its dto
+     * @param page the page to convert
+     * @return the pagedto
+     */
     public PageDto pageToDto(Page page) {
 
         List<ComputerDto> listDTO = new ArrayList<ComputerDto>();

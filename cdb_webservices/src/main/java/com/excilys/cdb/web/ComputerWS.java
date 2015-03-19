@@ -14,9 +14,7 @@ import com.excilys.cdb.model.Computer;
 @WebService
 @SOAPBinding(style = Style.RPC)
 public interface ComputerWS {
-    @WebMethod 
-    public String getHelloWorldAsString(String name);
-
+   
     @WebMethod 
     public void create(String name, LocalDateTime dateTime, LocalDateTime dateTimeFin, int comp);
 

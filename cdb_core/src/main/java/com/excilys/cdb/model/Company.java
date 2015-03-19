@@ -53,34 +53,6 @@ public class Company implements Serializable{
         return ("id : " + id + " name : " + name);
     }
 
-    public static class Builder {
-        Company company;
-
-        private Builder() {
-            company = new Company();
-        }
-
-        public Builder id(int id) {
-            if (id != 0)
-                this.company.id = id;
-            return this;
-        }
-
-        public Builder name(String name) {
-            this.company.name = name;
-            return this;
-        }
-
-        public Company build() {
-            return this.company;
-        }
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-
     public void setId(int id) {
         this.id = id;
     }

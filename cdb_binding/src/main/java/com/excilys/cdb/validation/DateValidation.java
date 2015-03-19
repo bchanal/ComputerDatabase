@@ -12,7 +12,7 @@ public class DateValidation implements ConstraintValidator<Date, String> {
 
     @Autowired
     DateUtil dateUtil;
-    
+
     @Override
     public void initialize(Date constraintAnnotation) {}
 

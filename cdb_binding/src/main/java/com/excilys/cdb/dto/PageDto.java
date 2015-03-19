@@ -6,7 +6,7 @@ import java.util.List;
 import com.excilys.cdb.dto.ComputerDto;
 
 public class PageDto {
-    
+
     @Override
     public String toString() {
         return "Page [list=" + list + ", nbPerPage=" + nbPerPage + ", nbTotalComputer="
@@ -21,13 +21,13 @@ public class PageDto {
     private int               index;
     private int[]             range = new int[2];
 
-/**
- * constructor
- * @param index the first id of the page
- * @param nb the number of computers to display
- * @param list the list of computers
- * @param nbTotal the number total of computers
- */
+    /**
+     * constructor
+     * @param index the first id of the page
+     * @param nb the number of computers to display
+     * @param list the list of computers
+     * @param nbTotal the number total of computers
+     */
     public PageDto(int index, int nb, List<ComputerDto> list, int nbTotal) {
         this.index = index;
         this.nbPerPage = nb;
@@ -66,13 +66,14 @@ public class PageDto {
     public int getNbTotalComputer() {
         return nbTotalComputer;
     }
-/**
- * set the nb total of computers and recalculate the ranges and the total number of pages
- * @param nbTotalComputer
- */
+
+    /**
+     * set the nb total of computers and recalculate the ranges and the total number of pages
+     * @param nbTotalComputer
+     */
     public void setNbTotalComputer(int nbTotalComputer) {
         this.nbTotalComputer = nbTotalComputer;
-        this.nbTotalPages = (int) Math.ceil(nbTotalComputer / nbPerPage)+1;
+        this.nbTotalPages = (int) Math.ceil(nbTotalComputer / nbPerPage) + 1;
         this.range[1] = Math.min(nbTotalPages, this.index / this.nbPerPage + 5);
     }
 

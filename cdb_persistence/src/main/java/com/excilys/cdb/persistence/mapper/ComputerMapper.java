@@ -21,8 +21,8 @@ import com.excilys.cdb.model.Computer;
 public class ComputerMapper implements RowMapper<Computer> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ComputerMapper.class);
-    
-    public ComputerMapper(){}
+
+    public ComputerMapper() {}
 
     /**
      * toObject return a computer contained in a ResulSet

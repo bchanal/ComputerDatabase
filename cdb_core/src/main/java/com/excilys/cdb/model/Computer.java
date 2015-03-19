@@ -142,53 +142,6 @@ public class Computer implements Serializable {
         return this.id;
     }
 
-    public static class Builder {
-        Computer computer;
-
-        private Builder() {
-            computer = new Computer();
-        }
-
-        public Builder id(int id) {
-            if (id != 0)
-                this.computer.id = id;
-            return this;
-        }
-
-        public Builder name(String name) {
-            this.computer.name = name;
-            return this;
-        }
-
-        public Builder introduced(LocalDateTime introduced) {
-            this.computer.dateIntro = introduced;
-            return this;
-        }
-
-        public Builder discontinued(LocalDateTime discontinued) {
-            this.computer.dateDiscontinued = discontinued;
-            return this;
-        }
-
-        public Builder company(Company company) {
-            if (company != null)
-                this.computer.manufacturer = company;
-            return this;
-        }
-
-        public Computer build() {
-            return this.computer;
-        }
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
     public void setId(int id) {
         this.id = id;
     }

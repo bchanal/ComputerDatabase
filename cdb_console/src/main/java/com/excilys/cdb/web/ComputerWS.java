@@ -14,23 +14,29 @@ import com.excilys.cdb.model.Computer;
 @WebService
 @SOAPBinding(style = Style.DOCUMENT)
 public interface ComputerWS {
-    @WebMethod
-    String getHelloWorldAsString(String name);
 
+    @WebMethod
     public void create(String name, LocalDateTime dateTime, LocalDateTime dateTimeFin, int comp);
 
+    @WebMethod
     public List<Computer> getAll();
 
+    @WebMethod
     public PageDto getAPage(int index, int nbEntityByPage, String name, int column);
 
+    @WebMethod
     public void delete(int computerId);
 
+    @WebMethod
     public void update(Computer computer);
 
+    @WebMethod
     public Computer getById(int computerId);
 
+    @WebMethod
     public List<Computer> getByName(String name);
 
+    @WebMethod
     public void create(Computer c);
 
 }
