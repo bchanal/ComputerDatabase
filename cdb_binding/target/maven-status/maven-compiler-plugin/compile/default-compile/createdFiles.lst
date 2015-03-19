@@ -1,9 +1,0 @@
-com/excilys/cdb/util/Util.class
-com/excilys/cdb/util/PropertyValue.class
-com/excilys/cdb/validation/DtoValidation.class
-com/excilys/cdb/validation/DateValidation.class
-com/excilys/cdb/dto/PageDto.class
-com/excilys/cdb/validation/Date.class
-com/excilys/cdb/dto/ComputerDto.class
-com/excilys/cdb/dto/DtoMapper.class
-com/excilys/cdb/util/DateUtil.class

@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        URL url = new URL("http://localhost:8080/cdb/hello?wsdl");
+        URL url = new URL("http://localhost:8081/cdb/computer?wsdl");
 
         QName qname = new QName("http://impl.web.cdb.excilys.com/", "ComputerWSImplService");
 
