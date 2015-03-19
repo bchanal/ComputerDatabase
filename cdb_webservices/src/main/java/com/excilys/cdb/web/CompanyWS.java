@@ -1,5 +1,6 @@
 package com.excilys.cdb.web;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.jws.WebMethod;
@@ -14,12 +15,12 @@ import com.excilys.cdb.model.Company;
 public interface CompanyWS {
 
     @WebMethod 
-    public List<Company> getAll();
+    public List<Company> getAll() throws SQLException;
 
     @WebMethod 
     public void delete(int id);
 
     @WebMethod 
-    public Company getById(int computerId);
+    public Company getById(int computerId) throws SQLException;
 
 }

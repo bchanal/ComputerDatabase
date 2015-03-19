@@ -26,7 +26,7 @@ public class Computer implements Serializable {
     @GeneratedValue
     @Column(name = "id", unique = true)
     @Id
-    private int id;
+    private int               id;
     @Column(name = "name")
     private String            name;
     @Column(name = "introduced")
@@ -39,10 +39,9 @@ public class Computer implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "company_id")
-
     private Company           manufacturer;
 
-    public Computer() { }
+    public Computer() {}
 
     /**
      * constructor of Computer with arguments

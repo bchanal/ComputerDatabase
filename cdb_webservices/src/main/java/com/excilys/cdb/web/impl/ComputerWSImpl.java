@@ -7,13 +7,17 @@ import javax.jws.WebService;
 
 import com.excilys.cdb.dto.PageDto;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.service.impl.ComputerServiceImpl;
+import com.excilys.cdb.service.ComputerService;
 import com.excilys.cdb.web.ComputerWS;
 
 @WebService(endpointInterface = "com.excilys.cdb.web.ComputerWS")
 public class ComputerWSImpl implements ComputerWS {
 
-    private ComputerServiceImpl cserv;
+    private ComputerService cserv;
+    
+    public ComputerWSImpl(ComputerService computerService){
+        this.cserv = computerService;
+    }
 
     /**
      * create a computer
