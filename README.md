@@ -1,2 +1,3 @@
 # cdb
-computer-database project with modularization
+computer-database project for the excilys formation
+
